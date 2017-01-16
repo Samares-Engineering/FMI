@@ -2,7 +2,7 @@
 
 The MoonLanding.fmu file has been generated with JModelica using the python file MoonLanding.py. This fmu is compliant with Linux 64bits. 
 
-To generate an FMU from the Modelica file (MoonLanding.mo), do tehe following steps: 
+To generate an FMU from the Modelica file (MoonLanding.mo), perform the following steps: 
 
 1. Install JModelica for your OS. 
 2. Launch the IPython console from JModelica. 
