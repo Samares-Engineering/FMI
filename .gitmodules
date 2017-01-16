@@ -1,0 +1,3 @@
+[submodule "fmusdk2"]
+	path = fmusdk2
+	url = ../fmusdk2
