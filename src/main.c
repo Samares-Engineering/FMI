@@ -3,7 +3,10 @@
 #include <string.h>
 #include <assert.h>
 #include <stdarg.h>
+#include "fmi2.h"
 #include "fmu_import.h"
+
+FMU fmu; // the fmu to simulate
 
 void printHelp(const char *fmusim) {
     printf("command syntax: %s <model.fmu>\n", fmusim);
@@ -23,6 +26,10 @@ int main(int argc, char *argv[]) {
     }
     
     loadFMU(fmuFileName);
+
+    printf("Release FMU\n");
+    dlclose(fmu.dllHandle);
+    freeModelDescription(fmu.modelDescription);
 
     return EXIT_SUCCESS;
 }

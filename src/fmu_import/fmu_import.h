@@ -28,4 +28,5 @@
 #define SEVEN_ZIP_STOPPED_BY_USER 255
 
 int unzip(const char *zipPath, const char *outPath);
+void deleteUnzippedFiles();
 void loadFMU(const char *fmuFileName);
