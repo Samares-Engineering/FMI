@@ -17,43 +17,48 @@ mrproper: clean
 CC = gcc
 CFLAGS = -W -Wall -v
 
-FMUSDK2_DEP = \
-	../fmusdk2/fmu20/src
+# Folder of the FMUSDK2 submodule
+FMUSDK2_PATH = \
+	../fmusdk2/fmu20/src/shared
 
-IMPORT_SRCS = \
-	fmu_import/fmu_import.c
+# Sources shared between co-simulation and model exchange
+SHARED_SRCS = \
+	$(FMUSDK2_PATH)/sim_support.c \
+	fmu_import/fmu_import.c \
+	fmu_simulate/fmu_simulate.c 
 
 CPP_SRCS = \
-	$(FMUSDK2_DEP)/shared/parser/XmlElement.cpp \
-	$(FMUSDK2_DEP)/shared/parser/XmlParser.cpp \
-	$(FMUSDK2_DEP)/shared/parser/XmlParserCApi.cpp
+	$(FMUSDK2_PATH)/parser/XmlElement.cpp \
+	$(FMUSDK2_PATH)/parser/XmlParser.cpp \
+	$(FMUSDK2_PATH)/parser/XmlParserCApi.cpp
 
+# Dependencies shared between both fmusim_cs and fmusim_me
 SHARED_DEPS = \
-	$(FMUSDK2_DEP)/shared/fmi2.h \
-	$(FMUSDK2_DEP)/shared/include/fmi2Functions.h \
-	$(FMUSDK2_DEP)/shared/include/fmi2FunctionTypes.h \
-	$(FMUSDK2_DEP)/shared/include/fmi2TypesPlatform.h \
-	$(FMUSDK2_DEP)/shared/parser/XmlElement.h \
-	$(FMUSDK2_DEP)/shared/parser/XmlParser.h \
-	$(FMUSDK2_DEP)/shared/parser/XmlParserCApi.h \
-	$(FMUSDK2_DEP)/shared/parser/XmlParserException.h
+	$(FMUSDK2_PATH)/fmi2.h \
+	$(FMUSDK2_PATH)/include/fmi2Functions.h \
+	$(FMUSDK2_PATH)/include/fmi2FunctionTypes.h \
+	$(FMUSDK2_PATH)/include/fmi2TypesPlatform.h \
+	$(FMUSDK2_PATH)/parser/XmlElement.h \
+	$(FMUSDK2_PATH)/parser/XmlParser.h \
+	$(FMUSDK2_PATH)/parser/XmlParserCApi.h \
+	$(FMUSDK2_PATH)/parser/XmlParserException.h
 
 CXX=c++
 
 FMI_prototype: $(SHARED_DEPS) bin/
 	$(CC) $(CFLAGS) -g -Wall -DFMI_COSIMULATION \
 		-DSTANDALONE_XML_PARSER -DLIBXML_STATIC \
-		-I$(FMUSDK2_DEP)/shared/include -I$(FMUSDK2_DEP)/shared/parser/libxml -I$(FMUSDK2_DEP)/shared/parser -I$(FMUSDK2_DEP)/shared -Ifmu_import \
-		main.c $(IMPORT_SRCS) \
+		-I$(FMUSDK2_PATH)/include -I$(FMUSDK2_PATH)/parser/libxml -I$(FMUSDK2_PATH)/parser -I$(FMUSDK2_PATH) -Ifmu_import -Ifmu_simulate \
+		main.c $(SHARED_SRCS) \
 		-c
 	$(CXX) $(CFLAGS) -g -Wall -DFMI_COSIMULATION \
 		-DSTANDALONE_XML_PARSER -DLIBXML_STATIC \
-		-I$(FMUSDK2_DEP)/shared/include -I$(FMUSDK2_DEP)/shared/parser/libxml -I$(FMUSDK2_DEP)/shared/parser -I$(FMUSDK2_DEP)/shared -Ifmu_import \
-		main.o fmu_import.o $(CPP_SRCS) \
+		-I$(FMUSDK2_PATH)/include -I$(FMUSDK2_PATH)/parser/libxml -I$(FMUSDK2_PATH)/parser -I$(FMUSDK2_PATH) -Ifmu_import -Ifmu_simulate \
+		main.o fmu_import.o fmu_simulate.o sim_support.o $(CPP_SRCS) \
 		-o $@ -lexpat -ldl -lxml2
 	cp FMI_prototype ../bin/
 	rm FMI_prototype
-	cp ../models/MoonLanding/MoonLanding.fmu ../bin/
+	cp ../models/BouncingBall/bouncingBall.fmu ../bin/
 
 bin/:
 	if [ ! -d ../bin ]; then \

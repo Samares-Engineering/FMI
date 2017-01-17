@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <stdarg.h>
 #include "fmi2.h"
+#include "sim_support.h"
 #include "fmu_import.h"
 
 extern FMU fmu;
@@ -18,6 +19,7 @@ static char* getFmuPath(const char* fmuFileName){
 static char* getTmpPath() {
   char template[13];  // Lenght of "fmuTmpXXXXXX" + null
   sprintf(template, "%s", "fmuTmpXXXXXX");
+  //char *tmp = mkdtemp(strdup("fmuTmpXXXXXX"));
   char *tmp = mkdtemp(template);
   if (tmp==NULL) {
     fprintf(stderr, "Couldn't create temporary directory\n");
@@ -26,47 +28,6 @@ static char* getTmpPath() {
   char * results = calloc(sizeof(char), strlen(tmp) + 2);
   strncat(results, tmp, strlen(tmp));
   return strcat(results, "/");
-}
-
-int unzip(const char *zipPath, const char *outPath) {
-    int code;
-    char cwd[BUFSIZE];
-    int n;
-    char* cmd;
-
-    // remember current directory
-    if (!getcwd(cwd, BUFSIZE)) {
-      printf ("error: Could not get current directory\n");
-      return 0; // error
-    }
-        
-    // run the unzip command
-    n = strlen(UNZIP_CMD) + strlen(outPath) + 1 +  strlen(zipPath) + 16;
-    cmd = (char*)calloc(sizeof(char), n);
-    sprintf(cmd, "%s%s \"%s\" > /dev/null", UNZIP_CMD, outPath, zipPath); 
-    printf("cmd='%s'\n", cmd);
-    code = system(cmd);
-    free(cmd);
-    if (code!=SEVEN_ZIP_NO_ERROR) {
-        printf("%s: ", UNZIP_CMD);
-        switch (code) {
-            case 1:            printf("warning\n"); break;
-            case 2:            printf("error\n"); break;
-	    case 3:            printf("severe error\n"); break;
-            case 4:      
-            case 5:
-	    case 6:
-	    case 7:
-	      printf("out of memory\n"); break;
-   	    case 10:           printf("command line error\n"); break;
-	    default:           printf("unknown problem %d\n", code);
-        }
-    }
-    
-    // restore current directory
-    chdir(cwd);
-    
-    return (code==SEVEN_ZIP_NO_ERROR || code==SEVEN_ZIP_WARNING) ? 1 : 0;  
 }
 
 static void printModelDescription(ModelDescription* md){
@@ -109,34 +70,47 @@ static void printModelDescription(ModelDescription* md){
         printf("  %s=%s\n", attributes[i], attributes[i+1]);
     }
 
+    printf("\n\n");
     free((void *)attributes);
 }
 
 static void *getAdr(int *success, HMODULE dllHandle, const char *functionName) {
     void* fp;
-
+#ifdef _MSC_VER
+    fp = GetProcAddress(dllHandle, functionName);
+#else
     fp = dlsym(dllHandle, functionName);
-
+#endif
     if (!fp) {
+#ifdef _MSC_VER
+#else
         printf ("Error was: %s\n", dlerror());
+#endif 
         printf("warning: Function %s not found in dll\n", functionName);
         *success = 0;
     }
     return fp;
 }
 
+// Load the given dll and set function pointers in fmu
+// Return 0 to indicate failure
 static int loadDll(const char* dllPath, FMU *fmu) {
     int s = 1;
-
+#ifdef _MSC_VER
+    HMODULE h = LoadLibrary(dllPath);
+#else
     printf("dllPath = %s\n", dllPath);
     HMODULE h = dlopen(dllPath, RTLD_LAZY);
+#endif
 
     if (!h) {
+#ifdef _MSC_VER
+#else
         printf("The error was: %s\n", dlerror());
+#endif
         printf("error: Could not load %s\n", dllPath);
         return 0; // failure
     }
-
     fmu->dllHandle = h;
     fmu->getTypesPlatform          = (fmi2GetTypesPlatformTYPE *)      getAdr(&s, h, "fmi2GetTypesPlatform");
     fmu->getVersion                = (fmi2GetVersionTYPE *)            getAdr(&s, h, "fmi2GetVersion");
@@ -163,7 +137,7 @@ static int loadDll(const char* dllPath, FMU *fmu) {
     fmu->serializeFMUstate         = (fmi2SerializeFMUstateTYPE *)     getAdr(&s, h, "fmi2SerializeFMUstate");
     fmu->deSerializeFMUstate       = (fmi2DeSerializeFMUstateTYPE *)   getAdr(&s, h, "fmi2DeSerializeFMUstate");
     fmu->getDirectionalDerivative  = (fmi2GetDirectionalDerivativeTYPE *) getAdr(&s, h, "fmi2GetDirectionalDerivative");
-
+#ifdef FMI_COSIMULATION
     fmu->setRealInputDerivatives   = (fmi2SetRealInputDerivativesTYPE *) getAdr(&s, h, "fmi2SetRealInputDerivatives");
     fmu->getRealOutputDerivatives  = (fmi2GetRealOutputDerivativesTYPE *) getAdr(&s, h, "fmi2GetRealOutputDerivatives");
     fmu->doStep                    = (fmi2DoStepTYPE *)                getAdr(&s, h, "fmi2DoStep");
@@ -173,6 +147,18 @@ static int loadDll(const char* dllPath, FMU *fmu) {
     fmu->getIntegerStatus          = (fmi2GetIntegerStatusTYPE *)      getAdr(&s, h, "fmi2GetIntegerStatus");
     fmu->getBooleanStatus          = (fmi2GetBooleanStatusTYPE *)      getAdr(&s, h, "fmi2GetBooleanStatus");
     fmu->getStringStatus           = (fmi2GetStringStatusTYPE *)       getAdr(&s, h, "fmi2GetStringStatus");
+#else // FMI2 for Model Exchange
+    fmu->enterEventMode            = (fmi2EnterEventModeTYPE *)        getAdr(&s, h, "fmi2EnterEventMode");
+    fmu->newDiscreteStates         = (fmi2NewDiscreteStatesTYPE *)     getAdr(&s, h, "fmi2NewDiscreteStates");
+    fmu->enterContinuousTimeMode   = (fmi2EnterContinuousTimeModeTYPE *) getAdr(&s, h, "fmi2EnterContinuousTimeMode");
+    fmu->completedIntegratorStep   = (fmi2CompletedIntegratorStepTYPE *) getAdr(&s, h, "fmi2CompletedIntegratorStep");
+    fmu->setTime                   = (fmi2SetTimeTYPE *)               getAdr(&s, h, "fmi2SetTime");
+    fmu->setContinuousStates       = (fmi2SetContinuousStatesTYPE *)   getAdr(&s, h, "fmi2SetContinuousStates");
+    fmu->getDerivatives            = (fmi2GetDerivativesTYPE *)        getAdr(&s, h, "fmi2GetDerivatives");
+    fmu->getEventIndicators        = (fmi2GetEventIndicatorsTYPE *)    getAdr(&s, h, "fmi2GetEventIndicators");
+    fmu->getContinuousStates       = (fmi2GetContinuousStatesTYPE *)   getAdr(&s, h, "fmi2GetContinuousStates");
+    fmu->getNominalsOfContinuousStates = (fmi2GetNominalsOfContinuousStatesTYPE *) getAdr(&s, h, "fmi2GetNominalsOfContinuousStates");
+#endif
 
     if (fmu->getVersion == NULL && fmu->instantiate == NULL) {
         printf("warning: Functions from FMI 2.0 could not be found in %s\n", dllPath);
@@ -202,7 +188,7 @@ static int loadDll(const char* dllPath, FMU *fmu) {
         fmu->serializeFMUstate         = (fmi2SerializeFMUstateTYPE *)     getAdr(&s, h, "fmiSerializeFMUstate");
         fmu->deSerializeFMUstate       = (fmi2DeSerializeFMUstateTYPE *)   getAdr(&s, h, "fmiDeSerializeFMUstate");
         fmu->getDirectionalDerivative  = (fmi2GetDirectionalDerivativeTYPE *) getAdr(&s, h, "fmiGetDirectionalDerivative");
-
+    #ifdef FMI_COSIMULATION
         fmu->setRealInputDerivatives   = (fmi2SetRealInputDerivativesTYPE *) getAdr(&s, h, "fmiSetRealInputDerivatives");
         fmu->getRealOutputDerivatives  = (fmi2GetRealOutputDerivativesTYPE *) getAdr(&s, h, "fmiGetRealOutputDerivatives");
         fmu->doStep                    = (fmi2DoStepTYPE *)                getAdr(&s, h, "fmiDoStep");
@@ -212,19 +198,23 @@ static int loadDll(const char* dllPath, FMU *fmu) {
         fmu->getIntegerStatus          = (fmi2GetIntegerStatusTYPE *)      getAdr(&s, h, "fmiGetIntegerStatus");
         fmu->getBooleanStatus          = (fmi2GetBooleanStatusTYPE *)      getAdr(&s, h, "fmiGetBooleanStatus");
         fmu->getStringStatus           = (fmi2GetStringStatusTYPE *)       getAdr(&s, h, "fmiGetStringStatus");
+    #else // FMI2 for Model Exchange
+        fmu->enterEventMode            = (fmi2EnterEventModeTYPE *)        getAdr(&s, h, "fmiEnterEventMode");
+        fmu->newDiscreteStates         = (fmi2NewDiscreteStatesTYPE *)     getAdr(&s, h, "fmiNewDiscreteStates");
+        fmu->enterContinuousTimeMode   = (fmi2EnterContinuousTimeModeTYPE *) getAdr(&s, h, "fmiEnterContinuousTimeMode");
+        fmu->completedIntegratorStep   = (fmi2CompletedIntegratorStepTYPE *) getAdr(&s, h, "fmiCompletedIntegratorStep");
+        fmu->setTime                   = (fmi2SetTimeTYPE *)               getAdr(&s, h, "fmiSetTime");
+        fmu->setContinuousStates       = (fmi2SetContinuousStatesTYPE *)   getAdr(&s, h, "fmiSetContinuousStates");
+        fmu->getDerivatives            = (fmi2GetDerivativesTYPE *)        getAdr(&s, h, "fmiGetDerivatives");
+        fmu->getEventIndicators        = (fmi2GetEventIndicatorsTYPE *)    getAdr(&s, h, "fmiGetEventIndicators");
+        fmu->getContinuousStates       = (fmi2GetContinuousStatesTYPE *)   getAdr(&s, h, "fmiGetContinuousStates");
+        fmu->getNominalsOfContinuousStates = (fmi2GetNominalsOfContinuousStatesTYPE *) getAdr(&s, h, "fmiGetNominalsOfContinuousStates");
+    #endif
     }
     return s;
 }
 
-void deleteUnzippedFiles(char *fmuTempPath) {
-    char *cmd = (char *)calloc(15 + strlen(fmuTempPath), sizeof(char));
-    sprintf(cmd, "rm -rf %s", fmuTempPath);
-    system(cmd);
-    free(fmuTempPath);
-    free(cmd);
-}
-
-void loadFMU(const char* fmuFileName) {
+void fmuImport(const char* fmuFileName) {
     char* fmuPath;
     char* tmpPath;
     char* xmlPath;
@@ -233,7 +223,6 @@ void loadFMU(const char* fmuFileName) {
     
     printf("Loading FMU %s. \n\n", fmuFileName);
 
-    // get absolute path to FMU, NULL if not found
     fmuPath = getFmuPath(fmuFileName);
     if (!fmuPath) exit(EXIT_FAILURE);
     
@@ -264,10 +253,10 @@ void loadFMU(const char* fmuFileName) {
         if (!loadDll(dllPath, &fmu)) exit(EXIT_FAILURE); 
     }
 
-    deleteUnzippedFiles(tmpPath);
+    deleteUnzippedFiles();
     free(dllPath);
     free(fmuPath);
     free(tmpPath);
 
-    printf("FMU %s Loaded.\n", fmuFileName);
+    printf("FMU %s Loaded.\n\n", fmuFileName);
 }
