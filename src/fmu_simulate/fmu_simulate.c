@@ -89,8 +89,7 @@ int fmuSimulate(FMU* fmu, const char* fmuFileName, double tEnd, double h, fmi2Bo
     printf("Entering the integration loop.\n\n");
     time = tStart;
     while (time < tEnd) {
-        fmi2Flag = fmu->doStep(c, time, h, fmi2True);
-        fmi2FlagTemp = doStep(c, time, h, fmi2True);
+        fmi2Flag = doStep(fmu, c, time, h, fmi2True);
         if (fmi2Flag == fmi2Discard) {
             fmi2Boolean b;
             // check if model requests to end simulation
