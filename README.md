@@ -2,16 +2,16 @@
 
 To test the code perform the follwing steps: 
 
-1. Go to the src folder.
+1. Go to the /src folder.
 2. Open a console and type "make all". 
 3. A binary file is built in the folder ../bin 
 4. Launch the binary with the command: ./FMI_prototype bouncingBall.fmu
 5. The fmu is loaded and simulated. 
 6. Simulation results are generated in the result.csv file.
 
-To clean the binary and temp file, perform the following steps: 
+To clean the binary and temporary files, perform the following steps: 
 
-1. Go to the src folder.
+1. Go to the /src folder.
 2. Open a console and type "make mrproper".
 
 # FMU Models 
@@ -26,7 +26,7 @@ The bouncingBall.fmu has been generated using the submodule FMUSDK2. To generate
 3. Type the "make all" command. 
 4. FMUs for co-simulation are built in the folder fmu20/fmu/cs.
 5. Go to the folder fmu20/bin
-6. Type "./fmusim_cs ../fmu/cs/bouncingBall.fmu" to simulate the fmu. 
+6. Type the "./fmusim_cs ../fmu/cs/bouncingBall.fmu" command to simulate the fmu. 
 7. To clean the project go to the fmusdk2 folder and type the "make distclean" command.
 
 ## Moon Landing (inspired from Peter Fritzon)
