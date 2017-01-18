@@ -4,6 +4,7 @@
 #include "fmi2.h"
 #include "sim_support.h"
 #include "fmu_simulate.h"
+#include "do_step.h"
 
 int fmuSimulate(FMU* fmu, const char* fmuFileName, double tEnd, double h, fmi2Boolean loggingOn, char separator,
                     int nCategories, const fmi2String categories[]) {
@@ -14,6 +15,7 @@ int fmuSimulate(FMU* fmu, const char* fmuFileName, double tEnd, double h, fmi2Bo
     const char *instanceName;               // instance name
     fmi2Component c;                        // instance of the fmu
     fmi2Status fmi2Flag;                    // return code of the fmu functions
+    fmi2Status fmi2FlagTemp;
     char *fmuResourceLocation = getTempResourcesLocation(); // path to the fmu resources as URL, "file://C:\QTronic\sales"
     fmi2Boolean visible = fmi2False;        // no simulator user interface
 
@@ -88,6 +90,7 @@ int fmuSimulate(FMU* fmu, const char* fmuFileName, double tEnd, double h, fmi2Bo
     time = tStart;
     while (time < tEnd) {
         fmi2Flag = fmu->doStep(c, time, h, fmi2True);
+        fmi2FlagTemp = doStep(c, time, h, fmi2True);
         if (fmi2Flag == fmi2Discard) {
             fmi2Boolean b;
             // check if model requests to end simulation
@@ -106,7 +109,7 @@ int fmuSimulate(FMU* fmu, const char* fmuFileName, double tEnd, double h, fmi2Bo
     }
 
     // End simulation
-    printf("End of the simulation.\n\n");
+    printf("\nEnd of the simulation.\n\n");
     fmu->terminate(c);
     fmu->freeInstance(c);
     fclose(file);
