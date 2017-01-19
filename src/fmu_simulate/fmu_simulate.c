@@ -111,9 +111,11 @@ int fmuSimulate(FMU* fmu, const char* fmuFileName, double tEnd, double h, fmi2Bo
     printf("Entering the integration loop.\n\n");
     time = tStart;
     while (time < tEnd) {
-        doStep(fmu, c, time, h, fmi2True);
+        fmi2Real inputThrust = 10000.0; //Specific input for the MoonLanding
+        doStepMoonLanding(fmu, c, time, h, fmi2True, inputThrust); //Specific to MoonLanding
+   	//fmi2Flag = doStep(fmu, c, time, h, fmi2True); //Activate to use other FMUs
         time += h;
-        outputRow(fmu, c, time, file, separator, fmi2False); // output values for this step
+        outputRow(fmu, c, time, file, separator, fmi2False); //Output values for this step
         nSteps++;
     }
 
