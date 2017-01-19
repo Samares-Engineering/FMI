@@ -25,23 +25,21 @@ int main(int argc, char *argv[]) {
     const char* fmuFileName;
     double tEnd = 1.0;
     double h=0.1;
-    int loggingOn = 0;
+    int loggingOn =1;
     char csv_separator = ',';
     fmi2String *categories = NULL;
     int nCategories = 0;
-   
-    char* tmpPath;
  
     parseArguments(argc, argv, &fmuFileName, &tEnd, &h, &loggingOn, &csv_separator, &nCategories, &categories);
 
-    tmpPath = fmuImport(fmuFileName);
+    fmuImport(fmuFileName);
    
-    fmuSimulate(&fmu, fmuFileName, tmpPath, tEnd, h, loggingOn, csv_separator, nCategories, categories);
+    fmuSimulate(&fmu, fmuFileName, tEnd, h, loggingOn, csv_separator, nCategories, categories);
 
     printf("Release FMU\n\n");
     dlclose(fmu.dllHandle);
     freeModelDescription(fmu.modelDescription);
     //deleteTempFiles(tmpPath);	
-    free(tmpPath);
+    //free(tmpPath);
     return EXIT_SUCCESS;
 }

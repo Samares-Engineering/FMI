@@ -214,19 +214,22 @@ static int loadDll(const char* dllPath, FMU *fmu) {
     return s;
 }
 
-char* fmuImport(const char* fmuFileName) {
+char dummyPath[] = "foo/"; //Dummy
+
+void fmuImport(const char* fmuFileName) {
     char* fmuPath;
     char* tmpPath;
     char* xmlPath;
     char* dllPath;
     const char *modelId;
-    
+       
     printf("Loading FMU %s. \n\n", fmuFileName);
 
     fmuPath = getFmuPath(fmuFileName);
     if (!fmuPath) exit(EXIT_FAILURE);
     
-    tmpPath = getTmpPath();
+    //tmpPath = getTmpPath();
+    tmpPath = dummyPath;
 
     printf("Unzip the %s file.\n\n", fmuFileName);
     if (!unzip(fmuPath, tmpPath)) exit(EXIT_FAILURE);

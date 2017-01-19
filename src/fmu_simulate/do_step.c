@@ -12,7 +12,7 @@ fmi2Status doStep(FMU* fmu, fmi2Component c, fmi2Real currentCommunicationPoint,
 
     fmi2Flag = fmu->doStep(c, currentCommunicationPoint, communicationStepSize, noSetFMUStatePriorToCurrentPoint);
     
-    printf("Do one step.\n");
+    printf("Do one step. %d\n", fmi2Flag);
    
     return fmi2OK;
 }

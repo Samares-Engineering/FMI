@@ -3,6 +3,7 @@
 #include <string.h>
 #include "fmi2.h"
 #include "sim_support.h"
+#include "fmuTemplate.h"
 #include "fmu_simulate.h"
 #include "do_step.h"
 
@@ -10,11 +11,13 @@ static char *getResourcesLocationTemp(char* tempPath) {
     char *resourcesLocation = (char *)calloc(sizeof(char), 9 + strlen(RESOURCES_DIR) + strlen(tempPath));
     strcpy(resourcesLocation, "file:///");
     strcat(resourcesLocation, tempPath);
-    strcat(resourcesLocation, "resources");
+    strcat(resourcesLocation, RESOURCES_DIR);
     return resourcesLocation;
 }
 
-int fmuSimulate(FMU* fmu, const char* fmuFileName, char* tmpPath, double tEnd, double h, fmi2Boolean loggingOn, char separator,
+char *dummyresource = "file:///home/jmgauthier/Work/git_samares/FMI/bin/foo/resources\\";
+
+int fmuSimulate(FMU* fmu, const char* fmuFileName, double tEnd, double h, fmi2Boolean loggingOn, char separator,
                     int nCategories, const fmi2String categories[]) {
     int i;
     double time;
@@ -24,11 +27,17 @@ int fmuSimulate(FMU* fmu, const char* fmuFileName, char* tmpPath, double tEnd, d
     fmi2Component c;                        // instance of the fmu
     fmi2Status fmi2Flag;                    // return code of the fmu functions
     
-    char *fmuResourceLocation = getResourcesLocationTemp(tmpPath);
-
+    //char *fmuResourceLocation = getResourcesLocationTemp(tmpPath);
+    char *fmuResourceLocation; //Dummy
+    fmuResourceLocation = malloc (strlen (dummyresource) + 2); //Dummy
+    strcpy (fmuResourceLocation, dummyresource); //Dummy
+    
     fmi2Boolean visible = fmi2False;        // no simulator user interface
 
-    fmi2CallbackFunctions callbacks = {fmuLogger, calloc, free, NULL, fmu};  // called by the model during simulation
+    //fmi2CallbackFunctions callbacks = {fmuLogger, calloc, free, NULL, fmu};  // called by the model during simulation      
+    
+    fmi2CallbackFunctions callbacks = {fmuLogger, calloc, free, NULL, fmu};  // patch
+
     ModelDescription* md;                      // handle to the parsed XML file
     fmi2Boolean toleranceDefined = fmi2False;  // true if model description define tolerance
     fmi2Real tolerance = 0;                    // used in setting up the experiment
@@ -43,7 +52,7 @@ int fmuSimulate(FMU* fmu, const char* fmuFileName, char* tmpPath, double tEnd, d
     printf("}\n\n");
     
     // instantiate the fmu
-    printf("Instantiate the FMU %s\n\n", fmuResourceLocation);
+    printf("Instantiate the FMU %s %s\n\n", fmuFileName, fmuResourceLocation);
     md = fmu->modelDescription;
     guid = getAttributeValue((Element *)md, att_guid);
     instanceName = getAttributeValue((Element *)getCoSimulation(md), att_modelIdentifier);
