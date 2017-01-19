@@ -63,6 +63,7 @@ FMI_prototype: $(SHARED_DEPS) bin/
 		-o $@ -lexpat -ldl -lxml2
 	cp FMI_prototype ../bin/
 	rm FMI_prototype
+	cp ../models/MoonLanding/MoonLanding.fmu ../bin/
 	cp ../models/BouncingBall/bouncingBall.fmu ../bin/
 
 bin/:

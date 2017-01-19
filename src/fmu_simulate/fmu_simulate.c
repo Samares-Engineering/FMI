@@ -6,7 +6,15 @@
 #include "fmu_simulate.h"
 #include "do_step.h"
 
-int fmuSimulate(FMU* fmu, const char* fmuFileName, double tEnd, double h, fmi2Boolean loggingOn, char separator,
+static char *getResourcesLocationTemp(char* tempPath) {
+    char *resourcesLocation = (char *)calloc(sizeof(char), 9 + strlen(RESOURCES_DIR) + strlen(tempPath));
+    strcpy(resourcesLocation, "file:///");
+    strcat(resourcesLocation, tempPath);
+    strcat(resourcesLocation, "resources");
+    return resourcesLocation;
+}
+
+int fmuSimulate(FMU* fmu, const char* fmuFileName, char* tmpPath, double tEnd, double h, fmi2Boolean loggingOn, char separator,
                     int nCategories, const fmi2String categories[]) {
     int i;
     double time;
@@ -15,8 +23,9 @@ int fmuSimulate(FMU* fmu, const char* fmuFileName, double tEnd, double h, fmi2Bo
     const char *instanceName;               // instance name
     fmi2Component c;                        // instance of the fmu
     fmi2Status fmi2Flag;                    // return code of the fmu functions
-    fmi2Status fmi2FlagTemp;
-    char *fmuResourceLocation = getTempResourcesLocation(); // path to the fmu resources as URL, "file://C:\QTronic\sales"
+    
+    char *fmuResourceLocation = getResourcesLocationTemp(tmpPath);
+
     fmi2Boolean visible = fmi2False;        // no simulator user interface
 
     fmi2CallbackFunctions callbacks = {fmuLogger, calloc, free, NULL, fmu};  // called by the model during simulation
@@ -34,10 +43,11 @@ int fmuSimulate(FMU* fmu, const char* fmuFileName, double tEnd, double h, fmi2Bo
     printf("}\n\n");
     
     // instantiate the fmu
-    printf("Instantiate the FMU %s\n\n", fmuFileName);
+    printf("Instantiate the FMU %s\n\n", fmuResourceLocation);
     md = fmu->modelDescription;
     guid = getAttributeValue((Element *)md, att_guid);
     instanceName = getAttributeValue((Element *)getCoSimulation(md), att_modelIdentifier);
+  
     c = fmu->instantiate(instanceName, fmi2CoSimulation, guid, fmuResourceLocation,
                     &callbacks, visible, loggingOn);
     free(fmuResourceLocation);

@@ -214,7 +214,7 @@ static int loadDll(const char* dllPath, FMU *fmu) {
     return s;
 }
 
-void fmuImport(const char* fmuFileName) {
+char* fmuImport(const char* fmuFileName) {
     char* fmuPath;
     char* tmpPath;
     char* xmlPath;
@@ -253,10 +253,10 @@ void fmuImport(const char* fmuFileName) {
         if (!loadDll(dllPath, &fmu)) exit(EXIT_FAILURE); 
     }
 
-    deleteUnzippedFiles();
     free(dllPath);
     free(fmuPath);
-    free(tmpPath);
 
     printf("FMU %s Loaded.\n\n", fmuFileName);
+
+    return tmpPath;
 }

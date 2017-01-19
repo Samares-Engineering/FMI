@@ -10,6 +10,17 @@
 
 FMU fmu; // the fmu to simulate
 
+static void deleteTempFiles(char* fmuTempPath) {
+    char *cmd = (char *)calloc(15 + strlen(fmuTempPath), sizeof(char));
+#if WINDOWS
+    sprintf(cmd, "rmdir /S /Q %s", fmuTempPath);
+#else
+    sprintf(cmd, "rm -rf %s", fmuTempPath);
+#endif
+    system(cmd);
+    free(cmd);
+}
+
 int main(int argc, char *argv[]) {
     const char* fmuFileName;
     double tEnd = 1.0;
@@ -18,16 +29,19 @@ int main(int argc, char *argv[]) {
     char csv_separator = ',';
     fmi2String *categories = NULL;
     int nCategories = 0;
-    
+   
+    char* tmpPath;
+ 
     parseArguments(argc, argv, &fmuFileName, &tEnd, &h, &loggingOn, &csv_separator, &nCategories, &categories);
 
-    fmuImport(fmuFileName);
+    tmpPath = fmuImport(fmuFileName);
    
-    fmuSimulate(&fmu, fmuFileName, tEnd, h, loggingOn, csv_separator, nCategories, categories);
+    fmuSimulate(&fmu, fmuFileName, tmpPath, tEnd, h, loggingOn, csv_separator, nCategories, categories);
 
     printf("Release FMU\n\n");
     dlclose(fmu.dllHandle);
     freeModelDescription(fmu.modelDescription);
-
+    //deleteTempFiles(tmpPath);	
+    free(tmpPath);
     return EXIT_SUCCESS;
 }
