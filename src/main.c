@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
     const char* fmuFileName;
     double tEnd = 1.0;
     double h=0.1;
-    int loggingOn =1;
+    int loggingOn = 0;
     char csv_separator = ',';
     fmi2String *categories = NULL;
     int nCategories = 0;

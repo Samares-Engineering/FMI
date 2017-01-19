@@ -3,19 +3,22 @@
 #include <string.h>
 #include "fmi2.h"
 #include "sim_support.h"
-#include "fmuTemplate.h"
 #include "fmu_simulate.h"
 #include "do_step.h"
 
-static char *getResourcesLocationTemp(char* tempPath) {
+/*static char *getResourcesLocationTemp(char* tempPath) {
     char *resourcesLocation = (char *)calloc(sizeof(char), 9 + strlen(RESOURCES_DIR) + strlen(tempPath));
     strcpy(resourcesLocation, "file:///");
     strcat(resourcesLocation, tempPath);
     strcat(resourcesLocation, RESOURCES_DIR);
     return resourcesLocation;
+}*/
+
+void stepfinished (fmi2ComponentEnvironment x, fmi2Status y) {
+  printf ("Been there, done that\n");
 }
 
-char *dummyresource = "file:///home/jmgauthier/Work/git_samares/FMI/bin/foo/resources\\";
+char *dummyresource = "file:///home/jmgauthier/Work/git_samares/FMI/bin/foo/resources\\"; //Dummy
 
 int fmuSimulate(FMU* fmu, const char* fmuFileName, double tEnd, double h, fmi2Boolean loggingOn, char separator,
                     int nCategories, const fmi2String categories[]) {
@@ -36,7 +39,7 @@ int fmuSimulate(FMU* fmu, const char* fmuFileName, double tEnd, double h, fmi2Bo
 
     //fmi2CallbackFunctions callbacks = {fmuLogger, calloc, free, NULL, fmu};  // called by the model during simulation      
     
-    fmi2CallbackFunctions callbacks = {fmuLogger, calloc, free, NULL, fmu};  // patch
+    fmi2CallbackFunctions callbacks = {fmuLogger, calloc, free, stepfinished, fmu};  // patch
 
     ModelDescription* md;                      // handle to the parsed XML file
     fmi2Boolean toleranceDefined = fmi2False;  // true if model description define tolerance
@@ -108,19 +111,7 @@ int fmuSimulate(FMU* fmu, const char* fmuFileName, double tEnd, double h, fmi2Bo
     printf("Entering the integration loop.\n\n");
     time = tStart;
     while (time < tEnd) {
-        fmi2Flag = doStep(fmu, c, time, h, fmi2True);
-        if (fmi2Flag == fmi2Discard) {
-            fmi2Boolean b;
-            // check if model requests to end simulation
-            if (fmi2OK != fmu->getBooleanStatus(c, fmi2Terminated, &b)) {
-                return error("Could not complete simulation of the model. getBooleanStatus return other than fmi2OK.\n\n");
-            }
-            if (b == fmi2True) {
-                return error("The model requested to end the simulation.\n\n");
-            }
-            return error("Could not complete simulation of the model.\n\n");
-        }
-        if (fmi2Flag != fmi2OK) return error("Could not complete simulation of the model.\n\n");
+        doStep(fmu, c, time, h, fmi2True);
         time += h;
         outputRow(fmu, c, time, file, separator, fmi2False); // output values for this step
         nSteps++;
