@@ -5,7 +5,7 @@ To test the code perform the follwing steps:
 1. Go to the /src folder.
 2. Open a console and type "make all". 
 3. A binary file is built in the folder ../bin 
-4. Launch the binary with the command: ./FMI_prototype bouncingBall.fmu
+4. Launch the binary with the command: ./FMI_prototype MoonLanding.fmu
 5. The fmu is loaded and simulated. 
 6. Simulation results are generated in the result.csv file.
 
