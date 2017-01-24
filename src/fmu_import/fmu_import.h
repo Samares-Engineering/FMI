@@ -1,1 +1,1 @@
-void fmuImport(const char *fmuFileName);
+int fmuImport(const char *fmuFileName);

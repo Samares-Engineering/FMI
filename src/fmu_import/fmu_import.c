@@ -16,7 +16,7 @@ static char* getFmuPath(const char* fmuFileName){
   return strdup(fmuFileName);
 }
 
-static char* getTmpPath() {
+/*static char* getTmpPath() {
   char template[13];  // Lenght of "fmuTmpXXXXXX" + null
   sprintf(template, "%s", "fmuTmpXXXXXX");
   //char *tmp = mkdtemp(strdup("fmuTmpXXXXXX"));
@@ -28,7 +28,7 @@ static char* getTmpPath() {
   char * results = calloc(sizeof(char), strlen(tmp) + 2);
   strncat(results, tmp, strlen(tmp));
   return strcat(results, "/");
-}
+}*/
 
 static void printModelDescription(ModelDescription* md){
     Element* e = (Element*)md;
@@ -216,7 +216,7 @@ static int loadDll(const char* dllPath, FMU *fmu) {
 
 char dummyPath[] = "foo/"; //Dummy
 
-void fmuImport(const char* fmuFileName) {
+int fmuImport(const char* fmuFileName) {
     char* fmuPath;
     char* tmpPath;
     char* xmlPath;
@@ -260,6 +260,6 @@ void fmuImport(const char* fmuFileName) {
     free(fmuPath);
 
     printf("FMU %s Loaded.\n\n", fmuFileName);
-
-    return tmpPath;
+	
+    return 1; //Success
 }

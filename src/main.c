@@ -10,7 +10,7 @@
 
 FMU fmu; // the fmu to simulate
 
-static void deleteTempFiles(char* fmuTempPath) {
+/*static void deleteTempFiles(char* fmuTempPath) {
     char *cmd = (char *)calloc(15 + strlen(fmuTempPath), sizeof(char));
 #if WINDOWS
     sprintf(cmd, "rmdir /S /Q %s", fmuTempPath);
@@ -19,7 +19,7 @@ static void deleteTempFiles(char* fmuTempPath) {
 #endif
     system(cmd);
     free(cmd);
-}
+}*/
 
 int main(int argc, char *argv[]) {
     const char* fmuFileName;

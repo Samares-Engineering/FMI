@@ -4,7 +4,7 @@
 #include "fmi2.h"
 #include "do_step.h"
 
-fmi2Status doStep(FMU* fmu, fmi2Component c, fmi2Real currentCommunicationPoint,
+int doStep(FMU* fmu, fmi2Component c, fmi2Real currentCommunicationPoint,
                     fmi2Real communicationStepSize, fmi2Boolean noSetFMUStatePriorToCurrentPoint) {
    
    fmi2Status fmi2Flag;
@@ -19,20 +19,20 @@ fmi2Status doStep(FMU* fmu, fmi2Component c, fmi2Real currentCommunicationPoint,
         if (b == fmi2True) {
                 return error("The model requested to end the simulation.\n\n");
         }
-            return error("Could not complete simulation of the model.\n\n");
+            
+        return error("Could not complete simulation of the model.\n\n");
     }
 
     //if (fmi2Flag != fmi2OK) return error("Could not complete simulation of the model.\n\n");
    
     printf("Do one step. %d\n\n", fmi2Flag);
+
+    return 1; //Success
 }
 
-MoonLandingOuputs doStepMoonLanding(FMU* fmu, fmi2Component c, fmi2Real currentCommunicationPoint,
-                    fmi2Real communicationStepSize, fmi2Boolean noSetFMUStatePriorToCurrentPoint, fmi2Real inputThrust) {
-  
-    
-    MoonLandingOuputs moonLandingOuputs;
-
+int doStepMoonLanding(FMU* fmu, fmi2Component c, fmi2Real currentCommunicationPoint,
+                    fmi2Real communicationStepSize, fmi2Boolean noSetFMUStatePriorToCurrentPoint, fmi2Real inputThrust, MoonLandingOuputs* moonLandingOuputs) {
+      
     fmi2ValueReference vr;
     fmi2Real r;
     fmi2Status fmi2Flag;
@@ -45,23 +45,21 @@ MoonLandingOuputs doStepMoonLanding(FMU* fmu, fmi2Component c, fmi2Real currentC
     // Set the input
     vr = getValueReference(input_thrust_sv);
     fmi2Flag = fmu->setReal(c, &vr, 1, &inputThrust); 
-
+ 
     // Calculate the Step
-    fmi2Flag = doStep(fmu, c, currentCommunicationPoint, communicationStepSize, noSetFMUStatePriorToCurrentPoint);
+    doStep(fmu, c, currentCommunicationPoint, communicationStepSize, noSetFMUStatePriorToCurrentPoint);
 
     // Get the outputs
     vr = getValueReference(output_altitute_sv);
     fmi2Flag = fmu->getReal(c, &vr, 1, &r); //get the altitude output
-    moonLandingOuputs.output_altitute = r;
+    moonLandingOuputs->output_altitute = r;
 
     vr = getValueReference(output_velocity_sv);
     fmi2Flag = fmu->getReal(c, &vr, 1, &r); //get the velocity output
-    moonLandingOuputs.output_velocity = r;
+    moonLandingOuputs->output_velocity = r;
 
-    //printf("INPUT THRUST === %d\n", inputThrust);
-    printf("OUPUT ALTITUDE === %f\n", moonLandingOuputs.output_altitute);
-    printf("OUPUT VELOCITY === %f\n\n", moonLandingOuputs.output_velocity);
+
   
-    return moonLandingOuputs;
+    return 1; //Success
 }
 

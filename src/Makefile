@@ -14,7 +14,7 @@ clean:
 mrproper: clean
 	rm -rf ../bin/
 
-CC = gcc
+CC = gcc -g
 CFLAGS = -W -Wall -v
 
 # Folder of the shared src from the FMUSDK2 submodule
@@ -46,19 +46,20 @@ SHARED_DEPS = \
 	$(FMUSDK2_PATH)/parser/XmlElement.h \
 	$(FMUSDK2_PATH)/parser/XmlParser.h \
 	$(FMUSDK2_PATH)/parser/XmlParserCApi.h \
-	$(FMUSDK2_PATH)/parser/XmlParserException.h
+	$(FMUSDK2_PATH)/parser/XmlParserException.h \
+	utils/utils.h
 
 CXX=c++
 
 FMI_prototype: $(SHARED_DEPS) bin/
 	$(CC) $(CFLAGS) -g -Wall -DFMI_COSIMULATION \
 		-DSTANDALONE_XML_PARSER -DLIBXML_STATIC \
-		-I$(FMUSDK2_PATH)/include -I$(FMUSDK2_PATH)/parser/libxml -I$(FMUSDK2_PATH)/parser -I$(FMUSDK2_PATH) -I$(FMUSDK2_MODELS_PATH) -Ifmu_import -Ifmu_simulate \
+		-I$(FMUSDK2_PATH)/include -I$(FMUSDK2_PATH)/parser/libxml -I$(FMUSDK2_PATH)/parser -I$(FMUSDK2_PATH) -I$(FMUSDK2_MODELS_PATH) -Ifmu_import -Ifmu_simulate -Iutils \
 		main.c $(SHARED_SRCS) \
-		-c
+		-c -g
 	$(CXX) $(CFLAGS) -g -Wall -DFMI_COSIMULATION \
 		-DSTANDALONE_XML_PARSER -DLIBXML_STATIC \
-		-I$(FMUSDK2_PATH)/include -I$(FMUSDK2_PATH)/parser/libxml -I$(FMUSDK2_PATH)/parser -I$(FMUSDK2_PATH) -I$(FMUSDK2_MODELS_PATH) -Ifmu_import -Ifmu_simulate \
+		-I$(FMUSDK2_PATH)/include -I$(FMUSDK2_PATH)/parser/libxml -I$(FMUSDK2_PATH)/parser -I$(FMUSDK2_PATH) -I$(FMUSDK2_MODELS_PATH) -Ifmu_import -Ifmu_simulate -Iutils \
 		main.o fmu_import.o fmu_simulate.o do_step.o sim_support.o $(CPP_SRCS) \
 		-o $@ -lexpat -ldl -lxml2
 	cp FMI_prototype ../bin/
