@@ -8,19 +8,17 @@
 
 #include "fmu_wrapper.h"
 
-//extern FMU      fmu;
-
 //#define FMU_WRAPPER_DEBUG
 
 #ifdef FMU_WRAPPER_DEBUG
-   #define FMU_WRAPPER_PRINT(s, args...) fprintf(stderr, s, ##args); fflush (stderr);
+#define FMU_WRAPPER_PRINT(s, args...) fprintf(stderr, s, ##args); fflush (stderr);
 #else
-   #define FMU_WRAPPER_PRINT(s, args...)
+#define FMU_WRAPPER_PRINT(s, args...)
 #endif
 
-int fmuImport (const char *fmuFileName, FMU *fmu);
+int             fmuImport (const char *fmuFileName, FMU * fmu);
 
-int initializeModel(FMU* fmu, fmi2Component c, const char* fmuFileName);
+int             initializeModel (FMU * fmu, fmi2Component c, const char *fmuFileName);
 
 char           *dummyresource = "file:///work/FMI/bin/foo/resources\\";
 
@@ -74,7 +72,7 @@ printModelDescription (ModelDescription * md)
   for (int i = 0; i < n; i += 2) {
     FMU_WRAPPER_PRINT ("  %s=%s\n", attributes[i], attributes[i + 1]);
   }
-#endif /* FMU_WRAPPER_DEBUG */
+#endif                          /* FMU_WRAPPER_DEBUG */
   free ((void *)attributes);
 
 #ifdef FMI_COSIMULATION
@@ -89,7 +87,7 @@ printModelDescription (ModelDescription * md)
     error ("No ModelExchange element found in model description. This FMU is not for Model Exchange.\n");
     exit (EXIT_FAILURE);
   }
-#endif /* FMI_COSIMULATION */
+#endif                          /* FMI_COSIMULATION */
 
 #ifdef FMU_WRAPPER_DEBUG
   FMU_WRAPPER_PRINT ("%s\n", getElementTypeName ((Element *) component));
@@ -265,7 +263,7 @@ loadDll (const char *dllPath, FMU * fmu)
 char            dummyPath[] = "foo/";
 
 int
-fmuImport (const char *fmuFileName, FMU *fmu)
+fmuImport (const char *fmuFileName, FMU * fmu)
 {
   char           *fmuPath;
   char           *tmpPath;
@@ -374,7 +372,7 @@ initializeModel (FMU * fmu, fmi2Component c, const char *fmuFileName)
 
 int
 FMU_Activate_Entrypoint (const char *fmuFileName, double tEnd, double h, fmi2Boolean loggingOn, char separator,
-             int nCategories, const fmi2String categories[], FMUContext *ctx)
+             int nCategories, const fmi2String categories[], FMUContext * ctx)
 {
   double          time;
   double          tStart = 0;   /* start time */
@@ -415,7 +413,6 @@ FMU_Activate_Entrypoint (const char *fmuFileName, double tEnd, double h, fmi2Boo
     if (fmi2Flag > fmi2Warning)
       return error ("Could not finish instantiation; failed to set debug logging");
   }
-
   defaultExp = getDefaultExperiment (md);
   if (defaultExp)
     tolerance = getAttributeDouble (defaultExp, att_tolerance, &vs);
@@ -434,27 +431,29 @@ FMU_Activate_Entrypoint (const char *fmuFileName, double tEnd, double h, fmi2Boo
     return 0;
   }
   /* Output solution for time t0 */
-  outputRow (ctx->fmu, c, tStart, file, separator, fmi2True);        /* output column names */
-  outputRow (ctx->fmu, c, tStart, file, separator, fmi2False);       /* output values */
+  outputRow (ctx->fmu, c, tStart, file, separator, fmi2True);   /* output column names */
+  outputRow (ctx->fmu, c, tStart, file, separator, fmi2False);  /* output values */
 
   /* Enter the simulation loop */
   time = tStart;
 
   /* Setting up the FMU context */
-  ctx -> component = c;
-  ctx -> currentCommunicationPoint = time;
-  ctx -> communicationStepSize = h;
-  ctx -> noSetFMUStatePriorToCurrentPoint = fmi2True;
-  ctx -> resultFile = file;
+  ctx->component = c;
+  ctx->currentCommunicationPoint = time;
+  ctx->communicationStepSize = h;
+  ctx->noSetFMUStatePriorToCurrentPoint = fmi2True;
+  ctx->resultFile = file;
   return 1;
 }
 
 /******************************************************************************
  */
-void freeContext (FMUContext ctx) {
+void
+freeContext (FMUContext ctx)
+{
   FMU_WRAPPER_PRINT ("Release FMU\n\n");
   ctx.fmu->terminate (ctx.component);
-  //  ctx.fmu->freeInstance (ctx.component);
+  //ctx.fmu->freeInstance (ctx.component);
 
   fclose (ctx.resultFile);
   FMU_WRAPPER_PRINT ("CSV file '%s' written\n\n", RESULT_FILE);
