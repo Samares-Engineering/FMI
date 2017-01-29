@@ -1,28 +1,25 @@
 #ifndef __FMU_WRAPPER__
 #define __FMU_WRAPPER__
 
+#include <stdio.h>
 #include "fmi2.h"
 
-int fmuImport(const char *fmuFileName);
+typedef struct {
+  FMU            *fmu;
+  fmi2Component   component;
+  fmi2Real        currentCommunicationPoint;
+  fmi2Real        communicationStepSize;
+  fmi2Boolean     noSetFMUStatePriorToCurrentPoint;
+  FILE           *resultFile;
+} FMUContext;
 
-int instantiateFMU(FMU* fmu,
-                   fmi2Component* c,
-                   ModelDescription* md,
-                   const char* fmuFileName,
-                   fmi2Boolean loggingOn,
-                   int nCategories,
-                   const fmi2String categories[],
-                   double tStart,
-                   double tEnd);
 
-int initializeModel(FMU* fmu, fmi2Component c, const char* fmuFileName);
+int
+FMU_Activate_Entrypoint (const char *fmuFileName, double tEnd, double h, fmi2Boolean loggingOn, char separator,
+                         int nCategories, const fmi2String categories[], FMUContext *ctx);
 
-int fmuSimulate(FMU* fmu,
-                const char* fmuFileName,
-                double tEnd, double h,
-                fmi2Boolean loggingOn,
-                char separator,
-                int nCategories,
-                const fmi2String categories[]);
+int
+doStep (FMU * fmu, fmi2Component c, fmi2Real currentCommunicationPoint,
+        fmi2Real communicationStepSize, fmi2Boolean noSetFMUStatePriorToCurrentPoint);
 
 #endif /* __FMU_WRAPPER__ */

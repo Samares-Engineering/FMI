@@ -8,7 +8,24 @@
 
 #include "fmu_wrapper.h"
 
-extern FMU      fmu;
+//extern FMU      fmu;
+
+//#define FMU_WRAPPER_DEBUG
+
+#ifdef FMU_WRAPPER_DEBUG
+   #define FMU_WRAPPER_PRINT(s, args...) fprintf(stderr, s, ##args); fflush (stderr);
+#else
+   #define FMU_WRAPPER_PRINT(s, args...)
+#endif
+
+int fmuImport (const char *fmuFileName, FMU *fmu);
+
+int initializeModel(FMU* fmu, fmi2Component c, const char* fmuFileName);
+
+char           *dummyresource = "file:///work/FMI/bin/foo/resources\\";
+
+/******************************************************************************
+ */
 
 /* fmuFileName is an absolute path, e.g. "C:\test\a.fmu" */
 /* or relative to the current dir, e.g. "..\test\a.fmu" */
@@ -18,6 +35,9 @@ getFmuPath (const char *fmuFileName)
   /* Not sure why this is useful.  Just returning the filename. */
   return strdup (fmuFileName);
 }
+
+/******************************************************************************
+ */
 
 static char    *
 getTmpPath ()
@@ -34,51 +54,63 @@ getTmpPath ()
   return strcat (results, "/");
 }
 
+/******************************************************************************
+ */
+
 static void
 printModelDescription (ModelDescription * md)
 {
   Element        *e = (Element *) md;
-  int             i;
   int             n;            /* number of attributes */
   const char    **attributes = getAttributesAsArray (e, &n);
   Component      *component;
 
   if (!attributes) {
-    printf ("ModelDescription printing aborted.");
+    FMU_WRAPPER_PRINT ("ModelDescription printing aborted.");
     return;
   }
-  printf ("%s\n", getElementTypeName (e));
-  for (i = 0; i < n; i += 2) {
-    printf ("  %s=%s\n", attributes[i], attributes[i + 1]);
+#ifdef FMU_WRAPPER_DEBUG
+  FMU_WRAPPER_PRINT ("%s\n", getElementTypeName (e));
+  for (int i = 0; i < n; i += 2) {
+    FMU_WRAPPER_PRINT ("  %s=%s\n", attributes[i], attributes[i + 1]);
   }
+#endif /* FMU_WRAPPER_DEBUG */
   free ((void *)attributes);
 
 #ifdef FMI_COSIMULATION
   component = getCoSimulation (md);
   if (!component) {
-    printf ("error: No CoSimulation element found in model description. This FMU is not for Co-Simulation.\n");
+    error ("No CoSimulation element found in model description. This FMU is not for Co-Simulation.\n");
     exit (EXIT_FAILURE);
   }
 #else                           /* FMI_MODEL_EXCHANGE */
   component = getModelExchange (md);
   if (!component) {
-    printf ("error: No ModelExchange element found in model description. This FMU is not for Model Exchange.\n");
+    error ("No ModelExchange element found in model description. This FMU is not for Model Exchange.\n");
     exit (EXIT_FAILURE);
   }
-#endif
-  printf ("%s\n", getElementTypeName ((Element *) component));
+#endif /* FMI_COSIMULATION */
+
+#ifdef FMU_WRAPPER_DEBUG
+  FMU_WRAPPER_PRINT ("%s\n", getElementTypeName ((Element *) component));
   attributes = getAttributesAsArray ((Element *) component, &n);
   if (!attributes) {
-    printf ("ModelDescription printing aborted.");
+    FMU_WRAPPER_PRINT ("ModelDescription printing aborted.");
     return;
   }
-  for (i = 0; i < n; i += 2) {
-    printf ("  %s=%s\n", attributes[i], attributes[i + 1]);
+  for (int i = 0; i < n; i += 2) {
+    FMU_WRAPPER_PRINT ("  %s=%s\n", attributes[i], attributes[i + 1]);
   }
 
-  printf ("\n\n");
+  FMU_WRAPPER_PRINT ("\n\n");
+
   free ((void *)attributes);
+#endif
+
 }
+
+/******************************************************************************
+ */
 
 static void    *
 getAdr (int *success, HMODULE dllHandle, const char *functionName)
@@ -92,13 +124,16 @@ getAdr (int *success, HMODULE dllHandle, const char *functionName)
   if (!fp) {
 #ifdef _MSC_VER
 #else
-    printf ("Error was: %s\n", dlerror ());
+    FMU_WRAPPER_PRINT ("Error was: %s\n", dlerror ());
 #endif
-    printf ("warning: Function %s not found in dll\n", functionName);
+    FMU_WRAPPER_PRINT ("warning: Function %s not found in dll\n", functionName);
     *success = 0;
   }
   return fp;
 }
+
+/******************************************************************************
+ */
 
 /* Load the given dll and set function pointers in fmu */
 /* Return 0 to indicate failure */
@@ -109,16 +144,16 @@ loadDll (const char *dllPath, FMU * fmu)
 #ifdef _MSC_VER
   HMODULE         h = LoadLibrary (dllPath);
 #else
-  printf ("dllPath = %s\n", dllPath);
+  FMU_WRAPPER_PRINT ("dllPath = %s\n", dllPath);
   HMODULE         h = dlopen (dllPath, RTLD_LAZY);
 #endif
 
   if (!h) {
 #ifdef _MSC_VER
 #else
-    printf ("The error was: %s\n", dlerror ());
+    FMU_WRAPPER_PRINT ("The error was: %s\n", dlerror ());
 #endif
-    printf ("error: Could not load %s\n", dllPath);
+    FMU_WRAPPER_PRINT ("error: Could not load %s\n", dllPath);
     return 0;                   /* failure */
   }
   fmu->dllHandle = h;
@@ -171,8 +206,8 @@ loadDll (const char *dllPath, FMU * fmu)
 #endif
 
   if (fmu->getVersion == NULL && fmu->instantiate == NULL) {
-    printf ("warning: Functions from FMI 2.0 could not be found in %s\n", dllPath);
-    printf ("warning: Simulator will look for FMI 2.0 RC1 functions names...\n");
+    FMU_WRAPPER_PRINT ("warning: Functions from FMI 2.0 could not be found in %s\n", dllPath);
+    FMU_WRAPPER_PRINT ("warning: Simulator will look for FMI 2.0 RC1 functions names...\n");
     fmu->getTypesPlatform = (fmi2GetTypesPlatformTYPE *) getAdr (&s, h, "fmiGetTypesPlatform");
     fmu->getVersion = (fmi2GetVersionTYPE *) getAdr (&s, h, "fmiGetVersion");
     fmu->setDebugLogging = (fmi2SetDebugLoggingTYPE *) getAdr (&s, h, "fmiSetDebugLogging");
@@ -224,10 +259,13 @@ loadDll (const char *dllPath, FMU * fmu)
   return s;
 }
 
+/******************************************************************************
+ */
+
 char            dummyPath[] = "foo/";
 
 int
-fmuImport (const char *fmuFileName)
+fmuImport (const char *fmuFileName, FMU *fmu)
 {
   char           *fmuPath;
   char           *tmpPath;
@@ -235,7 +273,7 @@ fmuImport (const char *fmuFileName)
   char           *dllPath;
   const char     *modelId;
 
-  printf ("Loading FMU %s. \n\n", fmuFileName);
+  FMU_WRAPPER_PRINT ("Loading FMU %s. \n\n", fmuFileName);
 
   fmuPath = getFmuPath (fmuFileName);
   if (!fmuPath)
@@ -244,61 +282,42 @@ fmuImport (const char *fmuFileName)
   /* tmpPath = getTmpPath(); */
   tmpPath = dummyPath;
 
-  printf ("Unzip the %s file.\n\n", fmuFileName);
+  FMU_WRAPPER_PRINT ("Unzip the %s file.\n\n", fmuFileName);
   if (!unzip (fmuPath, tmpPath))
     exit (EXIT_FAILURE);
 
-  printf ("Parse modeldescription.xml file.\n\n");
+  FMU_WRAPPER_PRINT ("Parse modeldescription.xml file.\n\n");
   xmlPath = calloc (sizeof (char), strlen (tmpPath) + strlen (XML_FILE) + 1);
   sprintf (xmlPath, "%s%s", tmpPath, XML_FILE);
-  fmu.modelDescription = parse (xmlPath);
+  fmu->modelDescription = parse (xmlPath);
   free (xmlPath);
 
-  printModelDescription (fmu.modelDescription);
-  modelId = getAttributeValue ((Element *) getCoSimulation (fmu.modelDescription), att_modelIdentifier);
+  printModelDescription (fmu->modelDescription);
+  modelId = getAttributeValue ((Element *) getCoSimulation (fmu->modelDescription), att_modelIdentifier);
   dllPath = calloc (sizeof (char), strlen (tmpPath) + strlen (DLL_DIR)
                     + strlen (modelId) + strlen (DLL_SUFFIX) + 1);
   sprintf (dllPath, "%s%s%s%s", tmpPath, DLL_DIR, modelId, DLL_SUFFIX);
 
-  printf ("Load DLL file.\n\n");
-  if (!loadDll (dllPath, &fmu)) {
+  FMU_WRAPPER_PRINT ("Load DLL file.\n\n");
+  if (!loadDll (dllPath, fmu)) {
     free (dllPath);
     /* try the alternative directory and suffix */
     dllPath = calloc (sizeof (char), strlen (tmpPath) + strlen (DLL_DIR2)
                       + strlen (modelId) + strlen (DLL_SUFFIX2) + 1);
     sprintf (dllPath, "%s%s%s%s", tmpPath, DLL_DIR2, modelId, DLL_SUFFIX2);
-    if (!loadDll (dllPath, &fmu))
+    if (!loadDll (dllPath, fmu))
       exit (EXIT_FAILURE);
   }
   free (dllPath);
   free (fmuPath);
 
-  printf ("FMU %s Loaded.\n\n", fmuFileName);
+  FMU_WRAPPER_PRINT ("FMU %s Loaded.\n\n", fmuFileName);
 
   return 1;                     /* Success */
 }
 
-
-typedef struct {
-  fmi2Real        output_altitute;
-  fmi2Real        output_velocity;
-}               MoonLandingOuputs;
-
-typedef struct {
-  FMU            *fmu;
-  fmi2Component   component;
-  fmi2Real        currentCommunicationPoint;
-  fmi2Real        communicationStepSize;
-  fmi2Boolean     noSetFMUStatePriorToCurrentPoint;
-}               FMUtoSimulate;
-
-int
-doStep (FMU * fmu, fmi2Component c, fmi2Real currentCommunicationPoint,
-fmi2Real communicationStepSize, fmi2Boolean noSetFMUStatePriorToCurrentPoint);
-
-int
-doStepMoonLanding (FMU * fmu, fmi2Component c, fmi2Real currentCommunicationPoint,
-                   fmi2Real communicationStepSize, fmi2Boolean noSetFMUStatePriorToCurrentPoint, fmi2Real inputThrust, MoonLandingOuputs * moonLandingOuputs);
+/******************************************************************************
+ */
 
 int
 doStep (FMU * fmu, fmi2Component c, fmi2Real currentCommunicationPoint,
@@ -324,56 +343,21 @@ doStep (FMU * fmu, fmi2Component c, fmi2Real currentCommunicationPoint,
    * model.\n\n");
    */
 
-  printf ("Do one step. %d\n\n", fmi2Flag);
+  FMU_WRAPPER_PRINT ("Do one step. %d\n\n", fmi2Flag);
 
-  return 1;                     /* Success */
-}
-
-int
-doStepMoonLanding (FMU * fmu, fmi2Component c, fmi2Real currentCommunicationPoint,
-                   fmi2Real communicationStepSize, fmi2Boolean noSetFMUStatePriorToCurrentPoint, fmi2Real inputThrust, MoonLandingOuputs * moonLandingOuputs)
-{
-
-  fmi2ValueReference vr;
-  fmi2Real        r;
-  fmi2Status      fmi2Flag;
-
-  /* Get the scalar variables */
-  ScalarVariable *input_thrust_sv = getVariable (fmu->modelDescription, "thrust");
-  ScalarVariable *output_altitute_sv = getVariable (fmu->modelDescription, "a");
-  ScalarVariable *output_velocity_sv = getVariable (fmu->modelDescription, "v");
-
-  /* Set the input */
-  vr = getValueReference (input_thrust_sv);
-  fmi2Flag = fmu->setReal (c, &vr, 1, &inputThrust);
-
-  /* Calculate the Step */
-  doStep (fmu, c, currentCommunicationPoint, communicationStepSize, noSetFMUStatePriorToCurrentPoint);
-
-  /* Get the outputs */
-  vr = getValueReference (output_altitute_sv);
-  fmi2Flag = fmu->getReal (c, &vr, 1, &r);      /* get the altitude output */
-  moonLandingOuputs->output_altitute = r;
-
-  vr = getValueReference (output_velocity_sv);
-  fmi2Flag = fmu->getReal (c, &vr, 1, &r);
-  //get the velocity output * /
-    moonLandingOuputs->output_velocity = r;
-
-  return 1;
+  return fmi2Flag;
 }
 
 /******************************************************************************
  */
-
-char           *dummyresource = "file:///work/FMI/bin/foo/resources\\";
 
 int
 initializeModel (FMU * fmu, fmi2Component c, const char *fmuFileName)
 {
   fmi2Status      fmi2Flag;
 
-  printf ("Initialization of the FMU %s.\n", fmuFileName);
+  FMU_WRAPPER_PRINT ("Initialization of the FMU %s.\n", fmuFileName);
+
   fmi2Flag = fmu->enterInitializationMode (c);
   if (fmi2Flag > fmi2Warning) {
     return error ("Could not initialize model; failed FMI enter initialization mode");
@@ -389,11 +373,9 @@ initializeModel (FMU * fmu, fmi2Component c, const char *fmuFileName)
  */
 
 int
-fmuSimulate (FMU * fmu, const char *fmuFileName, double tEnd, double h, fmi2Boolean loggingOn, char separator,
-             int nCategories, const fmi2String categories[])
+FMU_Activate_Entrypoint (const char *fmuFileName, double tEnd, double h, fmi2Boolean loggingOn, char separator,
+             int nCategories, const fmi2String categories[], FMUContext *ctx)
 {
-  int             i;
-  int             nSteps = 0;
   double          time;
   double          tStart = 0;   /* start time */
 
@@ -408,58 +390,42 @@ fmuSimulate (FMU * fmu, const char *fmuFileName, double tEnd, double h, fmi2Bool
   fmi2Boolean     toleranceDefined = fmi2False; /* true if model description
                                                  * define tolerance */
   fmi2Boolean     visible = fmi2False;  /* no simulator user interface */
-  fmi2CallbackFunctions callbacks = {fmuLogger, calloc, free, NULL, fmu};
+  fmi2CallbackFunctions callbacks = {fmuLogger, calloc, free, NULL, ctx->fmu};
 
   ValueStatus     vs = 0;
   Element        *defaultExp;
   FILE           *file;
 
-  MoonLandingOuputs *moonLandingOuputs;
-  moonLandingOuputs = (MoonLandingOuputs *) malloc (sizeof (MoonLandingOuputs));        /* Specific to
-                                                                                         * moonlanding */
-
-  if (moonLandingOuputs == NULL) {
-    fprintf (stderr, "Allocation failed.");
-    exit (EXIT_FAILURE);
-  }
-  printf ("FMU Simulator: run '%s' from t=0..%g with step size h=%g, loggingOn=%d, csv separator='%c' \n\n", fmuFileName, tEnd, h, loggingOn, separator);
-  printf ("log categories={ ");
-  for (i = 0; i < nCategories; i++)
-    printf ("%s ", categories[i]);
-  printf ("}\n\n");
-
   fmuResourceLocation = malloc (strlen (dummyresource) + 2);
   strcpy (fmuResourceLocation, dummyresource);
 
-  printf ("Instantiate the FMU %s. \n", fmuFileName);
-  printf ("----- Location %s.\n", fmuResourceLocation);
-  md = fmu->modelDescription;
+  /* Import FMU */
+  fmuImport (fmuFileName, ctx->fmu);
+
+  md = ctx->fmu->modelDescription;
   guid = getAttributeValue ((Element *) md, att_guid);
   instanceName = getAttributeValue ((Element *) getCoSimulation (md), att_modelIdentifier);
-  c = fmu->instantiate (instanceName, fmi2CoSimulation, guid, fmuResourceLocation, &callbacks, visible, loggingOn);
+  c = ctx->fmu->instantiate (instanceName, fmi2CoSimulation, guid, fmuResourceLocation, &callbacks, visible, loggingOn);
   free (fmuResourceLocation);
   if (!c)
     return error ("Could not instantiate model");
 
-  printf ("----- Set debug logging.\n");
   if (nCategories > 0) {
-    fmi2Flag = fmu->setDebugLogging (c, fmi2True, nCategories, categories);
+    fmi2Flag = ctx->fmu->setDebugLogging (c, fmi2True, nCategories, categories);
     if (fmi2Flag > fmi2Warning)
       return error ("Could not finish instantiation; failed to set debug logging");
   }
-  printf ("----- Setup experiment\n");
+
   defaultExp = getDefaultExperiment (md);
   if (defaultExp)
     tolerance = getAttributeDouble (defaultExp, att_tolerance, &vs);
   if (vs == valueDefined)
     toleranceDefined = fmi2True;
-  fmi2Flag = fmu->setupExperiment (c, toleranceDefined, tolerance, tStart, fmi2True, tEnd);
+  fmi2Flag = ctx->fmu->setupExperiment (c, toleranceDefined, tolerance, tStart, fmi2True, tEnd);
   if (fmi2Flag > fmi2Warning)
     return error ("Could not finish instantiation; failed FMI setup experiment");
 
-  initializeModel (fmu, c, fmuFileName);
-  printf ("\n\n");
-
+  initializeModel (ctx->fmu, c, fmuFileName);
 
   /* Open result file */
   if (!(file = fopen (RESULT_FILE, "w"))) {
@@ -468,42 +434,17 @@ fmuSimulate (FMU * fmu, const char *fmuFileName, double tEnd, double h, fmi2Bool
     return 0;
   }
   /* Output solution for time t0 */
-  outputRow (fmu, c, tStart, file, separator, fmi2True);        /* output column names */
-  outputRow (fmu, c, tStart, file, separator, fmi2False);       /* output values */
+  outputRow (ctx->fmu, c, tStart, file, separator, fmi2True);        /* output column names */
+  outputRow (ctx->fmu, c, tStart, file, separator, fmi2False);       /* output values */
 
   /* Enter the simulation loop */
-  printf ("Entering the integration loop.\n\n");
   time = tStart;
-  while (time < tEnd) {
 
-    fmi2Real        inputThrust = 10000.0;      /* Specific input for the
-                                                 * MoonLanding */
-
-    doStepMoonLanding (fmu, c, time, h, fmi2True, inputThrust, moonLandingOuputs);      /* Specific to
-                                                                                         * MoonLanding */
-
-    printf ("OUPUT ALTITUDE === %f\n", moonLandingOuputs->output_altitute);
-    printf ("OUPUT VELOCITY === %f\n\n", moonLandingOuputs->output_velocity);
-
-    /* fmi2Flag = doStep(fmu, c, time, h, fmi2True); */
-
-    time += h;
-    outputRow (fmu, c, time, file, separator, fmi2False);
-    nSteps++;
-  }
-
-  /* End simulation */
-  printf ("\nEnd of the simulation.\n\n");
-  free (moonLandingOuputs);
-  fmu->terminate (c);
-  fmu->freeInstance (c);
-  fclose (file);
-
-  /* print simulation summary */
-  printf ("Simulation from %g to %g terminated successful\n", tStart, tEnd);
-  printf ("  steps ............ %d\n", nSteps);
-  printf ("  fixed step size .. %g\n", h);
-
-  printf ("CSV file '%s' written\n\n", RESULT_FILE);
+  /* Setting up the FMU context */
+  ctx -> component = c;
+  ctx -> currentCommunicationPoint = time;
+  ctx -> communicationStepSize = h;
+  ctx -> noSetFMUStatePriorToCurrentPoint = fmi2True;
+  ctx -> resultFile = file;
   return 1;
 }
