@@ -448,3 +448,17 @@ FMU_Activate_Entrypoint (const char *fmuFileName, double tEnd, double h, fmi2Boo
   ctx -> resultFile = file;
   return 1;
 }
+
+/******************************************************************************
+ */
+void freeContext (FMUContext ctx) {
+  FMU_WRAPPER_PRINT ("Release FMU\n\n");
+  ctx.fmu->terminate (ctx.component);
+  //  ctx.fmu->freeInstance (ctx.component);
+
+  fclose (ctx.resultFile);
+  FMU_WRAPPER_PRINT ("CSV file '%s' written\n\n", RESULT_FILE);
+
+  dlclose (ctx.fmu->dllHandle);
+  freeModelDescription (ctx.fmu->modelDescription);
+}
