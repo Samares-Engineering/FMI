@@ -8,473 +8,502 @@
 
 #include "fmu_wrapper.h"
 
-extern FMU fmu;
+extern FMU      fmu;
 
-// fmuFileName is an absolute path, e.g. "C:\test\a.fmu"
-// or relative to the current dir, e.g. "..\test\a.fmu"
-static char* getFmuPath(const char* fmuFileName){
+/* fmuFileName is an absolute path, e.g. "C:\test\a.fmu" */
+/* or relative to the current dir, e.g. "..\test\a.fmu" */
+static char    *
+getFmuPath (const char *fmuFileName)
+{
   /* Not sure why this is useful.  Just returning the filename. */
-  return strdup(fmuFileName);
+  return strdup (fmuFileName);
 }
 
-/*static char* getTmpPath() {
-  char template[13];  // Lenght of "fmuTmpXXXXXX" + null
-  sprintf(template, "%s", "fmuTmpXXXXXX");
-  //char *tmp = mkdtemp(strdup("fmuTmpXXXXXX"));
-  char *tmp = mkdtemp(template);
-  if (tmp==NULL) {
-    fprintf(stderr, "Couldn't create temporary directory\n");
-    exit(1);
+static char    *
+getTmpPath ()
+{
+  char            template[13]; /* Lenght of "fmuTmpXXXXXX" + null */
+  sprintf (template, "%s", "fmuTmpXXXXXX");
+  char           *tmp = mkdtemp (template);
+  if (tmp == NULL) {
+    fprintf (stderr, "Couldn't create temporary directory\n");
+    exit (1);
   }
-  char * results = calloc(sizeof(char), strlen(tmp) + 2);
-  strncat(results, tmp, strlen(tmp));
-  return strcat(results, "/");
-}*/
+  char           *results = calloc (sizeof (char), strlen (tmp) + 2);
+  strncat (results, tmp, strlen (tmp));
+  return strcat (results, "/");
+}
 
-static void printModelDescription(ModelDescription* md){
-    Element* e = (Element*)md;
-    int i;
-    int n; // number of attributes
-    const char **attributes = getAttributesAsArray(e, &n);
-    Component *component;
+static void
+printModelDescription (ModelDescription * md)
+{
+  Element        *e = (Element *) md;
+  int             i;
+  int             n;            /* number of attributes */
+  const char    **attributes = getAttributesAsArray (e, &n);
+  Component      *component;
 
-    if (!attributes) {
-        printf("ModelDescription printing aborted.");
-        return;
-    }
-    printf("%s\n", getElementTypeName(e));
-    for (i = 0; i < n; i += 2) {
-        printf("  %s=%s\n", attributes[i], attributes[i+1]);
-    }
-    free((void *)attributes);
+  if (!attributes) {
+    printf ("ModelDescription printing aborted.");
+    return;
+  }
+  printf ("%s\n", getElementTypeName (e));
+  for (i = 0; i < n; i += 2) {
+    printf ("  %s=%s\n", attributes[i], attributes[i + 1]);
+  }
+  free ((void *)attributes);
 
 #ifdef FMI_COSIMULATION
-    component = getCoSimulation(md);
-    if (!component) {
-        printf("error: No CoSimulation element found in model description. This FMU is not for Co-Simulation.\n");
-        exit(EXIT_FAILURE);
-    }
-#else // FMI_MODEL_EXCHANGE
-    component = getModelExchange(md);
-    if (!component) {
-        printf("error: No ModelExchange element found in model description. This FMU is not for Model Exchange.\n");
-        exit(EXIT_FAILURE);
-    }
+  component = getCoSimulation (md);
+  if (!component) {
+    printf ("error: No CoSimulation element found in model description. This FMU is not for Co-Simulation.\n");
+    exit (EXIT_FAILURE);
+  }
+#else                           /* FMI_MODEL_EXCHANGE */
+  component = getModelExchange (md);
+  if (!component) {
+    printf ("error: No ModelExchange element found in model description. This FMU is not for Model Exchange.\n");
+    exit (EXIT_FAILURE);
+  }
 #endif
-    printf("%s\n", getElementTypeName((Element *)component));
-    attributes = getAttributesAsArray((Element *)component, &n);
-    if (!attributes) {
-        printf("ModelDescription printing aborted.");
-        return;
-    }
-    for (i = 0; i < n; i += 2) {
-        printf("  %s=%s\n", attributes[i], attributes[i+1]);
-    }
+  printf ("%s\n", getElementTypeName ((Element *) component));
+  attributes = getAttributesAsArray ((Element *) component, &n);
+  if (!attributes) {
+    printf ("ModelDescription printing aborted.");
+    return;
+  }
+  for (i = 0; i < n; i += 2) {
+    printf ("  %s=%s\n", attributes[i], attributes[i + 1]);
+  }
 
-    printf("\n\n");
-    free((void *)attributes);
+  printf ("\n\n");
+  free ((void *)attributes);
 }
 
-static void *getAdr(int *success, HMODULE dllHandle, const char *functionName) {
-    void* fp;
+static void    *
+getAdr (int *success, HMODULE dllHandle, const char *functionName)
+{
+  void           *fp;
 #ifdef _MSC_VER
-    fp = GetProcAddress(dllHandle, functionName);
+  fp = GetProcAddress (dllHandle, functionName);
 #else
-    fp = dlsym(dllHandle, functionName);
+  fp = dlsym (dllHandle, functionName);
 #endif
-    if (!fp) {
+  if (!fp) {
 #ifdef _MSC_VER
 #else
-        printf ("Error was: %s\n", dlerror());
+    printf ("Error was: %s\n", dlerror ());
 #endif
-        printf("warning: Function %s not found in dll\n", functionName);
-        *success = 0;
-    }
-    return fp;
+    printf ("warning: Function %s not found in dll\n", functionName);
+    *success = 0;
+  }
+  return fp;
 }
 
-// Load the given dll and set function pointers in fmu
-// Return 0 to indicate failure
-static int loadDll(const char* dllPath, FMU *fmu) {
-    int s = 1;
+/* Load the given dll and set function pointers in fmu */
+/* Return 0 to indicate failure */
+static int
+loadDll (const char *dllPath, FMU * fmu)
+{
+  int             s = 1;
 #ifdef _MSC_VER
-    HMODULE h = LoadLibrary(dllPath);
+  HMODULE         h = LoadLibrary (dllPath);
 #else
-    printf("dllPath = %s\n", dllPath);
-    HMODULE h = dlopen(dllPath, RTLD_LAZY);
+  printf ("dllPath = %s\n", dllPath);
+  HMODULE         h = dlopen (dllPath, RTLD_LAZY);
 #endif
 
-    if (!h) {
+  if (!h) {
 #ifdef _MSC_VER
 #else
-        printf("The error was: %s\n", dlerror());
+    printf ("The error was: %s\n", dlerror ());
 #endif
-        printf("error: Could not load %s\n", dllPath);
-        return 0; // failure
-    }
-    fmu->dllHandle = h;
-    fmu->getTypesPlatform          = (fmi2GetTypesPlatformTYPE *)      getAdr(&s, h, "fmi2GetTypesPlatform");
-    fmu->getVersion                = (fmi2GetVersionTYPE *)            getAdr(&s, h, "fmi2GetVersion");
-    fmu->setDebugLogging           = (fmi2SetDebugLoggingTYPE *)       getAdr(&s, h, "fmi2SetDebugLogging");
-    fmu->instantiate               = (fmi2InstantiateTYPE *)           getAdr(&s, h, "fmi2Instantiate");
-    fmu->freeInstance              = (fmi2FreeInstanceTYPE *)          getAdr(&s, h, "fmi2FreeInstance");
-    fmu->setupExperiment           = (fmi2SetupExperimentTYPE *)       getAdr(&s, h, "fmi2SetupExperiment");
-    fmu->enterInitializationMode   = (fmi2EnterInitializationModeTYPE *) getAdr(&s, h, "fmi2EnterInitializationMode");
-    fmu->exitInitializationMode    = (fmi2ExitInitializationModeTYPE *) getAdr(&s, h, "fmi2ExitInitializationMode");
-    fmu->terminate                 = (fmi2TerminateTYPE *)             getAdr(&s, h, "fmi2Terminate");
-    fmu->reset                     = (fmi2ResetTYPE *)                 getAdr(&s, h, "fmi2Reset");
-    fmu->getReal                   = (fmi2GetRealTYPE *)               getAdr(&s, h, "fmi2GetReal");
-    fmu->getInteger                = (fmi2GetIntegerTYPE *)            getAdr(&s, h, "fmi2GetInteger");
-    fmu->getBoolean                = (fmi2GetBooleanTYPE *)            getAdr(&s, h, "fmi2GetBoolean");
-    fmu->getString                 = (fmi2GetStringTYPE *)             getAdr(&s, h, "fmi2GetString");
-    fmu->setReal                   = (fmi2SetRealTYPE *)               getAdr(&s, h, "fmi2SetReal");
-    fmu->setInteger                = (fmi2SetIntegerTYPE *)            getAdr(&s, h, "fmi2SetInteger");
-    fmu->setBoolean                = (fmi2SetBooleanTYPE *)            getAdr(&s, h, "fmi2SetBoolean");
-    fmu->setString                 = (fmi2SetStringTYPE *)             getAdr(&s, h, "fmi2SetString");
-    fmu->getFMUstate               = (fmi2GetFMUstateTYPE *)           getAdr(&s, h, "fmi2GetFMUstate");
-    fmu->setFMUstate               = (fmi2SetFMUstateTYPE *)           getAdr(&s, h, "fmi2SetFMUstate");
-    fmu->freeFMUstate              = (fmi2FreeFMUstateTYPE *)          getAdr(&s, h, "fmi2FreeFMUstate");
-    fmu->serializedFMUstateSize    = (fmi2SerializedFMUstateSizeTYPE *) getAdr(&s, h, "fmi2SerializedFMUstateSize");
-    fmu->serializeFMUstate         = (fmi2SerializeFMUstateTYPE *)     getAdr(&s, h, "fmi2SerializeFMUstate");
-    fmu->deSerializeFMUstate       = (fmi2DeSerializeFMUstateTYPE *)   getAdr(&s, h, "fmi2DeSerializeFMUstate");
-    fmu->getDirectionalDerivative  = (fmi2GetDirectionalDerivativeTYPE *) getAdr(&s, h, "fmi2GetDirectionalDerivative");
+    printf ("error: Could not load %s\n", dllPath);
+    return 0;                   /* failure */
+  }
+  fmu->dllHandle = h;
+  fmu->getTypesPlatform = (fmi2GetTypesPlatformTYPE *) getAdr (&s, h, "fmi2GetTypesPlatform");
+  fmu->getVersion = (fmi2GetVersionTYPE *) getAdr (&s, h, "fmi2GetVersion");
+  fmu->setDebugLogging = (fmi2SetDebugLoggingTYPE *) getAdr (&s, h, "fmi2SetDebugLogging");
+  fmu->instantiate = (fmi2InstantiateTYPE *) getAdr (&s, h, "fmi2Instantiate");
+  fmu->freeInstance = (fmi2FreeInstanceTYPE *) getAdr (&s, h, "fmi2FreeInstance");
+  fmu->setupExperiment = (fmi2SetupExperimentTYPE *) getAdr (&s, h, "fmi2SetupExperiment");
+  fmu->enterInitializationMode = (fmi2EnterInitializationModeTYPE *) getAdr (&s, h, "fmi2EnterInitializationMode");
+  fmu->exitInitializationMode = (fmi2ExitInitializationModeTYPE *) getAdr (&s, h, "fmi2ExitInitializationMode");
+  fmu->terminate = (fmi2TerminateTYPE *) getAdr (&s, h, "fmi2Terminate");
+  fmu->reset = (fmi2ResetTYPE *) getAdr (&s, h, "fmi2Reset");
+  fmu->getReal = (fmi2GetRealTYPE *) getAdr (&s, h, "fmi2GetReal");
+  fmu->getInteger = (fmi2GetIntegerTYPE *) getAdr (&s, h, "fmi2GetInteger");
+  fmu->getBoolean = (fmi2GetBooleanTYPE *) getAdr (&s, h, "fmi2GetBoolean");
+  fmu->getString = (fmi2GetStringTYPE *) getAdr (&s, h, "fmi2GetString");
+  fmu->setReal = (fmi2SetRealTYPE *) getAdr (&s, h, "fmi2SetReal");
+  fmu->setInteger = (fmi2SetIntegerTYPE *) getAdr (&s, h, "fmi2SetInteger");
+  fmu->setBoolean = (fmi2SetBooleanTYPE *) getAdr (&s, h, "fmi2SetBoolean");
+  fmu->setString = (fmi2SetStringTYPE *) getAdr (&s, h, "fmi2SetString");
+  fmu->getFMUstate = (fmi2GetFMUstateTYPE *) getAdr (&s, h, "fmi2GetFMUstate");
+  fmu->setFMUstate = (fmi2SetFMUstateTYPE *) getAdr (&s, h, "fmi2SetFMUstate");
+  fmu->freeFMUstate = (fmi2FreeFMUstateTYPE *) getAdr (&s, h, "fmi2FreeFMUstate");
+  fmu->serializedFMUstateSize = (fmi2SerializedFMUstateSizeTYPE *) getAdr (&s, h, "fmi2SerializedFMUstateSize");
+  fmu->serializeFMUstate = (fmi2SerializeFMUstateTYPE *) getAdr (&s, h, "fmi2SerializeFMUstate");
+  fmu->deSerializeFMUstate = (fmi2DeSerializeFMUstateTYPE *) getAdr (&s, h, "fmi2DeSerializeFMUstate");
+  fmu->getDirectionalDerivative = (fmi2GetDirectionalDerivativeTYPE *) getAdr (&s, h, "fmi2GetDirectionalDerivative");
 #ifdef FMI_COSIMULATION
-    fmu->setRealInputDerivatives   = (fmi2SetRealInputDerivativesTYPE *) getAdr(&s, h, "fmi2SetRealInputDerivatives");
-    fmu->getRealOutputDerivatives  = (fmi2GetRealOutputDerivativesTYPE *) getAdr(&s, h, "fmi2GetRealOutputDerivatives");
-    fmu->doStep                    = (fmi2DoStepTYPE *)                getAdr(&s, h, "fmi2DoStep");
-    fmu->cancelStep                = (fmi2CancelStepTYPE *)            getAdr(&s, h, "fmi2CancelStep");
-    fmu->getStatus                 = (fmi2GetStatusTYPE *)             getAdr(&s, h, "fmi2GetStatus");
-    fmu->getRealStatus             = (fmi2GetRealStatusTYPE *)         getAdr(&s, h, "fmi2GetRealStatus");
-    fmu->getIntegerStatus          = (fmi2GetIntegerStatusTYPE *)      getAdr(&s, h, "fmi2GetIntegerStatus");
-    fmu->getBooleanStatus          = (fmi2GetBooleanStatusTYPE *)      getAdr(&s, h, "fmi2GetBooleanStatus");
-    fmu->getStringStatus           = (fmi2GetStringStatusTYPE *)       getAdr(&s, h, "fmi2GetStringStatus");
-#else // FMI2 for Model Exchange
-    fmu->enterEventMode            = (fmi2EnterEventModeTYPE *)        getAdr(&s, h, "fmi2EnterEventMode");
-    fmu->newDiscreteStates         = (fmi2NewDiscreteStatesTYPE *)     getAdr(&s, h, "fmi2NewDiscreteStates");
-    fmu->enterContinuousTimeMode   = (fmi2EnterContinuousTimeModeTYPE *) getAdr(&s, h, "fmi2EnterContinuousTimeMode");
-    fmu->completedIntegratorStep   = (fmi2CompletedIntegratorStepTYPE *) getAdr(&s, h, "fmi2CompletedIntegratorStep");
-    fmu->setTime                   = (fmi2SetTimeTYPE *)               getAdr(&s, h, "fmi2SetTime");
-    fmu->setContinuousStates       = (fmi2SetContinuousStatesTYPE *)   getAdr(&s, h, "fmi2SetContinuousStates");
-    fmu->getDerivatives            = (fmi2GetDerivativesTYPE *)        getAdr(&s, h, "fmi2GetDerivatives");
-    fmu->getEventIndicators        = (fmi2GetEventIndicatorsTYPE *)    getAdr(&s, h, "fmi2GetEventIndicators");
-    fmu->getContinuousStates       = (fmi2GetContinuousStatesTYPE *)   getAdr(&s, h, "fmi2GetContinuousStates");
-    fmu->getNominalsOfContinuousStates = (fmi2GetNominalsOfContinuousStatesTYPE *) getAdr(&s, h, "fmi2GetNominalsOfContinuousStates");
+  fmu->setRealInputDerivatives = (fmi2SetRealInputDerivativesTYPE *) getAdr (&s, h, "fmi2SetRealInputDerivatives");
+  fmu->getRealOutputDerivatives = (fmi2GetRealOutputDerivativesTYPE *) getAdr (&s, h, "fmi2GetRealOutputDerivatives");
+  fmu->doStep = (fmi2DoStepTYPE *) getAdr (&s, h, "fmi2DoStep");
+  fmu->cancelStep = (fmi2CancelStepTYPE *) getAdr (&s, h, "fmi2CancelStep");
+  fmu->getStatus = (fmi2GetStatusTYPE *) getAdr (&s, h, "fmi2GetStatus");
+  fmu->getRealStatus = (fmi2GetRealStatusTYPE *) getAdr (&s, h, "fmi2GetRealStatus");
+  fmu->getIntegerStatus = (fmi2GetIntegerStatusTYPE *) getAdr (&s, h, "fmi2GetIntegerStatus");
+  fmu->getBooleanStatus = (fmi2GetBooleanStatusTYPE *) getAdr (&s, h, "fmi2GetBooleanStatus");
+  fmu->getStringStatus = (fmi2GetStringStatusTYPE *) getAdr (&s, h, "fmi2GetStringStatus");
+#else                           /* FMI2 for Model Exchange */
+  fmu->enterEventMode = (fmi2EnterEventModeTYPE *) getAdr (&s, h, "fmi2EnterEventMode");
+  fmu->newDiscreteStates = (fmi2NewDiscreteStatesTYPE *) getAdr (&s, h, "fmi2NewDiscreteStates");
+  fmu->enterContinuousTimeMode = (fmi2EnterContinuousTimeModeTYPE *) getAdr (&s, h, "fmi2EnterContinuousTimeMode");
+  fmu->completedIntegratorStep = (fmi2CompletedIntegratorStepTYPE *) getAdr (&s, h, "fmi2CompletedIntegratorStep");
+  fmu->setTime = (fmi2SetTimeTYPE *) getAdr (&s, h, "fmi2SetTime");
+  fmu->setContinuousStates = (fmi2SetContinuousStatesTYPE *) getAdr (&s, h, "fmi2SetContinuousStates");
+  fmu->getDerivatives = (fmi2GetDerivativesTYPE *) getAdr (&s, h, "fmi2GetDerivatives");
+  fmu->getEventIndicators = (fmi2GetEventIndicatorsTYPE *) getAdr (&s, h, "fmi2GetEventIndicators");
+  fmu->getContinuousStates = (fmi2GetContinuousStatesTYPE *) getAdr (&s, h, "fmi2GetContinuousStates");
+  fmu->getNominalsOfContinuousStates = (fmi2GetNominalsOfContinuousStatesTYPE *) getAdr (&s, h, "fmi2GetNominalsOfContinuousStates");
 #endif
 
-    if (fmu->getVersion == NULL && fmu->instantiate == NULL) {
-        printf("warning: Functions from FMI 2.0 could not be found in %s\n", dllPath);
-        printf("warning: Simulator will look for FMI 2.0 RC1 functions names...\n");
-        fmu->getTypesPlatform          = (fmi2GetTypesPlatformTYPE *)      getAdr(&s, h, "fmiGetTypesPlatform");
-        fmu->getVersion                = (fmi2GetVersionTYPE *)            getAdr(&s, h, "fmiGetVersion");
-        fmu->setDebugLogging           = (fmi2SetDebugLoggingTYPE *)       getAdr(&s, h, "fmiSetDebugLogging");
-        fmu->instantiate               = (fmi2InstantiateTYPE *)           getAdr(&s, h, "fmiInstantiate");
-        fmu->freeInstance              = (fmi2FreeInstanceTYPE *)          getAdr(&s, h, "fmiFreeInstance");
-        fmu->setupExperiment           = (fmi2SetupExperimentTYPE *)       getAdr(&s, h, "fmiSetupExperiment");
-        fmu->enterInitializationMode   = (fmi2EnterInitializationModeTYPE *) getAdr(&s, h, "fmiEnterInitializationMode");
-        fmu->exitInitializationMode    = (fmi2ExitInitializationModeTYPE *) getAdr(&s, h, "fmiExitInitializationMode");
-        fmu->terminate                 = (fmi2TerminateTYPE *)             getAdr(&s, h, "fmiTerminate");
-        fmu->reset                     = (fmi2ResetTYPE *)                 getAdr(&s, h, "fmiReset");
-        fmu->getReal                   = (fmi2GetRealTYPE *)               getAdr(&s, h, "fmiGetReal");
-        fmu->getInteger                = (fmi2GetIntegerTYPE *)            getAdr(&s, h, "fmiGetInteger");
-        fmu->getBoolean                = (fmi2GetBooleanTYPE *)            getAdr(&s, h, "fmiGetBoolean");
-        fmu->getString                 = (fmi2GetStringTYPE *)             getAdr(&s, h, "fmiGetString");
-        fmu->setReal                   = (fmi2SetRealTYPE *)               getAdr(&s, h, "fmiSetReal");
-        fmu->setInteger                = (fmi2SetIntegerTYPE *)            getAdr(&s, h, "fmiSetInteger");
-        fmu->setBoolean                = (fmi2SetBooleanTYPE *)            getAdr(&s, h, "fmiSetBoolean");
-        fmu->setString                 = (fmi2SetStringTYPE *)             getAdr(&s, h, "fmiSetString");
-        fmu->getFMUstate               = (fmi2GetFMUstateTYPE *)           getAdr(&s, h, "fmiGetFMUstate");
-        fmu->setFMUstate               = (fmi2SetFMUstateTYPE *)           getAdr(&s, h, "fmiSetFMUstate");
-        fmu->freeFMUstate              = (fmi2FreeFMUstateTYPE *)          getAdr(&s, h, "fmiFreeFMUstate");
-        fmu->serializedFMUstateSize    = (fmi2SerializedFMUstateSizeTYPE *) getAdr(&s, h, "fmiSerializedFMUstateSize");
-        fmu->serializeFMUstate         = (fmi2SerializeFMUstateTYPE *)     getAdr(&s, h, "fmiSerializeFMUstate");
-        fmu->deSerializeFMUstate       = (fmi2DeSerializeFMUstateTYPE *)   getAdr(&s, h, "fmiDeSerializeFMUstate");
-        fmu->getDirectionalDerivative  = (fmi2GetDirectionalDerivativeTYPE *) getAdr(&s, h, "fmiGetDirectionalDerivative");
-    #ifdef FMI_COSIMULATION
-        fmu->setRealInputDerivatives   = (fmi2SetRealInputDerivativesTYPE *) getAdr(&s, h, "fmiSetRealInputDerivatives");
-        fmu->getRealOutputDerivatives  = (fmi2GetRealOutputDerivativesTYPE *) getAdr(&s, h, "fmiGetRealOutputDerivatives");
-        fmu->doStep                    = (fmi2DoStepTYPE *)                getAdr(&s, h, "fmiDoStep");
-        fmu->cancelStep                = (fmi2CancelStepTYPE *)            getAdr(&s, h, "fmiCancelStep");
-        fmu->getStatus                 = (fmi2GetStatusTYPE *)             getAdr(&s, h, "fmiGetStatus");
-        fmu->getRealStatus             = (fmi2GetRealStatusTYPE *)         getAdr(&s, h, "fmiGetRealStatus");
-        fmu->getIntegerStatus          = (fmi2GetIntegerStatusTYPE *)      getAdr(&s, h, "fmiGetIntegerStatus");
-        fmu->getBooleanStatus          = (fmi2GetBooleanStatusTYPE *)      getAdr(&s, h, "fmiGetBooleanStatus");
-        fmu->getStringStatus           = (fmi2GetStringStatusTYPE *)       getAdr(&s, h, "fmiGetStringStatus");
-    #else // FMI2 for Model Exchange
-        fmu->enterEventMode            = (fmi2EnterEventModeTYPE *)        getAdr(&s, h, "fmiEnterEventMode");
-        fmu->newDiscreteStates         = (fmi2NewDiscreteStatesTYPE *)     getAdr(&s, h, "fmiNewDiscreteStates");
-        fmu->enterContinuousTimeMode   = (fmi2EnterContinuousTimeModeTYPE *) getAdr(&s, h, "fmiEnterContinuousTimeMode");
-        fmu->completedIntegratorStep   = (fmi2CompletedIntegratorStepTYPE *) getAdr(&s, h, "fmiCompletedIntegratorStep");
-        fmu->setTime                   = (fmi2SetTimeTYPE *)               getAdr(&s, h, "fmiSetTime");
-        fmu->setContinuousStates       = (fmi2SetContinuousStatesTYPE *)   getAdr(&s, h, "fmiSetContinuousStates");
-        fmu->getDerivatives            = (fmi2GetDerivativesTYPE *)        getAdr(&s, h, "fmiGetDerivatives");
-        fmu->getEventIndicators        = (fmi2GetEventIndicatorsTYPE *)    getAdr(&s, h, "fmiGetEventIndicators");
-        fmu->getContinuousStates       = (fmi2GetContinuousStatesTYPE *)   getAdr(&s, h, "fmiGetContinuousStates");
-        fmu->getNominalsOfContinuousStates = (fmi2GetNominalsOfContinuousStatesTYPE *) getAdr(&s, h, "fmiGetNominalsOfContinuousStates");
-    #endif
-    }
-    return s;
+  if (fmu->getVersion == NULL && fmu->instantiate == NULL) {
+    printf ("warning: Functions from FMI 2.0 could not be found in %s\n", dllPath);
+    printf ("warning: Simulator will look for FMI 2.0 RC1 functions names...\n");
+    fmu->getTypesPlatform = (fmi2GetTypesPlatformTYPE *) getAdr (&s, h, "fmiGetTypesPlatform");
+    fmu->getVersion = (fmi2GetVersionTYPE *) getAdr (&s, h, "fmiGetVersion");
+    fmu->setDebugLogging = (fmi2SetDebugLoggingTYPE *) getAdr (&s, h, "fmiSetDebugLogging");
+    fmu->instantiate = (fmi2InstantiateTYPE *) getAdr (&s, h, "fmiInstantiate");
+    fmu->freeInstance = (fmi2FreeInstanceTYPE *) getAdr (&s, h, "fmiFreeInstance");
+    fmu->setupExperiment = (fmi2SetupExperimentTYPE *) getAdr (&s, h, "fmiSetupExperiment");
+    fmu->enterInitializationMode = (fmi2EnterInitializationModeTYPE *) getAdr (&s, h, "fmiEnterInitializationMode");
+    fmu->exitInitializationMode = (fmi2ExitInitializationModeTYPE *) getAdr (&s, h, "fmiExitInitializationMode");
+    fmu->terminate = (fmi2TerminateTYPE *) getAdr (&s, h, "fmiTerminate");
+    fmu->reset = (fmi2ResetTYPE *) getAdr (&s, h, "fmiReset");
+    fmu->getReal = (fmi2GetRealTYPE *) getAdr (&s, h, "fmiGetReal");
+    fmu->getInteger = (fmi2GetIntegerTYPE *) getAdr (&s, h, "fmiGetInteger");
+    fmu->getBoolean = (fmi2GetBooleanTYPE *) getAdr (&s, h, "fmiGetBoolean");
+    fmu->getString = (fmi2GetStringTYPE *) getAdr (&s, h, "fmiGetString");
+    fmu->setReal = (fmi2SetRealTYPE *) getAdr (&s, h, "fmiSetReal");
+    fmu->setInteger = (fmi2SetIntegerTYPE *) getAdr (&s, h, "fmiSetInteger");
+    fmu->setBoolean = (fmi2SetBooleanTYPE *) getAdr (&s, h, "fmiSetBoolean");
+    fmu->setString = (fmi2SetStringTYPE *) getAdr (&s, h, "fmiSetString");
+    fmu->getFMUstate = (fmi2GetFMUstateTYPE *) getAdr (&s, h, "fmiGetFMUstate");
+    fmu->setFMUstate = (fmi2SetFMUstateTYPE *) getAdr (&s, h, "fmiSetFMUstate");
+    fmu->freeFMUstate = (fmi2FreeFMUstateTYPE *) getAdr (&s, h, "fmiFreeFMUstate");
+    fmu->serializedFMUstateSize = (fmi2SerializedFMUstateSizeTYPE *) getAdr (&s, h, "fmiSerializedFMUstateSize");
+    fmu->serializeFMUstate = (fmi2SerializeFMUstateTYPE *) getAdr (&s, h, "fmiSerializeFMUstate");
+    fmu->deSerializeFMUstate = (fmi2DeSerializeFMUstateTYPE *) getAdr (&s, h, "fmiDeSerializeFMUstate");
+    fmu->getDirectionalDerivative = (fmi2GetDirectionalDerivativeTYPE *) getAdr (&s, h, "fmiGetDirectionalDerivative");
+#ifdef FMI_COSIMULATION
+    fmu->setRealInputDerivatives = (fmi2SetRealInputDerivativesTYPE *) getAdr (&s, h, "fmiSetRealInputDerivatives");
+    fmu->getRealOutputDerivatives = (fmi2GetRealOutputDerivativesTYPE *) getAdr (&s, h, "fmiGetRealOutputDerivatives");
+    fmu->doStep = (fmi2DoStepTYPE *) getAdr (&s, h, "fmiDoStep");
+    fmu->cancelStep = (fmi2CancelStepTYPE *) getAdr (&s, h, "fmiCancelStep");
+    fmu->getStatus = (fmi2GetStatusTYPE *) getAdr (&s, h, "fmiGetStatus");
+    fmu->getRealStatus = (fmi2GetRealStatusTYPE *) getAdr (&s, h, "fmiGetRealStatus");
+    fmu->getIntegerStatus = (fmi2GetIntegerStatusTYPE *) getAdr (&s, h, "fmiGetIntegerStatus");
+    fmu->getBooleanStatus = (fmi2GetBooleanStatusTYPE *) getAdr (&s, h, "fmiGetBooleanStatus");
+    fmu->getStringStatus = (fmi2GetStringStatusTYPE *) getAdr (&s, h, "fmiGetStringStatus");
+#else                           /* FMI2 for Model Exchange */
+    fmu->enterEventMode = (fmi2EnterEventModeTYPE *) getAdr (&s, h, "fmiEnterEventMode");
+    fmu->newDiscreteStates = (fmi2NewDiscreteStatesTYPE *) getAdr (&s, h, "fmiNewDiscreteStates");
+    fmu->enterContinuousTimeMode = (fmi2EnterContinuousTimeModeTYPE *) getAdr (&s, h, "fmiEnterContinuousTimeMode");
+    fmu->completedIntegratorStep = (fmi2CompletedIntegratorStepTYPE *) getAdr (&s, h, "fmiCompletedIntegratorStep");
+    fmu->setTime = (fmi2SetTimeTYPE *) getAdr (&s, h, "fmiSetTime");
+    fmu->setContinuousStates = (fmi2SetContinuousStatesTYPE *) getAdr (&s, h, "fmiSetContinuousStates");
+    fmu->getDerivatives = (fmi2GetDerivativesTYPE *) getAdr (&s, h, "fmiGetDerivatives");
+    fmu->getEventIndicators = (fmi2GetEventIndicatorsTYPE *) getAdr (&s, h, "fmiGetEventIndicators");
+    fmu->getContinuousStates = (fmi2GetContinuousStatesTYPE *) getAdr (&s, h, "fmiGetContinuousStates");
+    fmu->getNominalsOfContinuousStates = (fmi2GetNominalsOfContinuousStatesTYPE *) getAdr (&s, h, "fmiGetNominalsOfContinuousStates");
+#endif
+  }
+  return s;
 }
 
-char dummyPath[] = "foo/"; //Dummy
+char            dummyPath[] = "foo/";
 
-int fmuImport(const char* fmuFileName) {
-    char* fmuPath;
-    char* tmpPath;
-    char* xmlPath;
-    char* dllPath;
-    const char *modelId;
+int
+fmuImport (const char *fmuFileName)
+{
+  char           *fmuPath;
+  char           *tmpPath;
+  char           *xmlPath;
+  char           *dllPath;
+  const char     *modelId;
 
-    printf("Loading FMU %s. \n\n", fmuFileName);
+  printf ("Loading FMU %s. \n\n", fmuFileName);
 
-    fmuPath = getFmuPath(fmuFileName);
-    if (!fmuPath) exit(EXIT_FAILURE);
+  fmuPath = getFmuPath (fmuFileName);
+  if (!fmuPath)
+    exit (EXIT_FAILURE);
 
-    //tmpPath = getTmpPath();
-    tmpPath = dummyPath;
+  /* tmpPath = getTmpPath(); */
+  tmpPath = dummyPath;
 
-    printf("Unzip the %s file.\n\n", fmuFileName);
-    if (!unzip(fmuPath, tmpPath)) exit(EXIT_FAILURE);
+  printf ("Unzip the %s file.\n\n", fmuFileName);
+  if (!unzip (fmuPath, tmpPath))
+    exit (EXIT_FAILURE);
 
-    printf("Parse modeldescription.xml file.\n\n");
-    xmlPath = calloc(sizeof(char), strlen(tmpPath) + strlen(XML_FILE) + 1);
-    sprintf(xmlPath, "%s%s", tmpPath, XML_FILE);
-    fmu.modelDescription = parse(xmlPath);
-    free(xmlPath);
+  printf ("Parse modeldescription.xml file.\n\n");
+  xmlPath = calloc (sizeof (char), strlen (tmpPath) + strlen (XML_FILE) + 1);
+  sprintf (xmlPath, "%s%s", tmpPath, XML_FILE);
+  fmu.modelDescription = parse (xmlPath);
+  free (xmlPath);
 
-    printModelDescription(fmu.modelDescription);
-    modelId = getAttributeValue((Element *)getCoSimulation(fmu.modelDescription), att_modelIdentifier);
-    dllPath = calloc(sizeof(char), strlen(tmpPath) + strlen(DLL_DIR)
-            + strlen(modelId) +  strlen(DLL_SUFFIX) + 1);
-    sprintf(dllPath,"%s%s%s%s", tmpPath, DLL_DIR, modelId, DLL_SUFFIX);
+  printModelDescription (fmu.modelDescription);
+  modelId = getAttributeValue ((Element *) getCoSimulation (fmu.modelDescription), att_modelIdentifier);
+  dllPath = calloc (sizeof (char), strlen (tmpPath) + strlen (DLL_DIR)
+                    + strlen (modelId) + strlen (DLL_SUFFIX) + 1);
+  sprintf (dllPath, "%s%s%s%s", tmpPath, DLL_DIR, modelId, DLL_SUFFIX);
 
-    printf("Load DLL file.\n\n");
-    if (!loadDll(dllPath, &fmu)) {
-        free(dllPath);
-        // try the alternative directory and suffix
-        dllPath = calloc(sizeof(char), strlen(tmpPath) + strlen(DLL_DIR2)
-                + strlen(modelId) +  strlen(DLL_SUFFIX2) + 1);
-        sprintf(dllPath,"%s%s%s%s", tmpPath, DLL_DIR2, modelId, DLL_SUFFIX2);
-        if (!loadDll(dllPath, &fmu)) exit(EXIT_FAILURE);
-    }
+  printf ("Load DLL file.\n\n");
+  if (!loadDll (dllPath, &fmu)) {
+    free (dllPath);
+    /* try the alternative directory and suffix */
+    dllPath = calloc (sizeof (char), strlen (tmpPath) + strlen (DLL_DIR2)
+                      + strlen (modelId) + strlen (DLL_SUFFIX2) + 1);
+    sprintf (dllPath, "%s%s%s%s", tmpPath, DLL_DIR2, modelId, DLL_SUFFIX2);
+    if (!loadDll (dllPath, &fmu))
+      exit (EXIT_FAILURE);
+  }
+  free (dllPath);
+  free (fmuPath);
 
-    free(dllPath);
-    free(fmuPath);
+  printf ("FMU %s Loaded.\n\n", fmuFileName);
 
-    printf("FMU %s Loaded.\n\n", fmuFileName);
-
-    return 1; //Success
+  return 1;                     /* Success */
 }
 
 
 typedef struct {
-    fmi2Real output_altitute;
-    fmi2Real output_velocity;
-}MoonLandingOuputs;
+  fmi2Real        output_altitute;
+  fmi2Real        output_velocity;
+}               MoonLandingOuputs;
 
 typedef struct {
-     FMU* fmu;
-     fmi2Component component;
-     fmi2Real currentCommunicationPoint;
-     fmi2Real communicationStepSize;
-     fmi2Boolean noSetFMUStatePriorToCurrentPoint;
-} FMUtoSimulate;
+  FMU            *fmu;
+  fmi2Component   component;
+  fmi2Real        currentCommunicationPoint;
+  fmi2Real        communicationStepSize;
+  fmi2Boolean     noSetFMUStatePriorToCurrentPoint;
+}               FMUtoSimulate;
 
-int doStep(FMU* fmu, fmi2Component c, fmi2Real currentCommunicationPoint,
-                    fmi2Real communicationStepSize, fmi2Boolean noSetFMUStatePriorToCurrentPoint);
+int
+doStep (FMU * fmu, fmi2Component c, fmi2Real currentCommunicationPoint,
+fmi2Real communicationStepSize, fmi2Boolean noSetFMUStatePriorToCurrentPoint);
 
-int doStepMoonLanding(FMU* fmu, fmi2Component c, fmi2Real currentCommunicationPoint,
-                    fmi2Real communicationStepSize, fmi2Boolean noSetFMUStatePriorToCurrentPoint, fmi2Real inputThrust, MoonLandingOuputs* moonLandingOuputs);
+int
+doStepMoonLanding (FMU * fmu, fmi2Component c, fmi2Real currentCommunicationPoint,
+                   fmi2Real communicationStepSize, fmi2Boolean noSetFMUStatePriorToCurrentPoint, fmi2Real inputThrust, MoonLandingOuputs * moonLandingOuputs);
 
-int doStep(FMU* fmu, fmi2Component c, fmi2Real currentCommunicationPoint,
-                    fmi2Real communicationStepSize, fmi2Boolean noSetFMUStatePriorToCurrentPoint) {
+int
+doStep (FMU * fmu, fmi2Component c, fmi2Real currentCommunicationPoint,
+ fmi2Real communicationStepSize, fmi2Boolean noSetFMUStatePriorToCurrentPoint)
+{
 
-   fmi2Status fmi2Flag;
+  fmi2Status      fmi2Flag;
 
-   fmi2Flag = fmu->doStep(c, currentCommunicationPoint, communicationStepSize, noSetFMUStatePriorToCurrentPoint);
-    if (fmi2Flag == fmi2Discard) {
-    	fmi2Boolean b;
-        // Check if model requests to end simulation
-        if (fmi2OK != fmu->getBooleanStatus(c, fmi2Terminated, &b)) {
-        	return error("Could not complete simulation of the model. getBooleanStatus return other than fmi2OK.\n\n");
-        }
-        if (b == fmi2True) {
-                return error("The model requested to end the simulation.\n\n");
-        }
-
-        return error("Could not complete simulation of the model.\n\n");
+  fmi2Flag = fmu->doStep (c, currentCommunicationPoint, communicationStepSize, noSetFMUStatePriorToCurrentPoint);
+  if (fmi2Flag == fmi2Discard) {
+    fmi2Boolean     b;
+    /* Check if model requests to end simulation */
+    if (fmi2OK != fmu->getBooleanStatus (c, fmi2Terminated, &b)) {
+      return error ("Could not complete simulation of the model. getBooleanStatus return other than fmi2OK.\n\n");
     }
+    if (b == fmi2True) {
+      return error ("The model requested to end the simulation.\n\n");
+    }
+    return error ("Could not complete simulation of the model.\n\n");
+  }
+  /*
+   * if (fmi2Flag != fmi2OK) return error("Could not complete simulation of the
+   * model.\n\n");
+   */
 
-    //if (fmi2Flag != fmi2OK) return error("Could not complete simulation of the model.\n\n");
+  printf ("Do one step. %d\n\n", fmi2Flag);
 
-    printf("Do one step. %d\n\n", fmi2Flag);
-
-    return 1; //Success
+  return 1;                     /* Success */
 }
 
-int doStepMoonLanding(FMU* fmu, fmi2Component c, fmi2Real currentCommunicationPoint,
-                    fmi2Real communicationStepSize, fmi2Boolean noSetFMUStatePriorToCurrentPoint, fmi2Real inputThrust, MoonLandingOuputs* moonLandingOuputs) {
+int
+doStepMoonLanding (FMU * fmu, fmi2Component c, fmi2Real currentCommunicationPoint,
+                   fmi2Real communicationStepSize, fmi2Boolean noSetFMUStatePriorToCurrentPoint, fmi2Real inputThrust, MoonLandingOuputs * moonLandingOuputs)
+{
 
-    fmi2ValueReference vr;
-    fmi2Real r;
-    fmi2Status fmi2Flag;
+  fmi2ValueReference vr;
+  fmi2Real        r;
+  fmi2Status      fmi2Flag;
 
-    // Get the scalar variables
-    ScalarVariable *input_thrust_sv = getVariable(fmu->modelDescription, "thrust");
-    ScalarVariable *output_altitute_sv = getVariable(fmu->modelDescription, "a");
-    ScalarVariable *output_velocity_sv = getVariable(fmu->modelDescription, "v");
+  /* Get the scalar variables */
+  ScalarVariable *input_thrust_sv = getVariable (fmu->modelDescription, "thrust");
+  ScalarVariable *output_altitute_sv = getVariable (fmu->modelDescription, "a");
+  ScalarVariable *output_velocity_sv = getVariable (fmu->modelDescription, "v");
 
-    // Set the input
-    vr = getValueReference(input_thrust_sv);
-    fmi2Flag = fmu->setReal(c, &vr, 1, &inputThrust);
+  /* Set the input */
+  vr = getValueReference (input_thrust_sv);
+  fmi2Flag = fmu->setReal (c, &vr, 1, &inputThrust);
 
-    // Calculate the Step
-    doStep(fmu, c, currentCommunicationPoint, communicationStepSize, noSetFMUStatePriorToCurrentPoint);
+  /* Calculate the Step */
+  doStep (fmu, c, currentCommunicationPoint, communicationStepSize, noSetFMUStatePriorToCurrentPoint);
 
-    // Get the outputs
-    vr = getValueReference(output_altitute_sv);
-    fmi2Flag = fmu->getReal(c, &vr, 1, &r); //get the altitude output
-    moonLandingOuputs->output_altitute = r;
+  /* Get the outputs */
+  vr = getValueReference (output_altitute_sv);
+  fmi2Flag = fmu->getReal (c, &vr, 1, &r);      /* get the altitude output */
+  moonLandingOuputs->output_altitute = r;
 
-    vr = getValueReference(output_velocity_sv);
-    fmi2Flag = fmu->getReal(c, &vr, 1, &r); //get the velocity output
+  vr = getValueReference (output_velocity_sv);
+  fmi2Flag = fmu->getReal (c, &vr, 1, &r);
+  //get the velocity output * /
     moonLandingOuputs->output_velocity = r;
 
-
-
-    return 1; //Success
+  return 1;
 }
 
 /******************************************************************************
  */
 
-char *dummyresource = "file:///work/FMI/bin/foo/resources\\"; //Dummy
+char           *dummyresource = "file:///work/FMI/bin/foo/resources\\";
 
-int initializeModel(FMU* fmu, fmi2Component c, const char* fmuFileName){
-    fmi2Status fmi2Flag;
+int
+initializeModel (FMU * fmu, fmi2Component c, const char *fmuFileName)
+{
+  fmi2Status      fmi2Flag;
 
-    printf("Initialization of the FMU %s.\n", fmuFileName);
-    fmi2Flag = fmu->enterInitializationMode(c);
-    if (fmi2Flag > fmi2Warning) {
-        return error("Could not initialize model; failed FMI enter initialization mode");
-    }
-    fmi2Flag = fmu->exitInitializationMode(c);
-    if (fmi2Flag > fmi2Warning) {
-        return error("Could not initialize model; failed FMI exit initialization mode");
-    }
-
-    return 1; // Success
+  printf ("Initialization of the FMU %s.\n", fmuFileName);
+  fmi2Flag = fmu->enterInitializationMode (c);
+  if (fmi2Flag > fmi2Warning) {
+    return error ("Could not initialize model; failed FMI enter initialization mode");
+  }
+  fmi2Flag = fmu->exitInitializationMode (c);
+  if (fmi2Flag > fmi2Warning) {
+    return error ("Could not initialize model; failed FMI exit initialization mode");
+  }
+  return 1;
 }
 
 /******************************************************************************
  */
 
-int fmuSimulate(FMU* fmu, const char* fmuFileName, double tEnd, double h, fmi2Boolean loggingOn, char separator,
-                    int nCategories, const fmi2String categories[]) {
-    int i;
-    int nSteps = 0;
-    double time;
-    double tStart = 0; // start time
+int
+fmuSimulate (FMU * fmu, const char *fmuFileName, double tEnd, double h, fmi2Boolean loggingOn, char separator,
+             int nCategories, const fmi2String categories[])
+{
+  int             i;
+  int             nSteps = 0;
+  double          time;
+  double          tStart = 0;   /* start time */
 
-    const char *guid; // global unique id of the fmu
-    const char *instanceName; // instance name
-    char *fmuResourceLocation; //Dummy
+  const char     *guid;         /* global unique id of the fmu */
+  const char     *instanceName; /* instance name */
+  char           *fmuResourceLocation;  /* Dummy */
 
-    fmi2Status fmi2Flag; // return code of the fmu functions
-    fmi2Component c; // instance of the fmu
-    ModelDescription *md; // handle to the parsed XML file
-    fmi2Real tolerance = 0; // used in setting up the experiment
-    fmi2Boolean toleranceDefined = fmi2False;  // true if model description define tolerance
-    fmi2Boolean visible = fmi2False; // no simulator user interface
-    fmi2CallbackFunctions callbacks = {fmuLogger, calloc, free, NULL, fmu};  // called by the model during simulation
+  fmi2Status      fmi2Flag;     /* return code of the fmu functions */
+  fmi2Component   c;            /* instance of the fmu */
+  ModelDescription *md;         /* handle to the parsed XML file */
+  fmi2Real        tolerance = 0;/* used in setting up the experiment */
+  fmi2Boolean     toleranceDefined = fmi2False; /* true if model description
+                                                 * define tolerance */
+  fmi2Boolean     visible = fmi2False;  /* no simulator user interface */
+  fmi2CallbackFunctions callbacks = {fmuLogger, calloc, free, NULL, fmu};
 
-    ValueStatus vs = 0;
-    Element *defaultExp;
-    FILE *file;
+  ValueStatus     vs = 0;
+  Element        *defaultExp;
+  FILE           *file;
 
-    MoonLandingOuputs *moonLandingOuputs;
-    moonLandingOuputs = (MoonLandingOuputs *) malloc(sizeof(MoonLandingOuputs)); //Specific to moonlanding
+  MoonLandingOuputs *moonLandingOuputs;
+  moonLandingOuputs = (MoonLandingOuputs *) malloc (sizeof (MoonLandingOuputs));        /* Specific to
+                                                                                         * moonlanding */
 
-    if(moonLandingOuputs == NULL){
-        fprintf(stderr, "Allocation failed.");
-	exit(EXIT_FAILURE);
-    }
+  if (moonLandingOuputs == NULL) {
+    fprintf (stderr, "Allocation failed.");
+    exit (EXIT_FAILURE);
+  }
+  printf ("FMU Simulator: run '%s' from t=0..%g with step size h=%g, loggingOn=%d, csv separator='%c' \n\n", fmuFileName, tEnd, h, loggingOn, separator);
+  printf ("log categories={ ");
+  for (i = 0; i < nCategories; i++)
+    printf ("%s ", categories[i]);
+  printf ("}\n\n");
 
-    printf("FMU Simulator: run '%s' from t=0..%g with step size h=%g, loggingOn=%d, csv separator='%c' \n\n", fmuFileName, tEnd, h, loggingOn, separator);
-    printf("log categories={ ");
-    for (i = 0; i < nCategories; i++) printf("%s ", categories[i]);
-    printf("}\n\n");
+  fmuResourceLocation = malloc (strlen (dummyresource) + 2);
+  strcpy (fmuResourceLocation, dummyresource);
 
-    //char *fmuResourceLocation = getResourcesLocationTemp(tmpPath); // Bug when using JModelica: path is absolute.
-    fmuResourceLocation = malloc (strlen (dummyresource) + 2); //Dummy
-    strcpy (fmuResourceLocation, dummyresource); //Dummy
+  printf ("Instantiate the FMU %s. \n", fmuFileName);
+  printf ("----- Location %s.\n", fmuResourceLocation);
+  md = fmu->modelDescription;
+  guid = getAttributeValue ((Element *) md, att_guid);
+  instanceName = getAttributeValue ((Element *) getCoSimulation (md), att_modelIdentifier);
+  c = fmu->instantiate (instanceName, fmi2CoSimulation, guid, fmuResourceLocation, &callbacks, visible, loggingOn);
+  free (fmuResourceLocation);
+  if (!c)
+    return error ("Could not instantiate model");
 
-    printf("Instantiate the FMU %s. \n", fmuFileName);
-    printf("----- Location %s.\n", fmuResourceLocation);
-    md = fmu->modelDescription;
-    guid = getAttributeValue((Element *)md, att_guid);
-    instanceName = getAttributeValue((Element *)getCoSimulation(md), att_modelIdentifier);
-    c = fmu->instantiate(instanceName, fmi2CoSimulation, guid, fmuResourceLocation, &callbacks, visible, loggingOn);
-    free(fmuResourceLocation);
-    if (!c) return error("Could not instantiate model");
+  printf ("----- Set debug logging.\n");
+  if (nCategories > 0) {
+    fmi2Flag = fmu->setDebugLogging (c, fmi2True, nCategories, categories);
+    if (fmi2Flag > fmi2Warning)
+      return error ("Could not finish instantiation; failed to set debug logging");
+  }
+  printf ("----- Setup experiment\n");
+  defaultExp = getDefaultExperiment (md);
+  if (defaultExp)
+    tolerance = getAttributeDouble (defaultExp, att_tolerance, &vs);
+  if (vs == valueDefined)
+    toleranceDefined = fmi2True;
+  fmi2Flag = fmu->setupExperiment (c, toleranceDefined, tolerance, tStart, fmi2True, tEnd);
+  if (fmi2Flag > fmi2Warning)
+    return error ("Could not finish instantiation; failed FMI setup experiment");
 
-    printf("----- Set debug logging.\n");
-    if (nCategories > 0) {
-        fmi2Flag = fmu->setDebugLogging(c, fmi2True, nCategories, categories);
-        if (fmi2Flag > fmi2Warning) return error("Could not finish instantiation; failed to set debug logging");
-    }
-
-    printf("----- Setup experiment\n");
-    defaultExp = getDefaultExperiment(md);
-    if (defaultExp) tolerance = getAttributeDouble(defaultExp, att_tolerance, &vs);
-    if (vs == valueDefined) toleranceDefined = fmi2True;
-    fmi2Flag = fmu->setupExperiment(c, toleranceDefined, tolerance, tStart, fmi2True, tEnd);
-    if (fmi2Flag > fmi2Warning) return error("Could not finish instantiation; failed FMI setup experiment");
-
-    initializeModel(fmu, c, fmuFileName);
-    printf("\n\n");
+  initializeModel (fmu, c, fmuFileName);
+  printf ("\n\n");
 
 
-    // Open result file
-    if (!(file = fopen(RESULT_FILE, "w"))) {
-        printf("Could not write %s because:\n", RESULT_FILE);
-        printf("    %s\n\n", strerror(errno));
-        return 0; // failure
-    }
+  /* Open result file */
+  if (!(file = fopen (RESULT_FILE, "w"))) {
+    printf ("Could not write %s because:\n", RESULT_FILE);
+    printf ("    %s\n\n", strerror (errno));
+    return 0;
+  }
+  /* Output solution for time t0 */
+  outputRow (fmu, c, tStart, file, separator, fmi2True);        /* output column names */
+  outputRow (fmu, c, tStart, file, separator, fmi2False);       /* output values */
 
-    // Output solution for time t0
-    outputRow(fmu, c, tStart, file, separator, fmi2True);  // output column names
-    outputRow(fmu, c, tStart, file, separator, fmi2False); // output values
+  /* Enter the simulation loop */
+  printf ("Entering the integration loop.\n\n");
+  time = tStart;
+  while (time < tEnd) {
 
-    // Enter the simulation loop
-    printf("Entering the integration loop.\n\n");
-    time = tStart;
-    while (time < tEnd) {
+    fmi2Real        inputThrust = 10000.0;      /* Specific input for the
+                                                 * MoonLanding */
 
-        fmi2Real inputThrust = 10000.0; //Specific input for the MoonLanding
+    doStepMoonLanding (fmu, c, time, h, fmi2True, inputThrust, moonLandingOuputs);      /* Specific to
+                                                                                         * MoonLanding */
 
-        doStepMoonLanding(fmu, c, time, h, fmi2True, inputThrust, moonLandingOuputs); //Specific to MoonLanding
+    printf ("OUPUT ALTITUDE === %f\n", moonLandingOuputs->output_altitute);
+    printf ("OUPUT VELOCITY === %f\n\n", moonLandingOuputs->output_velocity);
 
-    printf("OUPUT ALTITUDE === %f\n", moonLandingOuputs->output_altitute);
-    printf("OUPUT VELOCITY === %f\n\n", moonLandingOuputs->output_velocity);
+    /* fmi2Flag = doStep(fmu, c, time, h, fmi2True); */
 
-   	//fmi2Flag = doStep(fmu, c, time, h, fmi2True); //Activate to use other FMUs
-        time += h;
-        outputRow(fmu, c, time, file, separator, fmi2False); //Output values for this step
-        nSteps++;
-    }
+    time += h;
+    outputRow (fmu, c, time, file, separator, fmi2False);
+    nSteps++;
+  }
 
-    // End simulation
-    printf("\nEnd of the simulation.\n\n");
-    free(moonLandingOuputs);
-    fmu->terminate(c);
-    fmu->freeInstance(c);
-    fclose(file);
+  /* End simulation */
+  printf ("\nEnd of the simulation.\n\n");
+  free (moonLandingOuputs);
+  fmu->terminate (c);
+  fmu->freeInstance (c);
+  fclose (file);
 
-    // print simulation summary
-    printf("Simulation from %g to %g terminated successful\n", tStart, tEnd);
-    printf("  steps ............ %d\n", nSteps);
-    printf("  fixed step size .. %g\n", h);
+  /* print simulation summary */
+  printf ("Simulation from %g to %g terminated successful\n", tStart, tEnd);
+  printf ("  steps ............ %d\n", nSteps);
+  printf ("  fixed step size .. %g\n", h);
 
-    printf("CSV file '%s' written\n\n", RESULT_FILE);
-    return 1; // success
+  printf ("CSV file '%s' written\n\n", RESULT_FILE);
+  return 1;
 }

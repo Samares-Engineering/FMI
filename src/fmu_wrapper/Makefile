@@ -23,4 +23,7 @@ check:
 clean:
 	rm -rf *.bak rm -rf *.o *~
 
+indent:
+	indent  -ci2 -cli2 -i2 -l80 -nut -sob -pcs -lp *.c
+
 distclean: clean
