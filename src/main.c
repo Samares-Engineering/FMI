@@ -17,7 +17,7 @@ typedef struct {
  */
 
 int
-Compute_Entrypoint_MoonLanding (FMUContext *ctx,
+Compute_Entrypoint_MoonLanding (FMUContext * ctx,
                                 fmi2Real inputThrust,
                                 MoonLandingOuputs * moonLandingOuputs)
 {
@@ -41,9 +41,9 @@ Compute_Entrypoint_MoonLanding (FMUContext *ctx,
           ctx->noSetFMUStatePriorToCurrentPoint);
 
   /* Dump values */
-  outputRow (ctx -> fmu, ctx -> component,
-             ctx -> currentCommunicationPoint,
-             ctx -> resultFile, ',', fmi2False);
+  outputRow (ctx->fmu, ctx->component,
+             ctx->currentCommunicationPoint,
+             ctx->resultFile, ',', fmi2False);
 
   /* Get the outputs */
   vr = getValueReference (output_altitute_sv);
@@ -70,7 +70,7 @@ main (int argc, char *argv[])
   char            csv_separator = ',';
   fmi2String     *categories = NULL;
   int             nCategories = 0;
-  FMUContext ctx;
+  FMUContext      ctx;
   parseArguments (argc, argv, &fmuFileName, &tEnd, &h, &loggingOn,
                   &csv_separator, &nCategories, &categories);
 
@@ -83,7 +83,7 @@ main (int argc, char *argv[])
 
   /* MoonLanding specific part */
 
-  fmi2Real        inputThrust = 10000.0; /* Dummy input set to constant */
+  fmi2Real        inputThrust = 10000.0;        /* Dummy input set to constant */
   MoonLandingOuputs *moonLandingOuputs;
   moonLandingOuputs = (MoonLandingOuputs *) malloc (sizeof (MoonLandingOuputs));
   assert (moonLandingOuputs != NULL);
