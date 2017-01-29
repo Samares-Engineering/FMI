@@ -5,8 +5,8 @@
 #include <stdarg.h>
 #include "fmi2.h"
 #include "sim_support.h"
-#include "fmu_import.h"
-#include "fmu_simulate.h"
+
+#include "fmu_wrapper.h"
 
 FMU fmu; // the fmu to simulate
 
@@ -29,17 +29,17 @@ int main(int argc, char *argv[]) {
     char csv_separator = ',';
     fmi2String *categories = NULL;
     int nCategories = 0;
- 
+
     parseArguments(argc, argv, &fmuFileName, &tEnd, &h, &loggingOn, &csv_separator, &nCategories, &categories);
 
     fmuImport(fmuFileName);
-   
+
     fmuSimulate(&fmu, fmuFileName, tEnd, h, loggingOn, csv_separator, nCategories, categories);
 
     printf("Release FMU\n\n");
     dlclose(fmu.dllHandle);
     freeModelDescription(fmu.modelDescription);
-    //deleteTempFiles(tmpPath);	
+    //deleteTempFiles(tmpPath);
     //free(tmpPath);
     return EXIT_SUCCESS;
 }
