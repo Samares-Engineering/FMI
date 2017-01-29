@@ -3,7 +3,8 @@ EXECS = FMI_prototype
 all: $(EXECS)
 
 clean:
-	rm -rf *.bak rm -rf *.o
+	rm -rf *.bak *.BAK
+	rm -rf *.o *~
 
 distclean: clean
 	rm -rf ../bin/

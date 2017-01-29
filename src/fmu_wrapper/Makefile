@@ -21,7 +21,8 @@ check:
 	$(CC) $(CFLAGS) -c $(FMUSDK2_DEFINE) $(FMUSDK2_INCLUDE) fmu_wrapper.c
 
 clean:
-	rm -rf *.bak rm -rf *.o *~
+	rm -rf *.bak *.BAK
+	rm -rf *.o *~
 
 indent:
 	indent  -ci2 -cli2 -i2 -l80 -nut -sob -pcs -lp *.c
