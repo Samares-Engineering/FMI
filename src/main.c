@@ -77,6 +77,7 @@ main (int argc, char *argv[])
   ctx.fmu = malloc (sizeof (FMU));
 
   /* 1/ FMU Activate Entrypoint */
+
   FMU_Activate_Entrypoint
     (fmuFileName, tEnd, h, loggingOn,
      csv_separator, nCategories, categories, &ctx);
@@ -93,12 +94,15 @@ main (int argc, char *argv[])
   while (ctx.currentCommunicationPoint < tEnd) {
     /* a) stupid controller that "just works" */
 
+    /* This controller brings the lander close to the ground, at
+       around t = 59.4, after that the lander eventually flies back */
+
     if (ctx.currentCommunicationPoint >= 0.0
-        && ctx.currentCommunicationPoint < 81.0)
-      inputThrust = 1440000.0;
+        && ctx.currentCommunicationPoint < 59.4)
+      inputThrust = 2568500.0;
     else
       if (ctx.currentCommunicationPoint < 100.0)
-        inputThrust = 116000.0;
+        inputThrust = 140000.0;
       else
         inputThrust = 0.0;
 
