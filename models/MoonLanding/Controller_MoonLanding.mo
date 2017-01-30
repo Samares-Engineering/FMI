@@ -1,10 +1,10 @@
 model Controller_MoonLanding
   output Real thrust;
 algorithm
-  if(time >= 0 and time < 81) then 
-    thrust := 1440000;
-  elseif(time>=81 and time < 100) then
-    thrust := 116000;
+  if(time >= 0 and time < 59.4) then 
+    thrust := 2568500;
+  elseif(time>=59.4 and time < 100) then
+    thrust := 140000;
   else
     thrust := 0;
   end if;
