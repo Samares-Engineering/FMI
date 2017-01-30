@@ -64,7 +64,7 @@ int
 main (int argc, char *argv[])
 {
   const char     *fmuFileName;
-  double          tEnd = 1.0;
+  double          tEnd = 110.0;
   double          h = 0.1;
   int             loggingOn = 0;
   char            csv_separator = ',';
@@ -83,21 +83,35 @@ main (int argc, char *argv[])
 
   /* MoonLanding specific part */
 
-  fmi2Real        inputThrust = 10000.0;        /* Dummy input set to constant */
+  fmi2Real        inputThrust;
   MoonLandingOuputs *moonLandingOuputs;
   moonLandingOuputs = (MoonLandingOuputs *) malloc (sizeof (MoonLandingOuputs));
   assert (moonLandingOuputs != NULL);
 
   /* 2/ Processing loop */
-  while (ctx.currentCommunicationPoint < tEnd) {
 
-    /* 3/ Compute_Entrypoint */
+  while (ctx.currentCommunicationPoint < tEnd) {
+    /* a) stupid controller that "just works" */
+
+    if (ctx.currentCommunicationPoint >= 0.0
+        && ctx.currentCommunicationPoint < 81.0)
+      inputThrust = 1440000.0;
+    else
+      if (ctx.currentCommunicationPoint < 100.0)
+        inputThrust = 116000.0;
+      else
+        inputThrust = 0.0;
+
+    /* b) Compute_Entrypoint */
     Compute_Entrypoint_MoonLanding (&ctx, inputThrust, moonLandingOuputs);
 
-    printf ("OUPUT ALTITUDE === %f\n", moonLandingOuputs->output_altitute);
-    printf ("OUPUT VELOCITY === %f\n\n", moonLandingOuputs->output_velocity);
+    printf ("%f %f %f %f\n", ctx.currentCommunicationPoint,
+            inputThrust,
+            moonLandingOuputs->output_altitute,
+            moonLandingOuputs->output_velocity);
 
-    /* "time" management */
+    /* c) "time" management */
+
     ctx.currentCommunicationPoint += ctx.communicationStepSize;
   }
 
