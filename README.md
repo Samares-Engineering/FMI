@@ -12,7 +12,7 @@ To test the code perform the follwing steps:
 To clean the binary and temporary files, perform the following steps: 
 
 1. Go to the /src folder.
-2. Open a console and type "make mrproper".
+2. Open a console and type "make distclean".
 
 # FMU Models 
 
