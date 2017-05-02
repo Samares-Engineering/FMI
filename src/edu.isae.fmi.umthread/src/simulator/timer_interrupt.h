@@ -11,5 +11,7 @@ void setup_timer(uint32_t period, bool periodic);
 void init_timer();
 
 void stop_timer();
+
+void pause();
 /******************************************************************************/
 #endif /* __TIMER_INTERRUPT_H__ */

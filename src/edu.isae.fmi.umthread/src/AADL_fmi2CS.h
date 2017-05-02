@@ -2,6 +2,7 @@
 #define _AADL_fmi2CS
 
 #include "fmi2FunctionTypes.h"
+#include "simulator/um_threads.h"
 
 typedef enum {
 	AADL_fmiCSInstantiated=0,
@@ -15,6 +16,9 @@ typedef enum {
 
 typedef struct AADL_SimulatorSettings {
 	//TODO: Identify here some settings, e.g round-robin, prempt, no-prempt, etc...
+	fmi2Real startTime;
+	fmi2Real stopTime;
+	fmi2Real dt;
 }AADL_SimulatorSettings;
 
 typedef struct {
@@ -33,9 +37,10 @@ typedef struct {
 	AADL_fmi2Component* c;
 	AADL_fmiCSMode mode;
 	AADL_SimulatorSettings aadlSettings;
-	fmi2Real tc0;
-	fmi2Real tc1;
+	fmi2Real t0;
+	fmi2Real t1;
 	fmi2Real h;
+	um_thread_id tid;
 } AADL_fmi2CSComponent;
 
 #endif

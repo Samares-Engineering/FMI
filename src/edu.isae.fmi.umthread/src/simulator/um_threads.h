@@ -24,7 +24,7 @@ typedef uint32_t priority_t;    /* priority               */
 
 typedef enum { WAITING, READY, RUNNING } thread_state_t;
 
-typedef struct {                /* thread control block   */
+typedef struct { /* thread control block   */
   ucontext_t     um_context;
   um_thread_id   tid;
   stack_size_t   stack_size;
@@ -62,8 +62,9 @@ typedef um_thread_id (* scheduler_function) (void);
 
 void configure_scheduler (scheduler_function s);
 void start_scheduler (void);
+void start_scheduler_2 (float ccp, float ss);
 void scheduler(void);
-
+void scheduler_2(float ccp, float ss);
 /******************************************************************************/
 /* Waiting List                                                               */
 
@@ -82,6 +83,10 @@ void delay_until(abs_time n_time);
 void do_awake_list(void);
 
 void set_timer_next(void);
+
+void pause_scheduler(void);
+
+void awake_scheduler(void);
 
 /******************************************************************************/
 #endif /* __UM_THREADS_H__ */
