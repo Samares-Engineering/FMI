@@ -16,6 +16,7 @@ void *signal_stack;                /* global interrupt stack                  */
 struct sigaction act;
 struct sigaction act2;
 
+
 /******************************************************************************/
 /* Timer interrupt handler:
  * Creates a new context to run the scheduler in, masks signals, then
@@ -50,7 +51,7 @@ void init_timer(void) {
 	}
   
  	act.sa_sigaction = timer_interrupt; /* bind function to the timer           */
- 	act2.sa_sigaction = pause;
+ 	act2.sa_sigaction = pause_scheduler;
 }
 
 /******************************************************************************/
@@ -67,11 +68,11 @@ void setup_timer(uint32_t period, bool periodic)
   act.sa_flags = SA_RESTART  /* interruptible functions do not raise [EINTR]  */
     | SA_SIGINFO;            /* to select particular signature signal handler */
   
-  if(sigaction(SIGUSR2, &act2, NULL) != 0)
-      perror("Signal handler");
-
   if(sigaction(SIGUSR1, &act, NULL) != 0)
     perror("Signal handler");
+
+  if(sigaction(SIGUSR2, &act2, NULL) != 0)
+      perror("Signal handler");
 
   /* setup our timer */
   /*it.it_value.tv_sec = period/1000;
@@ -89,8 +90,9 @@ void setup_timer(uint32_t period, bool periodic)
 }
 
 
-void pause(){
-	pause_scheduler();
+void pause_scheduler(){
+	// pause the scheduler
+	// stop the external clock
 }
 /******************************************************************************/
 

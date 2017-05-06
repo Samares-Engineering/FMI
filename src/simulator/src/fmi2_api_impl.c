@@ -13,10 +13,11 @@
 #include "AADL_fmi2CS.h"
 
 int doOneStep(fmi2Real currentCommunicationPoint, fmi2Real stepSize){
+
 	float ccp = currentCommunicationPoint;
 	float ss = stepSize;
 
-	start_scheduler_2(ccp, ss);
+	start_scheduler();
 
 	return 1;
 }
@@ -102,6 +103,7 @@ fmi2Status fmi2SetupExperiment(fmi2Component c, fmi2Boolean toleranceDefined, fm
 
 	if(ci->mode == AADL_fmiCSInstantiated){
 		cc->startTime = startTime;
+
 		cc->stopTimeDefined = stopTimeDefined;
 		if(cc->stopTimeDefined){
 			cc->stopTime = stopTime;
@@ -209,7 +211,6 @@ fmi2Status fmi2DoStep(fmi2Component c, fmi2Real currentCommunicationPoint, fmi2R
    		ci->mode = AADL_fmiCSError;
    		return fmi2Error;
    	}
-
 
    	return fmi2OK;
 }

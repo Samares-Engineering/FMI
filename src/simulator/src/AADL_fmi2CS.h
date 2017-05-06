@@ -40,7 +40,7 @@ typedef struct {
 	fmi2Real t0;
 	fmi2Real t1;
 	fmi2Real h;
-	um_thread_id tid;
+	um_thread_id tid;;
 } AADL_fmi2CSComponent;
 
 #endif

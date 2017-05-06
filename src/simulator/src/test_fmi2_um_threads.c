@@ -11,7 +11,7 @@ main (int argc, char *argv[])
 {
   
   fmi2Component c;
-  fmi2Real currentCommunicationPoint = 0.0;
+  fmi2Real currentCommunicationPoint = 0.5;
   fmi2Real stepSize=0.01;
 
   fmi2CallbackFunctions* fcbf;

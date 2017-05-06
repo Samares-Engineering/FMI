@@ -94,35 +94,8 @@ void start_scheduler (void) {
   scheduler();
 }
 
-void start_scheduler_2 (float ccp, float ss) {
-  sched_current_context_id = 0;
-  sched_context = get_context(sched_current_context_id);
-  debug_printf("Starting scheduler @ %p\n", sched_context);
-  scheduler_2(ccp, ss);
-}
 /******************************************************************************/
 /* The scheduling algorithm; selects the next context to run, then starts it. */
-
-void scheduler_2(float ccp, float ss) {
-  um_thread_id previous = sched_current_context_id;
-
-	if (threads[sched_current_context_id].state == RUNNING) {
-		threads[sched_current_context_id].state = READY;
-		do_awake_list();
-	}
-
-  sched_current_context_id = the_scheduler ();
-
-  sched_context = get_context (sched_current_context_id);
-  threads[sched_current_context_id].state = RUNNING;
-
-  print_timestamp();
-  debug_printf("Switching from %d to %d\n",
-	       previous, sched_current_context_id);
-
-  setcontext(sched_context); /* go */
-
-}
 
 void scheduler(void) {
   um_thread_id previous = sched_current_context_id;
@@ -244,18 +217,11 @@ void delay_until(abs_time n_time) {
 }
 
 void pause_scheduler(){
-	abs_time c_time;
-	clock_gettime(CLOCK_MONOTONIC, &c_time);
-
 	threads[sched_current_context_id].state = WAITING;
-	stop_timer();
-
-	debug_printf("LALALALA");
 }
 
 void awake_scheduler(){
 	set_timer_next();
-
 	// yield the thread
 	um_thread_yield ();
 }

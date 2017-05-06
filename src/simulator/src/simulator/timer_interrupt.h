@@ -12,6 +12,6 @@ void init_timer();
 
 void stop_timer();
 
-void pause();
+void pause_timer();
 /******************************************************************************/
 #endif /* __TIMER_INTERRUPT_H__ */
