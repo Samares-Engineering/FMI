@@ -36,18 +36,17 @@ void user_thread_fmi(int h) {
 	debug_printf ("Starting thread %d\n", my_id);
 
 	while (1) {
-		if(getSClock()->currentTime != -1.0){
-			debug_printf("Clock: %f\n", getSClock()->currentTime);
+		if(getSClock()->currentTime < getSClock()->startTime + getSClock()->h){
 			for (i = 0; i< 5; i++) {
 				debug_printf ("* %d\n", my_id);
 				compute_during_n_times_100ms (1);
 				getSClock()->currentTime += 0.1;
 			}
 		}
-		if(getSClock()->currentTime >= getSClock()->startTime + getSClock()->h){
-				getSClock()->currentTime = -1.0;
-				delay_until(shift(10, 0L));
-				kill((int) getpid(), SIGUSR1);
+		else{
+			getSClock()->currentTime = getSClock()->startTime;
+			//delay_until(shift(1, 0L));
+			kill((int) getpid(), SIGUSR1);
 		}
 	}
 }

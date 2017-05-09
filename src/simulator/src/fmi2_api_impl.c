@@ -17,19 +17,8 @@ int doOneStep(AADL_fmi2CSComponent* ci, fmi2Real time, fmi2Real ccp){
 	float t = time;
 	float h = ccp;
 
-	int i;
-
-
 	setClockStartTime(time);
 	setClockCommunicationPoint(ccp);
-
-	initialize_period();
-	configure_rr_scheduler(500);
-
-	for (i = 0 ; i < 10 ; ++i){
-
-		ci->tid = um_thread_create(user_thread_fmi, STACKSIZE, 0);
-	}
 
 	start_scheduler();
 
@@ -71,7 +60,21 @@ fmi2Status freeSlave(fmi2Component c){
 
 int InitializeSlave(fmi2Component c){
 
+	AADL_fmi2Component* cc = (AADL_fmi2Component*)c;
+	AADL_fmi2CSComponent* ci = (AADL_fmi2CSComponent*)cc->c;
+
+	int i;
+
 	initClock();
+
+	initialize_period();
+	configure_rr_scheduler(500);
+
+	for (i = 0 ; i < 10 ; ++i){
+
+		ci->tid = um_thread_create(user_thread_fmi, STACKSIZE, 0);
+	}
+
 	return 1;
 }
 
