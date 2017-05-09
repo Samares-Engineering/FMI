@@ -20,6 +20,8 @@ scheduler_function the_scheduler;
 
 waiting_list *w_list = NULL;
 
+
+
 /******************************************************************************/
 um_thread_id um_thread_create
 (void (*function)(void), 
@@ -221,3 +223,4 @@ void awake_scheduler(){
 	// yield the thread
 	um_thread_yield ();
 }
+

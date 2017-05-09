@@ -8,14 +8,15 @@
 #ifndef SIMULATOR_EXTERNAL_CLOCK_H_
 #define SIMULATOR_EXTERNAL_CLOCK_H_
 
-typedef struct{
+typedef struct _simulatorClock{
 	float startTime;
-	float timeStep;
+	float h;
 	float currentTime;
-}simulator_clock;
+}simulatorClock;
 
-void start_clock();
-
-void pause_clock();
+void initClock();
+void setClockCommunicationPoint(float h);
+void setClockStartTime(float startTime);
+simulatorClock* getSClock();
 
 #endif /* SIMULATOR_EXTERNAL_CLOCK_H_ */

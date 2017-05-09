@@ -7,18 +7,29 @@
 #include "fmi2TypesPlatform.h"
 #include "simulator/um_threads.h"
 #include "simulator/workload.h"
-#include "simulator/user_code.h"
+#include "simulator/user_code_fmi.h"
 #include "simulator/rr.h"
-
+#include "simulator/external_clock.h"
 #include "AADL_fmi2CS.h"
 
-int doOneStep(fmi2Real time, fmi2Real ccp){
+int doOneStep(AADL_fmi2CSComponent* ci, fmi2Real time, fmi2Real ccp){
 
 	float t = time;
 	float h = ccp;
 
+	int i;
+
+
+	setClockStartTime(time);
+	setClockCommunicationPoint(ccp);
+
 	initialize_period();
-	configure_rr_scheduler_2(h);
+	configure_rr_scheduler(500);
+
+	for (i = 0 ; i < 10 ; ++i){
+
+		ci->tid = um_thread_create(user_thread_fmi, STACKSIZE, 0);
+	}
 
 	start_scheduler();
 
@@ -33,14 +44,14 @@ int createSimulatorInstance(void){
 }
 
 fmi2Status allocateSlave(fmi2Component c){
-  	
+
 	AADL_fmi2Component* cc = (AADL_fmi2Component*)c;
 	AADL_fmi2CSComponent* ci;
 
 	ci = (AADL_fmi2CSComponent*)calloc(1, sizeof(AADL_fmi2CSComponent));
-	
+
 	if(createSimulatorInstance() == 1){
-		
+
 		ci->c = cc;
 		cc->c = ci;
 
@@ -60,16 +71,7 @@ fmi2Status freeSlave(fmi2Component c){
 
 int InitializeSlave(fmi2Component c){
 
-	int i;
-
-	AADL_fmi2Component* cc = (AADL_fmi2Component*)c;
-	AADL_fmi2CSComponent* ci = (AADL_fmi2CSComponent*)cc->c;
-
-	for (i = 0 ; i < 10 ; ++i){
-
-	  	ci->tid = um_thread_create(user_thread, STACKSIZE, 0);
-	}
-
+	initClock();
 	return 1;
 }
 
@@ -80,7 +82,7 @@ fmi2Component fmi2Instantiate(fmi2String instanceName, fmi2Type iType, fmi2Strin
 
 	c = (fmi2Component)calloc(1, sizeof(AADL_fmi2Component));
 	cc = (AADL_fmi2Component*)c;
-	
+
 	cc->instanceName = (char*)calloc(strlen(instanceName) + 1, sizeof(char));
 	strcpy(cc->instanceName, instanceName);
 
@@ -176,47 +178,47 @@ fmi2Status fmi2ExitInitializationMode(fmi2Component c){
 
 fmi2Status fmi2DoStep(fmi2Component c, fmi2Real time, fmi2Real h, fmi2Boolean noSetFMUStatePriorToCurrentPoint)
 {
-   	AADL_fmi2Component* cc = (AADL_fmi2Component*)c;
-   	AADL_fmi2CSComponent* ci = (AADL_fmi2CSComponent*)cc->c;
+	AADL_fmi2Component* cc = (AADL_fmi2Component*)c;
+	AADL_fmi2CSComponent* ci = (AADL_fmi2CSComponent*)cc->c;
 
-   	if(ci->mode==AADL_fmiCSError)
-   	{
-   		printf("fmi2DoStep: An error occurred in a previous call. Unable to proceed.\n");
-   		return fmi2Error;
-   	}
-   	if(ci->mode==AADL_fmiCSInitialized)
-   	{
-   			/* Check Timing */
-   			if(ci->t0!=time)
-   			{
-   				printf("fmi2DoStep: First communication time != startTime. \n");
-   				ci->mode = AADL_fmiCSError;
-   				return fmi2Error;
-   			}
-   	}
+	if(ci->mode==AADL_fmiCSError)
+	{
+		printf("fmi2DoStep: An error occurred in a previous call. Unable to proceed.\n");
+		return fmi2Error;
+	}
+	if(ci->mode==AADL_fmiCSInitialized)
+	{
+		/* Check Timing */
+		if(ci->t0!=time)
+		{
+			printf("fmi2DoStep: First communication time != startTime. \n");
+			ci->mode = AADL_fmiCSError;
+			return fmi2Error;
+		}
+	}
 
-   	ci->t0=time;
-   	ci->t1=time+h;
-   	ci->h=h;
+	ci->t0=time;
+	ci->t1=time+h;
+	ci->h=h;
 
-   	if((ci->mode==AADL_fmiCSInitialized)||(ci->mode==AADL_fmiCSStepping)){
-   		if(ci->mode==AADL_fmiCSInitialized){
-   				ci->mode = AADL_fmiCSStepping;
-   		}
+	if((ci->mode==AADL_fmiCSInitialized)||(ci->mode==AADL_fmiCSStepping)){
+		if(ci->mode==AADL_fmiCSInitialized){
+			ci->mode = AADL_fmiCSStepping;
+		}
 
-   		if(doOneStep(time, h)<0)
-   		{
-   			ci->mode = AADL_fmiCSError;
-   			return fmi2Error;
-   		}
-   	}
-   	else
-   	{
-   		printf("fmi2DoStep: fmi2DoStep is called without initialization sequence before.\n");
-   		ci->mode = AADL_fmiCSError;
-   		return fmi2Error;
-   	}
+		if(doOneStep(ci, time, h)<0)
+		{
+			ci->mode = AADL_fmiCSError;
+			return fmi2Error;
+		}
+	}
+	else
+	{
+		printf("fmi2DoStep: fmi2DoStep is called without initialization sequence before.\n");
+		ci->mode = AADL_fmiCSError;
+		return fmi2Error;
+	}
 
-   	return fmi2OK;
+	return fmi2OK;
 }
 
