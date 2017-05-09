@@ -8,10 +8,13 @@
 void setup_timer(uint32_t period, bool periodic);
 /* activate a periodic timer of "period" ms */
 
+void setup_timer_2(float ccp);
+
 void init_timer();
 
 void stop_timer();
 
-void pause_timer();
+void stop_scheduler();
+
 /******************************************************************************/
 #endif /* __TIMER_INTERRUPT_H__ */

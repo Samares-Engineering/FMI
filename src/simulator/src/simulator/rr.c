@@ -20,4 +20,14 @@ void configure_rr_scheduler (uint32_t period) {
   return;
 }
 
+void configure_rr_scheduler_2 (float ccp) {
+  configure_scheduler(scheduler_rr);  /* initialize the scheduler */
+  init_timer();			/* initialize the timer */
+
+  if (ccp > 0)
+  	setup_timer_2(ccp);
+
+  return;
+}
+
 /******************************************************************************/

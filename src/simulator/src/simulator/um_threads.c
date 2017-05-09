@@ -58,7 +58,7 @@ um_thread_id um_thread_create
   
   /* Attach user function */
   makecontext(&threads[um_thread_index].um_context, function, 0);
-  
+
   /* Update internal arrays of threads */
   threads[um_thread_index].tid = um_thread_index;
   threads[um_thread_index].priority = priority;
@@ -93,14 +93,6 @@ void start_scheduler (void) {
   debug_printf("Starting scheduler @ %p\n", sched_context);
   scheduler();
 }
-
-void start_scheduler_2 (float ccp) {
-	sched_current_context_id = 0;
-	sched_context = get_context(sched_current_context_id);
-	debug_printf("Starting scheduler @ %p\n", sched_context);
-	scheduler();
-}
-
 
 /******************************************************************************/
 /* The scheduling algorithm; selects the next context to run, then starts it. */

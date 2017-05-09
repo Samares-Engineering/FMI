@@ -14,6 +14,8 @@ void configure_rr_scheduler (uint32_t period);
  * if period is non null, implement a preemptive RR policy.
  */
 
+void configure_rr_scheduler_2 (float ccp);
+
 um_thread_id scheduler_rr (void);
 /* Round robin scheduling policy, works for both the preemptive and
  * non preemptive cases.

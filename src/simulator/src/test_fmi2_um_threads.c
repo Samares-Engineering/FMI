@@ -11,8 +11,8 @@ main (int argc, char *argv[])
 {
   
   fmi2Component c;
-  fmi2Real currentCommunicationPoint = 0.5;
-  fmi2Real stepSize=0.01;
+  fmi2Real time = 0.0;
+  fmi2Real h=0.5;
 
   fmi2CallbackFunctions* fcbf;
 
@@ -21,7 +21,7 @@ main (int argc, char *argv[])
   fmi2EnterInitializationMode(c);
   fmi2ExitInitializationMode(c);
 
-  fmi2DoStep(c, currentCommunicationPoint, stepSize, fmi2True);
+  fmi2DoStep(c, time, h, fmi2True);
 
   return EXIT_SUCCESS;
 }

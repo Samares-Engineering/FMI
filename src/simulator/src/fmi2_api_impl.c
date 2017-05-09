@@ -12,19 +12,23 @@
 
 #include "AADL_fmi2CS.h"
 
-int doOneStep(fmi2Real currentCommunicationPoint, fmi2Real stepSize){
+int doOneStep(fmi2Real time, fmi2Real ccp){
 
-	float ccp = currentCommunicationPoint;
-	float ss = stepSize;
+	float t = time;
+	float h = ccp;
 
-	start_scheduler_2(ccp);
+	initialize_period();
+	configure_rr_scheduler_2(h);
+
+	start_scheduler();
+
+	printf("doStep finished");
 
 	return 1;
 }
 
 int createSimulatorInstance(void){
-	initialize_period();
-	configure_rr_scheduler(500);
+
 	return 1;
 }
 
@@ -168,7 +172,9 @@ fmi2Status fmi2ExitInitializationMode(fmi2Component c){
 	return fmi2OK;
 }
 
-fmi2Status fmi2DoStep(fmi2Component c, fmi2Real currentCommunicationPoint, fmi2Real communicationStepSize, fmi2Boolean noSetFMUStatePriorToCurrentPoint)
+
+
+fmi2Status fmi2DoStep(fmi2Component c, fmi2Real time, fmi2Real h, fmi2Boolean noSetFMUStatePriorToCurrentPoint)
 {
    	AADL_fmi2Component* cc = (AADL_fmi2Component*)c;
    	AADL_fmi2CSComponent* ci = (AADL_fmi2CSComponent*)cc->c;
@@ -181,25 +187,24 @@ fmi2Status fmi2DoStep(fmi2Component c, fmi2Real currentCommunicationPoint, fmi2R
    	if(ci->mode==AADL_fmiCSInitialized)
    	{
    			/* Check Timing */
-   			/*if(ci->t0!=currentCommunicationPoint)
+   			if(ci->t0!=time)
    			{
    				printf("fmi2DoStep: First communication time != startTime. \n");
    				ci->mode = AADL_fmiCSError;
    				return fmi2Error;
-   			}*/
+   			}
    	}
 
-   	ci->t0=currentCommunicationPoint;
-   	ci->t1=currentCommunicationPoint+communicationStepSize;
-   	ci->h=communicationStepSize;
+   	ci->t0=time;
+   	ci->t1=time+h;
+   	ci->h=h;
 
    	if((ci->mode==AADL_fmiCSInitialized)||(ci->mode==AADL_fmiCSStepping)){
    		if(ci->mode==AADL_fmiCSInitialized){
    				ci->mode = AADL_fmiCSStepping;
    		}
 
-   	 	printf("The slave perform one step \n");
-   		if(doOneStep(currentCommunicationPoint, communicationStepSize)<0)
+   		if(doOneStep(time, h)<0)
    		{
    			ci->mode = AADL_fmiCSError;
    			return fmi2Error;

@@ -51,7 +51,7 @@ void init_timer(void) {
 	}
   
  	act.sa_sigaction = timer_interrupt; /* bind function to the timer           */
- 	act2.sa_sigaction = pause_timer;
+ 	act2.sa_sigaction = stop_scheduler;
 }
 
 /******************************************************************************/
@@ -68,14 +68,11 @@ void setup_timer(uint32_t period, bool periodic)
   act.sa_flags = SA_RESTART  /* interruptible functions do not raise [EINTR]  */
     | SA_SIGINFO;            /* to select particular signature signal handler */
   
-  if(sigaction(SIGUSR1, &act, NULL) != 0)
+  if(sigaction(SIGALRM, &act, NULL) != 0)
     perror("Signal handler");
 
-  if(sigaction(SIGUSR2, &act2, NULL) != 0)
-      perror("Signal handler");
-
   /* setup our timer */
-  /*it.it_value.tv_sec = period/1000;
+  it.it_value.tv_sec = period/1000;
   it.it_value.tv_usec = (period % 1000) * 1000;
 
   if (periodic)
@@ -86,13 +83,32 @@ void setup_timer(uint32_t period, bool periodic)
   }
 
   if (setitimer(ITIMER_REAL, &it, NULL)) 
-    perror("setitiimer");*/
+    perror("setitiimer");
 }
 
+void setup_timer_2(float ccp)
+{
+  struct itimerval it;
 
-void pause_timer(){
-	// pause the scheduler
-	// stop the external clock
+  sigemptyset(&act2.sa_mask); /* reset set of signals                          */
+  act2.sa_flags = SA_RESTART  /* interruptible functions do not raise [EINTR]  */
+    | SA_SIGINFO;            /* to select particular signature signal handler */
+
+  if(sigaction(SIGALRM, &act2, NULL) != 0)
+    perror("Signal handler");
+
+  it.it_value.tv_sec = 2;
+  it.it_value.tv_usec = 5000;
+  it.it_interval.tv_sec = 0;
+  it.it_interval.tv_usec = 0;
+
+  if (setitimer(ITIMER_REAL, &it, NULL))
+    perror("setitiimer");
+}
+
+void stop_scheduler(){
+
+	debug_printf("stopped\n");
 }
 /******************************************************************************/
 
