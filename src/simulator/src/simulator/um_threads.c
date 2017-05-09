@@ -94,6 +94,14 @@ void start_scheduler (void) {
   scheduler();
 }
 
+void start_scheduler_2 (float ccp) {
+	sched_current_context_id = 0;
+	sched_context = get_context(sched_current_context_id);
+	debug_printf("Starting scheduler @ %p\n", sched_context);
+	scheduler();
+}
+
+
 /******************************************************************************/
 /* The scheduling algorithm; selects the next context to run, then starts it. */
 
@@ -214,10 +222,6 @@ void delay_until(abs_time n_time) {
 	
 	// yield the thread
 	um_thread_yield ();
-}
-
-void pause_scheduler(){
-	threads[sched_current_context_id].state = WAITING;
 }
 
 void awake_scheduler(){

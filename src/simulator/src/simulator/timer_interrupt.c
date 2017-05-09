@@ -51,7 +51,7 @@ void init_timer(void) {
 	}
   
  	act.sa_sigaction = timer_interrupt; /* bind function to the timer           */
- 	act2.sa_sigaction = pause_scheduler;
+ 	act2.sa_sigaction = pause_timer;
 }
 
 /******************************************************************************/
@@ -90,7 +90,7 @@ void setup_timer(uint32_t period, bool periodic)
 }
 
 
-void pause_scheduler(){
+void pause_timer(){
 	// pause the scheduler
 	// stop the external clock
 }

@@ -17,7 +17,7 @@ int doOneStep(fmi2Real currentCommunicationPoint, fmi2Real stepSize){
 	float ccp = currentCommunicationPoint;
 	float ss = stepSize;
 
-	start_scheduler();
+	start_scheduler_2(ccp);
 
 	return 1;
 }
@@ -181,12 +181,12 @@ fmi2Status fmi2DoStep(fmi2Component c, fmi2Real currentCommunicationPoint, fmi2R
    	if(ci->mode==AADL_fmiCSInitialized)
    	{
    			/* Check Timing */
-   			if(ci->t0!=currentCommunicationPoint)
+   			/*if(ci->t0!=currentCommunicationPoint)
    			{
    				printf("fmi2DoStep: First communication time != startTime. \n");
    				ci->mode = AADL_fmiCSError;
    				return fmi2Error;
-   			}
+   			}*/
    	}
 
    	ci->t0=currentCommunicationPoint;

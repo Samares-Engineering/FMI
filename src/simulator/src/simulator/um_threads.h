@@ -62,9 +62,9 @@ typedef um_thread_id (* scheduler_function) (void);
 
 void configure_scheduler (scheduler_function s);
 void start_scheduler (void);
-void start_scheduler_2 (float ccp, float ss);
+void start_scheduler_2 (float ccp);
 void scheduler(void);
-void scheduler_2(float ccp, float ss);
+
 /******************************************************************************/
 /* Waiting List                                                               */
 
