@@ -10,7 +10,7 @@
 
 #include "um_threads.h"
 
-void user_thread_fmi(int h);
+void user_thread_fmi();
 void initClock();
 abs_time shift(int second, long nanosecond);
 

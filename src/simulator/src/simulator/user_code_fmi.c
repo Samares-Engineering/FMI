@@ -28,8 +28,8 @@ abs_time shift(int second, long nanosecond) {
 	return c_time;
 }
 
-void user_thread_fmi(int h) {
-	int i = 0;
+void user_thread_fmi() {
+	/*int i = 0;
 
 	um_thread_id my_id = get_current_context_id();
 
@@ -48,6 +48,18 @@ void user_thread_fmi(int h) {
 			//delay_until(shift(1, 0L));
 			kill((int) getpid(), SIGUSR1);
 		}
+	}*/
+
+	um_thread_id my_id = get_current_context_id();
+
+	abs_time c_time;
+	clock_gettime(CLOCK_MONOTONIC, &c_time);
+	c_time.tv_sec += 10000;
+	c_time.tv_nsec += 900000000L;
+
+	while(1){
+		delay_until(c_time);
+		debug_printf("o<\n");
 	}
 }
 

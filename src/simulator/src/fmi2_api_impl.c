@@ -22,7 +22,9 @@ int doOneStep(AADL_fmi2CSComponent* ci, fmi2Real time, fmi2Real ccp){
 
 	start_scheduler();
 
-	printf("doStep finished");
+	//kill((int) getpid(), SIGUSR2);
+
+	printf("doStep finished\n");
 
 	return 1;
 }

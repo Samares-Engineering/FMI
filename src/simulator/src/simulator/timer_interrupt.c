@@ -9,12 +9,13 @@
 #include "um_threads.h"
 #include "debug.h"
 #include "timer_interrupt.h"
+#include "external_clock.h"
 
 /******************************************************************************/
 ucontext_t signal_context;         /* the interrupt context                   */
 void *signal_stack;                /* global interrupt stack                  */
 struct sigaction act;
-
+struct sigaction act2;
 
 /******************************************************************************/
 /* Timer interrupt handler:
@@ -41,6 +42,14 @@ void timer_interrupt(int j, siginfo_t *si, void *old_context)
     swapcontext(get_current_context(), &signal_context);
 }
 
+void start_clock(){
+	debug_printf("start scheduler\n");
+	//abs_time c_time;
+	//do_awake_list();
+
+
+}
+
 void init_timer(void) {
 
 	signal_stack = malloc(STACKSIZE); /* allocate the signal/interrupt stack   */
@@ -50,6 +59,7 @@ void init_timer(void) {
 	}
   
  	act.sa_sigaction = timer_interrupt; /* bind function to the timer           */
+ 	act2.sa_sigaction = start_clock;
 }
 
 /******************************************************************************/
@@ -68,6 +78,8 @@ void setup_timer(uint32_t period, bool periodic)
   
   if(sigaction(SIGUSR1, &act, NULL) != 0)
     perror("Signal handler");
+  if(sigaction(SIGUSR2, &act2, NULL) != 0)
+      perror("Signal handler");
 
   /* setup our timer */
   /*it.it_value.tv_sec = period/1000;

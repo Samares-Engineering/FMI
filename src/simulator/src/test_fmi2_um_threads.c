@@ -23,9 +23,9 @@ main (int argc, char *argv[])
 
   fmi2DoStep(c, time, h, fmi2True);
 
-  time = time+h;
+ /* time = time+h;
 
-  fmi2DoStep(c, time, h, fmi2True);
+  fmi2DoStep(c, time, h, fmi2True);*/
 
   return EXIT_SUCCESS;
 }
