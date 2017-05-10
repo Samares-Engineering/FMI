@@ -59,7 +59,6 @@ void user_thread_fmi() {
 
 	while(1){
 		delay_until(c_time);
-		debug_printf("o<\n");
 	}
 }
 

@@ -207,7 +207,7 @@ void delay_until(abs_time n_time) {
 		while (insert != NULL && ((insert->t).tv_sec < n_time.tv_sec || ((insert->t).tv_sec == n_time.tv_sec && (insert->t).tv_nsec < n_time.tv_nsec))) {
 			prec = insert;
 			insert = insert->next;
-			debug_printf("ici\n");
+			debug_printf("infinite loop\n");
 		}		
 		
 		prec->next = aux;
