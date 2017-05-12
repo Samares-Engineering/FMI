@@ -12,7 +12,7 @@ main (int argc, char *argv[])
   
   fmi2Component c;
   fmi2Real time = 0.0;
-  fmi2Real h=1.0;
+  fmi2Real h=10.0;
 
   fmi2CallbackFunctions* fcbf;
 
