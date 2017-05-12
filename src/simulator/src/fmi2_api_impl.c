@@ -18,6 +18,7 @@
 int doOneStep(AADL_fmi2CSComponent* ci, fmi2Real time, fmi2Real ccp){
 
 	set_sclock_startTime(time);
+	set_sclock_currentTime(time);
 	set_sclock_communicationPoint(ccp);
 
 	//kill((int) getpid(), SIGUSR1);
@@ -89,8 +90,6 @@ int InitializeSlave(fmi2Component c){
 	/*for (i = 0 ; i < 10 ; ++i){
 		ci->tid = um_thread_create(user_thread_fmi_3, STACKSIZE, 0);
 	}*/
-
-	init_sclock();
 
 	return 1;
 }
@@ -188,6 +187,8 @@ fmi2Status fmi2ExitInitializationMode(fmi2Component c){
 
 	ci->mode = AADL_fmiCSInitialized;
 	ci->t0=ci->aadlSettings.startTime;
+
+	init_sclock();
 
 	printf("The slave exit initialization mode. \n");
 

@@ -148,11 +148,10 @@ void do_awake_list(void) {
 
 		//If the time is elapsed and if the elapsed is situated during the time of the do step
 		while(w_list != NULL && trigger_time >= 0.0 && trigger_time <= getSClock()->startTime + getSClock()->h) {
-		//while(w_list != NULL && thread_wait_limit > start_abs) {
-			debug_printf("----> thread %d = %f, current_abs = %f, trigger = %f, end of step = %f\n", w_list->tid, (w_list->t).tv_sec + (float)((w_list->t).tv_nsec) / 1000000000L, getSClock()->c_time.tv_sec + (float)(getSClock()->c_time.tv_nsec) / 1000000000L, trigger_time, getSClock()->startTime + getSClock()->h);
-			//debug_printf("----> thread %d = %f, start_abs = %f, end of step = %f\n", w_list->tid, thread_wait_limit, start_abs, start_abs + getSClock()->h);
-			//debug_printf("----> %d (%d.%ld)\n", w_list->tid, (int)(w_list->t).tv_sec % 1000, (long)(w_list->t).tv_nsec/CLOCKS_PER_SEC);
-		  	threads[w_list->tid].state = READY;
+		//while(w_list != NULL && thread_wait_limit <= start_abs + getSClock()->startTime) {
+			debug_printf("----> thread %d limit = %f, current_abs = %f, trigger = %f, end of step = %f\n", w_list->tid, (w_list->t).tv_sec + (float)((w_list->t).tv_nsec) / 1000000000L, getSClock()->c_time.tv_sec + (float)(getSClock()->c_time.tv_nsec) / 1000000000L, trigger_time, getSClock()->startTime + getSClock()->h);
+			//debug_printf("----> thread %d limit = %f, start_abs = %f, end of step = %f\n", w_list->tid, thread_wait_limit, start_abs, start_abs + getSClock()->startTime + getSClock()->h);
+			threads[w_list->tid].state = READY;
 		  	aux = w_list->next;
 		  	free(w_list);
 		  	w_list = aux;

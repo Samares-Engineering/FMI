@@ -61,7 +61,7 @@ void user_thread_fmi_2() {
 			print_logical_clock();
 		}
 
-		delay_until(shift(20, 0L));
+		delay_until(shift(10, 0L));
 	}
 
 }
