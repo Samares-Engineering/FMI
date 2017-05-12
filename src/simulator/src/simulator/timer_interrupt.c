@@ -15,7 +15,11 @@
 ucontext_t signal_context;         /* the interrupt context                   */
 void *signal_stack;                /* global interrupt stack                  */
 struct sigaction act;
+
+#ifdef FMU_SLAVE
 struct sigaction act2;
+struct sigaction act3;
+#endif
 
 /******************************************************************************/
 /* Timer interrupt handler:
@@ -42,13 +46,21 @@ void timer_interrupt(int j, siginfo_t *si, void *old_context)
     swapcontext(get_current_context(), &signal_context);
 }
 
-void start_clock(){
-	debug_printf("start scheduler\n");
-	//abs_time c_time;
-	//do_awake_list();
+#ifdef FMU_SLAVE
+void set_sclockTime(){
 
+	/*this simulates real time but is not simulated time*/
+	abs_time c_time;
+	clock_gettime(CLOCK_MONOTONIC, &c_time);
 
+	getSClock()->currentTime += c_time.tv_sec - getSClock()->c_time.tv_sec + (float)(c_time.tv_nsec - getSClock()->c_time.tv_nsec) / 1000000000L;
+	set_sclock_absolute_time();
 }
+
+void launch_scheduler(){
+	scheduler();
+}
+#endif
 
 void init_timer(void) {
 
@@ -59,7 +71,10 @@ void init_timer(void) {
 	}
   
  	act.sa_sigaction = timer_interrupt; /* bind function to the timer           */
- 	act2.sa_sigaction = start_clock;
+#ifdef FMU_SLAVE
+ 	act2.sa_sigaction = set_sclockTime;
+ 	act3.sa_sigaction = launch_scheduler;
+#endif
 }
 
 /******************************************************************************/
@@ -70,30 +85,36 @@ void init_timer(void) {
 
 void setup_timer(uint32_t period, bool periodic)
 {
-  struct itimerval it;
   
   sigemptyset(&act.sa_mask); /* reset set of signals                          */
   act.sa_flags = SA_RESTART  /* interruptible functions do not raise [EINTR]  */
     | SA_SIGINFO;            /* to select particular signature signal handler */
-  
-  if(sigaction(SIGUSR1, &act, NULL) != 0)
-    perror("Signal handler");
-  if(sigaction(SIGUSR2, &act2, NULL) != 0)
-      perror("Signal handler");
 
+#ifdef FMU_SLAVE
+  if(sigaction(SIGUSR1, &act2, NULL) != 0)
+        perror("Signal handler");
+  if(sigaction(SIGUSR2, &act3, NULL) != 0)
+          perror("Signal handler");
+
+#else
+  struct itimerval it;
+  if(sigaction(SIGALRM, &act, NULL) != 0)
+          perror("Signal handler");
   /* setup our timer */
-  /*it.it_value.tv_sec = period/1000;
-  it.it_value.tv_usec = (period % 1000) * 1000;
+    it.it_value.tv_sec = period/1000;
+    it.it_value.tv_usec = (period % 1000) * 1000;
 
-  if (periodic)
-    it.it_interval = it.it_value;
-  else {
-    it.it_interval.tv_sec = 0;
-    it.it_interval.tv_usec = 0;
-  }
+    if (periodic)
+      it.it_interval = it.it_value;
+    else {
+      it.it_interval.tv_sec = 0;
+      it.it_interval.tv_usec = 0;
+    }
 
-  if (setitimer(ITIMER_REAL, &it, NULL)) 
-    perror("setitiimer");*/
+    if (setitimer(ITIMER_REAL, &it, NULL))
+      perror("setitiimer");
+#endif
+
 }
 
 /******************************************************************************/

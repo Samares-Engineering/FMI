@@ -83,9 +83,5 @@ void do_awake_list(void);
 
 void set_timer_next(void);
 
-void pause_scheduler(void);
-
-void awake_scheduler(void);
-
 /******************************************************************************/
 #endif /* __UM_THREADS_H__ */

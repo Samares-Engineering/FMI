@@ -11,6 +11,8 @@
 #include "um_threads.h"
 
 void user_thread_fmi();
+void user_thread_fmi_2();
+void user_thread_fmi_3();
 void initClock();
 abs_time shift(int second, long nanosecond);
 

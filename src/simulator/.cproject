@@ -32,6 +32,9 @@
 									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmu20/src/shared/include"/>
 									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmu20/src/shared/parser"/>
 								</option>
+								<option id="gnu.c.compiler.option.preprocessor.def.symbols.185286766" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="FMU_SLAVE=1"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1389579925" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.exe.debug.1449012752" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.debug">

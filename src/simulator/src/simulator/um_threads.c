@@ -8,6 +8,12 @@
 #include "um_threads.h"
 #include "timer_interrupt.h"
 
+#ifdef FMU_SLAVE
+
+#include "external_clock.h"
+
+#endif
+
 /******************************************************************************/
 um_thread_t threads[MAX_THREADS];
 
@@ -93,6 +99,9 @@ void start_scheduler (void) {
   sched_current_context_id = 0;
   sched_context = get_context(sched_current_context_id);
   debug_printf("Starting scheduler @ %p\n", sched_context);
+#ifdef FMU_SLAVE
+  set_sclock_absolute_time();
+#endif
   scheduler();
 }
 
@@ -102,17 +111,18 @@ void start_scheduler (void) {
 void scheduler(void) {
   um_thread_id previous = sched_current_context_id;
 
-	if (threads[sched_current_context_id].state == RUNNING) {
-		threads[sched_current_context_id].state = READY;
-		do_awake_list();
-	}
+  if (threads[sched_current_context_id].state == RUNNING) {
+	  threads[sched_current_context_id].state = READY;
+	  do_awake_list();
+  }
   
   sched_current_context_id = the_scheduler ();
   
   sched_context = get_context (sched_current_context_id);
   threads[sched_current_context_id].state = RUNNING;  
-
+#ifdef FMU_SLAVE
   print_timestamp();
+#endif
   debug_printf("Switching from %d to %d\n",
 	       previous, sched_current_context_id);
   
@@ -123,25 +133,48 @@ void do_awake_list(void) {
 	abs_time c_time;
 	waiting_list *aux;
 	
+
+	// awake all threads which needed and take them out of the waiting_list Rq : the timer resolution is 1ms so we check within this resolution
 	if (w_list != NULL) {
-	
+#ifdef FMU_SLAVE
 		clock_gettime(CLOCK_MONOTONIC, &c_time);
 
 		stop_timer();
-		// awake all threads which needed and take them out of the waiting_list Rq : the timer resolution is 1ms so we check within this resolution
-		while(w_list != NULL && ((w_list->t).tv_sec < c_time.tv_sec || ((w_list->t).tv_sec == c_time.tv_sec && ((w_list->t).tv_nsec <= c_time.tv_nsec + 999999L)))) {
-			debug_printf("----> %d (%d.%ld)\n", w_list->tid, (int)(w_list->t).tv_sec % 1000, (long)(w_list->t).tv_nsec/CLOCKS_PER_SEC);
-			threads[w_list->tid].state = READY;
-			aux = w_list->next;
-			free(w_list);
-			w_list = aux;
+		float trigger_time = c_time.tv_sec - (w_list->t).tv_sec + (float)(c_time.tv_nsec - (w_list->t).tv_nsec) / 1000000000L;
+
+		while(w_list != NULL && trigger_time >= 0.0 && trigger_time <= getSClock()->startTime + getSClock()->h) {
+			debug_printf("----> thread %d = %f, current_abs = %f, trigger = %f, end of step = %f\n", w_list->tid, (w_list->t).tv_sec + (float)((w_list->t).tv_nsec) / 1000000000L, c_time.tv_sec + (float)(c_time.tv_nsec) / 1000000000L, trigger_time, getSClock()->startTime + getSClock()->h);
+
+			//debug_printf("----> %d (%d.%ld)\n", w_list->tid, (int)(w_list->t).tv_sec % 1000, (long)(w_list->t).tv_nsec/CLOCKS_PER_SEC);
+		  	threads[w_list->tid].state = READY;
+		  	aux = w_list->next;
+		  	free(w_list);
+		  	w_list = aux;
 		}
+
+		// set the time for the next thread
+		set_timer_next();
+#else
+
+		clock_gettime(CLOCK_MONOTONIC, &c_time);
+
+		stop_timer();
+		while(w_list != NULL && ((w_list->t).tv_sec < c_time.tv_sec || ((w_list->t).tv_sec == c_time.tv_sec && ((w_list->t).tv_nsec <= c_time.tv_nsec + 999999L)))) {
+  			debug_printf("----> %d (%d.%ld)\n", w_list->tid, (int)(w_list->t).tv_sec % 1000, (long)(w_list->t).tv_nsec/CLOCKS_PER_SEC);
+  			threads[w_list->tid].state = READY;
+  			aux = w_list->next;
+  			free(w_list);
+  			w_list = aux;
+  	  	}
 		
 		// set the time for the next thread
 		set_timer_next();
+
+
+#endif
 	}
-  	
-  return;
+
+	return;
 }
 
 void set_timer_next() {
@@ -181,7 +214,13 @@ void configure_scheduler (scheduler_function s) {
 void delay_until(abs_time n_time) {
 	
 	abs_time c_time;
+
+#ifdef FMU_SLAVE
 	clock_gettime(CLOCK_MONOTONIC, &c_time);
+#else
+	clock_gettime(CLOCK_MONOTONIC, &c_time);
+#endif
+
 	waiting_list *insert, *prec, *aux;
 	
 	// Check if the n_time is positive and at least 1ms
@@ -207,7 +246,7 @@ void delay_until(abs_time n_time) {
 		while (insert != NULL && ((insert->t).tv_sec < n_time.tv_sec || ((insert->t).tv_sec == n_time.tv_sec && (insert->t).tv_nsec < n_time.tv_nsec))) {
 			prec = insert;
 			insert = insert->next;
-			debug_printf("infinite loop\n");
+			//debug_printf("loop %d, \n", sched_current_context_id);
 		}		
 		
 		prec->next = aux;
@@ -217,11 +256,5 @@ void delay_until(abs_time n_time) {
 
 	// yield the thread
 	um_thread_yield ();
-}
 
-void awake_scheduler(){
-	set_timer_next();
-	// yield the thread
-	um_thread_yield ();
 }
-

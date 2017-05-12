@@ -20,7 +20,7 @@ C_DEPS += \
 src/%.o: ../src/%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C Compiler'
-	gcc -I/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmu20/src/shared -I/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmu20/src/shared/include -I/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmu20/src/shared/parser -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
+	gcc -DFMU_SLAVE=1 -I/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmu20/src/shared -I/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmu20/src/shared/include -I/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmu20/src/shared/parser -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
