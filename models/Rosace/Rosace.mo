@@ -250,7 +250,7 @@ package Rosace
       
     equation
       y = K2_intVz * integrator + K2_Vz * Vz_f + K2_q * q_f + K2_az * az_f + delta_e_eq;
-      //integrator = pre(integrator) + Ts_K2 * (Vz_c - Vz_f);
+//integrator = pre(integrator) + Ts_K2 * (Vz_c - Vz_f);
       integrator = integrator + Ts_K2 * (Vz_c - Vz_f);
       annotation(
         Icon(graphics = {Rectangle(extent = {{-100, 100}, {100, -100}}), Text(origin = {0, 10}, extent = {{-60, 30}, {60, -30}}, textString = "%name%")}));
@@ -289,7 +289,7 @@ package Rosace
       
     equation
       y =  K1_intVa * integrator + K1_Va * (Va_f - Va_eq) + K1_Vz * Vz_f + K1_q * q_f + delta_th_eq;
-      //integrator = pre(integrator) + Ts_K1 * (Va_c - Va_f + Va_eq);
+//integrator = pre(integrator) + Ts_K1 * (Va_c - Va_f + Va_eq);
       integrator = integrator + Ts_K1 * (Va_c - Va_f + Va_eq);
       annotation(
         Icon(graphics = {Rectangle(extent = {{-100, 100}, {100, -100}}), Text(origin = {0, 10}, extent = {{-60, 30}, {60, -30}}, textString = "%name%")}));
