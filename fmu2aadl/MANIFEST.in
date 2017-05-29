@@ -1,0 +1,4 @@
+include README.rst
+include fmu2aadl/fmu_wrapper.c
+include fmu2aadl/fmu_wrapper.h
+include fmu2aadl/userdefined.mk
