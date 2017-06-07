@@ -1,0 +1,71 @@
+package Rosace
+public
+
+system Rosace_with_Controller
+end Rosace_with_Controller;
+	
+system implementation Rosace_with_Controller.with_devices
+	subcomponents
+		this_controller: process Controller.with_threads;
+		this_Aircraft_Dynamics_FMU: device Aircraft_Dynamics_FMU.impl;
+		this_Engine_FMU: device Engine_FMU.impl;
+		this_Elevator_FMU: device Elevator_FMU.impl;
+	connections
+		throttle_com_conn: port this_controller.throttle_command_out -> this_Engine_FMU.throttle_command_in;
+		elevator_com_conn: port this_controller.elevator_deflection_command_out -> this_Elevator_FMU.elevator_deflection_command_in;
+		engine_thrust_conn: port this_Engine_FMU.engine_thrust_out -> this_Aircraft_Dynamics_FMU.engine_thrust_in;
+		elevator_def_conn: port this_Elevator_FMU.elevator_deflection_out -> this_Aircraft_Dynamics_FMU.elevator_deflection_in;
+		altitude_out: port this_Aircraft_Dynamics_FMU.altitude_out -> this_controller.altitude_in;
+		vertical_acc_conn: port this_Aircraft_Dynamics_FMU.vertical_acceleration_out -> this_controller.vertical_acceleration_in;
+		vertical_speed_conn: port this_Aircraft_Dynamics_FMU.vertical_speed_out -> this_controller.vertical_speed_in;
+		pitch_rate_conn: port this_Aircraft_Dynamics_FMU.pitch_rate_out -> this_controller.pitch_rate_in;
+		true_airspeed_conn: port this_Aircraft_Dynamics_FMU.true_air_speed_out -> this_controller.true_air_speed_in;
+end Rosace_with_Controller.with_devices;
+
+process Controller
+	features
+		altitude_in: in data port;
+		vertical_speed_in: in data port;
+		vertical_acceleration_in: in data port;
+		true_air_speed_in: in data port;
+		pitch_rate_in: in data port;
+		throttle_command_out: out event port;
+		elevator_deflection_command_out: out event port;
+end Controller;
+
+process implementation Controller.with_threads
+end Controller.with_threads;
+
+device Aircraft_Dynamics_FMU
+	features
+		engine_thrust_in: in data port;
+		elevator_deflection_in: in data port;
+		altitude_out: out data port;
+		vertical_speed_out: out data port;
+		vertical_acceleration_out: out data port;
+		true_air_speed_out: out data port;
+		pitch_rate_out: out data port;
+end Aircraft_Dynamics_FMU;
+
+device Engine_FMU
+	features
+		throttle_command_in: in event port;
+		engine_thrust_out: out data port;
+end Engine_FMU;
+
+device Elevator_FMU
+	features
+		elevator_deflection_command_in: in event port;
+		elevator_deflection_out: out data port;
+end Elevator_FMU;
+
+device implementation Aircraft_Dynamics_FMU.impl
+end Aircraft_Dynamics_FMU.impl;
+
+device implementation Engine_FMU.impl
+end Engine_FMU.impl;
+
+device implementation Elevator_FMU.impl
+end Elevator_FMU.impl;
+
+end Rosace;
