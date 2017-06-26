@@ -10,6 +10,10 @@
 
 simulatorClock* sclock;
 
+/*
+ * TODO: mettre une periode pour faire du temps réel simulé et "accélérer" les calculs?
+ */
+
 void init_sclock(){
 	sclock = calloc(1, sizeof(simulatorClock));
 	sclock->h = 0.0;

@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="ASCII"?>
+<CSGraph:CoSimulationGraph xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:CSGraph="http://www.samares-engineering.com/CSGraph" xmlns:fmi2ScalarVariable="http://www.samares-engineering.com/fmi2ModelDescription/fmi2ScalarVariable">
+  <fmu_cs modelName="PD" guid="57a58cb9d613c370df710bc3c8dac5a5" author="abdelrazzak.merheb" version="1.47" copyright="" license="" generationTool="FMI Toolbox 2.5 from Modelon run at MATLAB (R2015b) win64" variableNamingConvention="STRUCTURED" numberOfEventIndicators="1" fmu_filePath="C:\Users\jean-marie\Google Drive\FMI-AADL\2. PROJET\2.3 TRAVAIL\Use cases\Drone_jiuhan\FMUs_Simulink\PD.fmu">
+    <cosimulation modelIdentifier="PD" canHandleVariableCommunicationStepSize="true" canBeInstantiatedOnlyOncePerProcess="true" canNotUseMemoryManagementFunctions="true"/>
+    <defaultexperiment stopTime="10.0" stepSize="0.2"/>
+    <ports name="Phi" description="" causality="INPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="Theta" valueReference="1" description="" causality="INPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="Psi" valueReference="2" description="" causality="INPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="Phi_desired" valueReference="3" description="" causality="INPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="Theta_desired" valueReference="4" description="" causality="INPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="Psi_desired" valueReference="5" description="" causality="INPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="Z" valueReference="6" description="" causality="INPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="Z_desired" valueReference="7" description="" causality="INPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="Omega" valueReference="8" description="" causality="INPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="U1" valueReference="9" description="" causality="OUTPUT" dependsOnPort="//@fmu_cs.0/@ports.0 //@fmu_cs.0/@ports.1 //@fmu_cs.0/@ports.2 //@fmu_cs.0/@ports.3 //@fmu_cs.0/@ports.4 //@fmu_cs.0/@ports.5 //@fmu_cs.0/@ports.6 //@fmu_cs.0/@ports.7 //@fmu_cs.0/@ports.8">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="U2" valueReference="10" description="" causality="OUTPUT" dependsOnPort="//@fmu_cs.0/@ports.0 //@fmu_cs.0/@ports.1 //@fmu_cs.0/@ports.2 //@fmu_cs.0/@ports.3 //@fmu_cs.0/@ports.4 //@fmu_cs.0/@ports.5 //@fmu_cs.0/@ports.6 //@fmu_cs.0/@ports.7 //@fmu_cs.0/@ports.8">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="U3" valueReference="11" description="" causality="OUTPUT" dependsOnPort="//@fmu_cs.0/@ports.0 //@fmu_cs.0/@ports.1 //@fmu_cs.0/@ports.2 //@fmu_cs.0/@ports.3 //@fmu_cs.0/@ports.4 //@fmu_cs.0/@ports.5 //@fmu_cs.0/@ports.6 //@fmu_cs.0/@ports.7 //@fmu_cs.0/@ports.8">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="U4" valueReference="12" description="" causality="OUTPUT" dependsOnPort="//@fmu_cs.0/@ports.0 //@fmu_cs.0/@ports.1 //@fmu_cs.0/@ports.2 //@fmu_cs.0/@ports.3 //@fmu_cs.0/@ports.4 //@fmu_cs.0/@ports.5 //@fmu_cs.0/@ports.6 //@fmu_cs.0/@ports.7 //@fmu_cs.0/@ports.8">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <parameters name="Ix" valueReference="13" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="0.0075"/>
+    </parameters>
+    <parameters name="Iy" valueReference="14" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="0.0075"/>
+    </parameters>
+    <parameters name="Iz" valueReference="15" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="0.013000000000000001"/>
+    </parameters>
+    <parameters name="Jr" valueReference="16" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="6.5E-5"/>
+    </parameters>
+    <parameters name="d" valueReference="17" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="7.5E-7"/>
+    </parameters>
+    <parameters name="g" valueReference="18" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="9.81"/>
+    </parameters>
+    <parameters name="kdp" valueReference="19" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="8.0"/>
+    </parameters>
+    <parameters name="kdps" valueReference="20" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="8.3996"/>
+    </parameters>
+    <parameters name="kdt" valueReference="21" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="8.09"/>
+    </parameters>
+    <parameters name="kdz" valueReference="22" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="13.795"/>
+    </parameters>
+    <parameters name="kpp" valueReference="23" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="50.0"/>
+    </parameters>
+    <parameters name="kpps" valueReference="24" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="50.0"/>
+    </parameters>
+    <parameters name="kpt" valueReference="25" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="50.0"/>
+    </parameters>
+    <parameters name="kpz" valueReference="26" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="90.0"/>
+    </parameters>
+    <parameters name="l" valueReference="27" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="0.23"/>
+    </parameters>
+    <parameters name="m" valueReference="28" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="0.65"/>
+    </parameters>
+  </fmu_cs>
+  <fmu_cs modelName="Quadrotor" guid="14f10aa87905b9f74b51be425503a6de" author="abdelrazzak.merheb" version="1.48" copyright="" license="" generationTool="FMI Toolbox 2.5 from Modelon run at MATLAB (R2015b) win64" variableNamingConvention="STRUCTURED" numberOfEventIndicators="1" fmu_filePath="C:\Users\jean-marie\Google Drive\FMI-AADL\2. PROJET\2.3 TRAVAIL\Use cases\Drone_jiuhan\FMUs_Simulink\Quadrotor.fmu">
+    <cosimulation modelIdentifier="Quadrotor" canHandleVariableCommunicationStepSize="true" canBeInstantiatedOnlyOncePerProcess="true" canNotUseMemoryManagementFunctions="true"/>
+    <defaultexperiment stopTime="10.0" stepSize="0.2"/>
+    <ports name="U1" description="" causality="INPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="U2" valueReference="1" description="" causality="INPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="U3" valueReference="2" description="" causality="INPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="U4" valueReference="3" description="" causality="INPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="Phi" valueReference="4" description="" causality="OUTPUT" dependsOnPort="//@fmu_cs.1/@ports.0 //@fmu_cs.1/@ports.1 //@fmu_cs.1/@ports.2 //@fmu_cs.1/@ports.3">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="Theta" valueReference="5" description="" causality="OUTPUT" dependsOnPort="//@fmu_cs.1/@ports.0 //@fmu_cs.1/@ports.1 //@fmu_cs.1/@ports.2 //@fmu_cs.1/@ports.3">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="Psi" valueReference="6" description="" causality="OUTPUT" dependsOnPort="//@fmu_cs.1/@ports.0 //@fmu_cs.1/@ports.1 //@fmu_cs.1/@ports.2 //@fmu_cs.1/@ports.3">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="X" valueReference="7" description="" causality="OUTPUT" dependsOnPort="//@fmu_cs.1/@ports.0 //@fmu_cs.1/@ports.1 //@fmu_cs.1/@ports.2 //@fmu_cs.1/@ports.3">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="Y" valueReference="8" description="" causality="OUTPUT" dependsOnPort="//@fmu_cs.1/@ports.0 //@fmu_cs.1/@ports.1 //@fmu_cs.1/@ports.2 //@fmu_cs.1/@ports.3">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="Z" valueReference="9" description="" causality="OUTPUT" dependsOnPort="//@fmu_cs.1/@ports.0 //@fmu_cs.1/@ports.1 //@fmu_cs.1/@ports.2 //@fmu_cs.1/@ports.3">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="omega" valueReference="10" description="" causality="OUTPUT" dependsOnPort="//@fmu_cs.1/@ports.0 //@fmu_cs.1/@ports.1 //@fmu_cs.1/@ports.2 //@fmu_cs.1/@ports.3">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <parameters name="Ix" valueReference="11" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="0.0075"/>
+    </parameters>
+    <parameters name="Iy" valueReference="12" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="0.0075"/>
+    </parameters>
+    <parameters name="Iz" valueReference="13" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="0.013000000000000001"/>
+    </parameters>
+    <parameters name="Jr" valueReference="14" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="6.5E-5"/>
+    </parameters>
+    <parameters name="Quadrotor_System.Act_X.InitialCondition" valueReference="15" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </parameters>
+    <parameters name="Quadrotor_System.Act_Y.InitialCondition" valueReference="16" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </parameters>
+    <parameters name="Quadrotor_System.Act_Z.InitialCondition" valueReference="17" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </parameters>
+    <parameters name="Quadrotor_System.Phi dot.InitialCondition" valueReference="18" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </parameters>
+    <parameters name="Quadrotor_System.Phi dot1.InitialCondition" valueReference="19" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </parameters>
+    <parameters name="Quadrotor_System.Phi dot2.InitialCondition" valueReference="20" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </parameters>
+    <parameters name="Quadrotor_System.Phi dot3.InitialCondition" valueReference="21" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </parameters>
+    <parameters name="Quadrotor_System.Phi dot4.InitialCondition" valueReference="22" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </parameters>
+    <parameters name="Quadrotor_System.Phi dot5.InitialCondition" valueReference="23" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </parameters>
+    <parameters name="Quadrotor_System.X dot.InitialCondition" valueReference="24" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </parameters>
+    <parameters name="Quadrotor_System.Y dot.InitialCondition" valueReference="25" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </parameters>
+    <parameters name="Quadrotor_System.Z dot.InitialCondition" valueReference="26" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </parameters>
+    <parameters name="b" valueReference="27" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="3.1299999999999995E-5"/>
+    </parameters>
+    <parameters name="d" valueReference="28" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="7.5E-7"/>
+    </parameters>
+    <parameters name="g" valueReference="29" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="9.81"/>
+    </parameters>
+    <parameters name="l" valueReference="30" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="0.23"/>
+    </parameters>
+    <parameters name="m" valueReference="31" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="0.65"/>
+    </parameters>
+  </fmu_cs>
+  <fmu_cs modelName="Step0" guid="5b912af5d6036228cdf0234e8a49f908" author="abdelrazzak.merheb" version="1.48" copyright="" license="" generationTool="FMI Toolbox 2.5 from Modelon run at MATLAB (R2015b) win64" variableNamingConvention="STRUCTURED" numberOfEventIndicators="1" fmu_filePath="C:\Users\jean-marie\Google Drive\FMI-AADL\2. PROJET\2.3 TRAVAIL\Use cases\Drone_jiuhan\FMUs_Simulink\Step0.fmu">
+    <cosimulation modelIdentifier="Step0" canHandleVariableCommunicationStepSize="true" canBeInstantiatedOnlyOncePerProcess="true" canNotUseMemoryManagementFunctions="true"/>
+    <defaultexperiment stopTime="10.0" stepSize="0.2"/>
+    <ports name="Out1" description="" causality="OUTPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="Out2" valueReference="1" description="" causality="OUTPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="Out3" valueReference="2" description="" causality="OUTPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="Out4" valueReference="3" description="" causality="OUTPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <parameters name="Step.Psi_d.After" valueReference="4" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="1.0"/>
+    </parameters>
+    <parameters name="Step.Psi_d.Before" valueReference="5" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </parameters>
+    <parameters name="Step.Psi_d.Time" valueReference="6" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="1.0"/>
+    </parameters>
+    <parameters name="Step.Xd.After" valueReference="7" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="5.0"/>
+    </parameters>
+    <parameters name="Step.Xd.Before" valueReference="8" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </parameters>
+    <parameters name="Step.Xd.Time" valueReference="9" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="1.0"/>
+    </parameters>
+    <parameters name="Step.Yd.After" valueReference="10" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="5.0"/>
+    </parameters>
+    <parameters name="Step.Yd.Before" valueReference="11" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </parameters>
+    <parameters name="Step.Yd.Time" valueReference="12" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="1.0"/>
+    </parameters>
+    <parameters name="Step.Z_d.After" valueReference="13" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="1.0"/>
+    </parameters>
+    <parameters name="Step.Z_d.Before" valueReference="14" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </parameters>
+    <parameters name="Step.Z_d.Time" valueReference="15" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="1.0"/>
+    </parameters>
+  </fmu_cs>
+  <fmu_cs modelName="Subsystem" guid="dd8126464ee3a545624923b49e2b258a" author="abdelrazzak.merheb" version="1.47" copyright="" license="" generationTool="FMI Toolbox 2.5 from Modelon run at MATLAB (R2015b) win64" variableNamingConvention="STRUCTURED" numberOfEventIndicators="1" fmu_filePath="C:\Users\jean-marie\Google Drive\FMI-AADL\2. PROJET\2.3 TRAVAIL\Use cases\Drone_jiuhan\FMUs_Simulink\Subsystem.fmu">
+    <cosimulation modelIdentifier="Subsystem" canHandleVariableCommunicationStepSize="true" canBeInstantiatedOnlyOncePerProcess="true" canNotUseMemoryManagementFunctions="true"/>
+    <defaultexperiment stopTime="10.0" stepSize="0.2"/>
+    <ports name="Xd" description="" causality="INPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="X" valueReference="1" description="" causality="INPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="Yd" valueReference="2" description="" causality="INPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="Y" valueReference="3" description="" causality="INPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="Zd" valueReference="4" description="" causality="INPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="Z" valueReference="5" description="" causality="INPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="Psid" valueReference="6" description="" causality="INPUT">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="Phid" valueReference="7" description="" causality="OUTPUT" dependsOnPort="//@fmu_cs.3/@ports.0 //@fmu_cs.3/@ports.1 //@fmu_cs.3/@ports.2 //@fmu_cs.3/@ports.3 //@fmu_cs.3/@ports.4 //@fmu_cs.3/@ports.5 //@fmu_cs.3/@ports.6">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <ports name="Thetad" valueReference="8" description="" causality="OUTPUT" dependsOnPort="//@fmu_cs.3/@ports.0 //@fmu_cs.3/@ports.1 //@fmu_cs.3/@ports.2 //@fmu_cs.3/@ports.3 //@fmu_cs.3/@ports.4 //@fmu_cs.3/@ports.5 //@fmu_cs.3/@ports.6">
+      <variable xsi:type="fmi2ScalarVariable:Real"/>
+    </ports>
+    <parameters name="g" valueReference="9" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="9.81"/>
+    </parameters>
+    <parameters name="kdx" valueReference="10" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="4.0"/>
+    </parameters>
+    <parameters name="kdy" valueReference="11" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="4.0"/>
+    </parameters>
+    <parameters name="kdz2" valueReference="12" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="0.4"/>
+    </parameters>
+    <parameters name="kpx" valueReference="13" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="6.0"/>
+    </parameters>
+    <parameters name="kpy" valueReference="14" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="6.0"/>
+    </parameters>
+    <parameters name="kpz2" valueReference="15" description="" causality="PARAMETER" variability="TUNABLE">
+      <variable xsi:type="fmi2ScalarVariable:Real" start="6.0"/>
+    </parameters>
+  </fmu_cs>
+  <connectors from_port="//@fmu_cs.2/@ports.0" to_port="//@fmu_cs.3/@ports.0"/>
+  <connectors from_port="//@fmu_cs.2/@ports.1" to_port="//@fmu_cs.3/@ports.2"/>
+  <connectors from_port="//@fmu_cs.2/@ports.2" to_port="//@fmu_cs.3/@ports.6"/>
+  <connectors from_port="//@fmu_cs.2/@ports.2" to_port="//@fmu_cs.0/@ports.5"/>
+  <connectors from_port="//@fmu_cs.2/@ports.3" to_port="//@fmu_cs.3/@ports.4"/>
+  <connectors from_port="//@fmu_cs.2/@ports.3" to_port="//@fmu_cs.0/@ports.7"/>
+  <connectors from_port="//@fmu_cs.3/@ports.7" to_port="//@fmu_cs.0/@ports.3"/>
+  <connectors from_port="//@fmu_cs.3/@ports.8" to_port="//@fmu_cs.0/@ports.4"/>
+  <connectors from_port="//@fmu_cs.0/@ports.9" to_port="//@fmu_cs.1/@ports.0"/>
+  <connectors from_port="//@fmu_cs.0/@ports.10" to_port="//@fmu_cs.1/@ports.1"/>
+  <connectors from_port="//@fmu_cs.0/@ports.11" to_port="//@fmu_cs.1/@ports.2"/>
+  <connectors from_port="//@fmu_cs.0/@ports.12" to_port="//@fmu_cs.1/@ports.3"/>
+  <connectors from_port="//@fmu_cs.1/@ports.4" to_port="//@fmu_cs.0/@ports.0"/>
+  <connectors from_port="//@fmu_cs.1/@ports.5" to_port="//@fmu_cs.0/@ports.1"/>
+  <connectors from_port="//@fmu_cs.1/@ports.6" to_port="//@fmu_cs.0/@ports.2"/>
+  <connectors from_port="//@fmu_cs.1/@ports.7" to_port="//@fmu_cs.3/@ports.1"/>
+  <connectors from_port="//@fmu_cs.1/@ports.8" to_port="//@fmu_cs.3/@ports.3"/>
+  <connectors from_port="//@fmu_cs.1/@ports.9" to_port="//@fmu_cs.3/@ports.5"/>
+  <connectors from_port="//@fmu_cs.1/@ports.10" to_port="//@fmu_cs.0/@ports.8"/>
+  <connectors from_port="//@fmu_cs.1/@ports.9" to_port="//@fmu_cs.0/@ports.6"/>
+</CSGraph:CoSimulationGraph>

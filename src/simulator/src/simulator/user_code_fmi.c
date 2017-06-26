@@ -15,18 +15,11 @@
 #include "um_threads.h"
 #include "external_clock.h"
 
-abs_time shift(int second, long nanosecond) {
+abs_time shift(unsigned long ms) {
 	abs_time c_time;
 	clock_gettime(CLOCK_MONOTONIC, &c_time);
-	//debug_printf("Before Second : %ld, ", c_time.tv_sec);
-	//debug_printf("Before Nanosecond : %ld \n", c_time.tv_nsec);
-
-	long aux = c_time.tv_nsec + nanosecond;
-
-	c_time.tv_sec += second + aux/1000000000L;
-	c_time.tv_nsec = aux % 1000000000L;
-	//debug_printf("After Second : %ld, ", c_time.tv_sec);
-	//debug_printf("After Nanosecond : %ld \n", c_time.tv_nsec);
+	c_time.tv_sec = ms / 1000;
+	c_time.tv_nsec = (ms % 1000) * 1000000;
 	return c_time;
 }
 
@@ -35,18 +28,30 @@ void user_thread_fmi() {
 	//abs_time c_time;
 
 	um_thread_id my_id = get_current_context_id();
-
 	debug_printf ("Starting thread %d\n", my_id);
 
 	while (1) {
-		debug_printf ("Increment clock and launch scheduler %d\n", my_id);
-		kill((int) getpid(), SIGUSR1);
-		print_logical_clock();
-		kill((int) getpid(), SIGUSR2);
+		/*for (i = 0; i< 5; i++) {
+
+			debug_printf ("* %d\n", my_id);
+			//debug_printf ("Increment clock and launch scheduler %d\n", my_id);
+			//kill((int) getpid(), SIGUSR1);
+			//print_logical_clock();
+
+			compute_during_n_times_100ms (1);
+
+			//kill((int) getpid(), SIGUSR2);
+		}
+		//kill((int) getpid(), SIGUSR1);
+		um_thread_yield ();*/
+
+
+		delay_until(shift(10000));
+		printf("o<\n");
 	}
 }
 
-void user_thread_fmi_2() {
+/*void user_thread_fmi_2() {
 	abs_time c_time;
 
 	int i = 0;
@@ -86,4 +91,4 @@ void user_thread_fmi_3() {
 		delay_until(shift(2, 0L));
 	}
 
-}
+}*/

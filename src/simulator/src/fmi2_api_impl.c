@@ -12,8 +12,6 @@
 #include "simulator/external_clock.h"
 #include "AADL_fmi2CS.h"
 
-//#define FMU_SLAVE 1
-
 
 int doOneStep(AADL_fmi2CSComponent* ci, fmi2Real time, fmi2Real ccp){
 
@@ -21,12 +19,8 @@ int doOneStep(AADL_fmi2CSComponent* ci, fmi2Real time, fmi2Real ccp){
 	set_sclock_currentTime(time);
 	set_sclock_communicationPoint(ccp);
 
-	//kill((int) getpid(), SIGUSR1);
-	print_logical_clock();
-	kill((int) getpid(), SIGUSR2);
-	//start_scheduler();
-
-	//kill((int) getpid(), SIGUSR2);
+	//print_logical_clock();
+	start_scheduler();
 
 	printf("doStep finished\n");
 
@@ -74,18 +68,21 @@ int InitializeSlave(fmi2Component c){
 
 
 	initialize_period();
-	configure_rr_scheduler(500);
 
-	for (i = 0 ; i < 5 ; ++i){
+	/*Todo: SWITCH strategy depending on the config at export*/
 
-		ci->tid = um_thread_create(user_thread_fmi, STACKSIZE, 0);
+	configure_rr_scheduler(0);
+
+	for (i = 0 ; i < 10 ; ++i){
+
+		ci->tid = um_thread_create(user_thread_fmi, 0, i);
 	}
 
-	for (i = 5 ; i < 10 ; ++i){
+	/*for (i = 5 ; i < 10 ; ++i){
 
 		ci->tid = um_thread_create(user_thread_fmi_2, STACKSIZE, 0);
 
-	}
+	}*/
 
 	/*for (i = 0 ; i < 10 ; ++i){
 		ci->tid = um_thread_create(user_thread_fmi_3, STACKSIZE, 0);

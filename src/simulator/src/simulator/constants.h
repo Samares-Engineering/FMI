@@ -5,7 +5,7 @@
 
 #define MAX_THREADS 10              /* Maximum number of threads */
 #define STACKSIZE (128 * 1024)      /* Default stack size */
-#define INTERVAL 700               /* timer interval in microseconds */
+#define INTERVAL 500            /* timer interval in microseconds */
 
 #define MAX_CORE 1
 
