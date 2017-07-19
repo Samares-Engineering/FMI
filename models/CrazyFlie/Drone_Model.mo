@@ -1,37 +1,37 @@
 model Drone_Model
   Speed_calculator speed_calculator1 annotation(
     Placement(visible = true, transformation(origin = {-92.408, 29.891}, extent = {{-13.7424, -16.491}, {13.7424, 16.491}}, rotation = 0)));
-  Displacement displacement1 annotation(
-    Placement(visible = true, transformation(origin = {73.201, 31.8561}, extent = {{-12.3588, -19.7742}, {12.3588, 17.3024}}, rotation = 0)));
-  Angles angles1 annotation(
-    Placement(visible = true, transformation(origin = {-3, 26.56}, extent = {{-9, -12.96}, {9, 12.96}}, rotation = 0)));
-  Modelica.Blocks.Sources.Step step1(height = 200) annotation(
+  Modelica.Blocks.Sources.Step step1(height = 1) annotation(
     Placement(visible = true, transformation(origin = {-184, 48}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Step step2(height = 250) annotation(
+  Modelica.Blocks.Sources.Step step2(height = 1) annotation(
     Placement(visible = true, transformation(origin = {-182, 24}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Step step3(height = 200) annotation(
+  Modelica.Blocks.Sources.Step step3(height = 1) annotation(
     Placement(visible = true, transformation(origin = {-184, -4}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Step step4(height = 200) annotation(
+  Modelica.Blocks.Sources.Step step4(height = 1) annotation(
     Placement(visible = true, transformation(origin = {-184, -32}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Angles_Subsystem angles_Subsystem1 annotation(
+    Placement(visible = true, transformation(origin = {-10, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Displacement_Subsystem displacement_Subsystem1 annotation(
+    Placement(visible = true, transformation(origin = {50, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(speed_calculator1.u1, displacement_Subsystem1.u1) annotation(
+    Line(points = {{-78, 36}, {-42, 36}, {-42, 12}, {30, 12}, {30, 22}, {38, 22}, {38, 24}}, color = {0, 0, 127}));
+  connect(angles_Subsystem1.psi, displacement_Subsystem1.psi) annotation(
+    Line(points = {{2, 24}, {26, 24}, {26, 28}, {38, 28}, {38, 28}}, color = {0, 0, 127}));
+  connect(angles_Subsystem1.theta, displacement_Subsystem1.theta) annotation(
+    Line(points = {{2, 30}, {28, 30}, {28, 32}, {38, 32}, {38, 34}}, color = {0, 0, 127}));
+  connect(angles_Subsystem1.phi, displacement_Subsystem1.phi) annotation(
+    Line(points = {{2, 36}, {26, 36}, {26, 38}, {38, 38}, {38, 38}}, color = {0, 0, 127}));
+  connect(speed_calculator1.u4, angles_Subsystem1.u4) annotation(
+    Line(points = {{-78, 16}, {-26, 16}, {-26, 28}, {-22, 28}, {-22, 28}}, color = {0, 0, 127}));
+  connect(speed_calculator1.u3, angles_Subsystem1.u3) annotation(
+    Line(points = {{-78, 24}, {-28, 24}, {-28, 34}, {-22, 34}, {-22, 34}}, color = {0, 0, 127}));
+  connect(speed_calculator1.u2, angles_Subsystem1.u2) annotation(
+    Line(points = {{-78, 30}, {-30, 30}, {-30, 38}, {-22, 38}, {-22, 38}}, color = {0, 0, 127}));
+  connect(speed_calculator1.omega, angles_Subsystem1.omega) annotation(
+    Line(points = {{-78, 44}, {-36, 44}, {-36, 22}, {-22, 22}, {-22, 24}}, color = {0, 0, 127}));
   connect(step4.y, speed_calculator1.U4) annotation(
     Line(points = {{-173, -32}, {-150, -32}, {-150, 17}, {-109, 17}}, color = {0, 0, 127}));
-  connect(angles1.Phi, displacement1.Phi) annotation(
-    Line(points = {{7, 36}, {16.5, 36}, {16.5, 37}, {58, 37}}, color = {0, 0, 127}));
-  connect(angles1.Theta, displacement1.Theta) annotation(
-    Line(points = {{7, 27}, {58, 27}}, color = {0, 0, 127}));
-  connect(angles1.Psi, displacement1.Psi) annotation(
-    Line(points = {{7, 17}, {36.5, 17}, {36.5, 18}, {58, 18}}, color = {0, 0, 127}));
-  connect(speed_calculator1.u1, angles1.u2) annotation(
-    Line(points = {{-77, 36}, {-14, 36}}, color = {0, 0, 127}));
-  connect(speed_calculator1.u2, angles1.u3) annotation(
-    Line(points = {{-77, 30}, {-14, 30}}, color = {0, 0, 127}));
-  connect(speed_calculator1.u3, angles1.u4) annotation(
-    Line(points = {{-77, 23}, {-14, 23}}, color = {0, 0, 127}));
-  connect(speed_calculator1.u4, angles1.omega) annotation(
-    Line(points = {{-77, 17}, {-14, 17}}, color = {0, 0, 127}));
-  connect(speed_calculator1.omega, displacement1.u1) annotation(
-    Line(points = {{-77, 43}, {-10.5, 43}, {-10.5, 45}, {58, 45}}, color = {0, 0, 127}));
   connect(step1.y, speed_calculator1.U1) annotation(
     Line(points = {{-172, 48}, {-152, 48}, {-152, 43}, {-109, 43}}, color = {0, 0, 127}));
   connect(step2.y, speed_calculator1.U2) annotation(
