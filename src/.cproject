@@ -26,25 +26,25 @@
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.855982822" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.1499966460" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
 								<option id="gnu.cpp.compiler.option.include.paths.1891518754" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmude/src/parser"/>
-									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmude/src/parser/libxml"/>
-									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmude/src/shared"/>
-									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmude/src/includes"/>
+									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmu20/src/shared/parser/libxml"/>
+									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmu20/src/shared/parser"/>
+									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmu20/src/shared/include"/>
+									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmu20/src/shared"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.625748838" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.529906646" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
 								<option id="gnu.c.compiler.option.include.paths.318456000" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmude/src/shared"/>
-									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmude/src/includes"/>
-									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmude/src/parser"/>
-									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmude/src/parser/libxml"/>
+									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmu20/src/shared"/>
+									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmu20/src/shared/include"/>
+									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmu20/src/shared/parser"/>
+									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmu20/src/shared/parser/libxml"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.781882039" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.1794362436" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.base.938283521" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
-								<option id="gnu.cpp.link.option.paths.1574875709" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
+								<option id="gnu.cpp.link.option.paths.1574875709" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmude/src/parser"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1015419900" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
@@ -54,10 +54,10 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.base.659668527" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
 								<option id="gnu.both.asm.option.include.paths.1090255587" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmude/src/shared"/>
-									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmude/src/includes"/>
-									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmude/src/parser"/>
-									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmude/src/parser/libxml"/>
+									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmu20/src/shared"/>
+									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmu20/src/shared/include"/>
+									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmu20/src/shared/parser"/>
+									<listOptionValue builtIn="false" value="/home/jmgauthier/Work/git_samares/FMI/fmusdk2/fmu20/src/shared/parser/libxml"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1158913443" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>

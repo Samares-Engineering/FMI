@@ -15,60 +15,60 @@ CFLAGS = -g -Wall
 CXX=c++
 
 # Folder of the shared src from the FMUSDK2 submodule
-# FMUSDK2_PATH = ../fmusdk2/fmu20/src/shared
-FMUSDK2_DE_PATH = ../fmusdk2/fmude/src
+FMUSDK2_PATH = ../fmusdk2/fmu20/src/shared
+# FMUSDK2_DE_PATH = ../fmusdk2/fmude/src
 
 FMUSDK2_DEFINE = -DFMI_COSIMULATION -DSTANDALONE_XML_PARSER	\
 	-DLIBXML_STATIC
 
-#FMUSDK2_INCLUDE = -I$(FMUSDK2_PATH)/include \
-#	-I$(FMUSDK2_PATH)/parser/libxml -I$(FMUSDK2_PATH)/parser \
-#	-I$(FMUSDK2_PATH) -I$(FMUSDK2_MODELS_PATH) -Ifmu_wrapper
+FMUSDK2_INCLUDE = -I$(FMUSDK2_PATH)/include \
+	-I$(FMUSDK2_PATH)/parser/libxml -I$(FMUSDK2_PATH)/parser \
+	-I$(FMUSDK2_PATH) -I$(FMUSDK2_MODELS_PATH) -Ifmu_wrapper
 
-FMUSDK2_DE_INCLUDE = -I$(FMUSDK2_DE_PATH)/shared -I$(FMUSDK2_DE_PATH)/includes \
-	-I$(FMUSDK2_DE_PATH)/parser/libxml -I$(FMUSDK2_DE_PATH)/parser \
-	-I$(FMUSDK2_DE_PATH) -I$(FMUSDK2_MODELS_PATH) -Ifmu_wrapper
+#FMUSDK2_DE_INCLUDE = -I$(FMUSDK2_DE_PATH)/shared -I$(FMUSDK2_DE_PATH)/includes \
+#	-I$(FMUSDK2_DE_PATH)/parser/libxml -I$(FMUSDK2_DE_PATH)/parser \
+#	-I$(FMUSDK2_DE_PATH) -I$(FMUSDK2_MODELS_PATH) -Ifmu_wrapper
 
 
 # Folder of the shared model template from the FMUSDK2 submodule
 FMUSDK2_MODELS_PATH = ../fmusdk2/fmu20/src/models
 
 # Sources shared between co-simulation and model exchange
-#SHARED_SRCS = $(FMUSDK2_PATH)/sim_support.c fmu_wrapper/fmu_wrapper.c
+SHARED_SRCS = $(FMUSDK2_PATH)/sim_support.c fmu_wrapper/fmu_wrapper.c
 
-SHARED_SRCS = $(FMUSDK2_DE_PATH)/shared/sim_support.c fmu_wrapper/fmu_wrapper.c
+#SHARED_SRCS = $(FMUSDK2_DE_PATH)/shared/sim_support.c fmu_wrapper/fmu_wrapper.c
 
-#CPP_SRCS = $(FMUSDK2_PATH)/parser/XmlElement.cpp	\
-#	$(FMUSDK2_PATH)/parser/XmlParser.cpp		\
-#	$(FMUSDK2_PATH)/parser/XmlParserCApi.cpp
+CPP_SRCS = $(FMUSDK2_PATH)/parser/XmlElement.cpp	\
+	$(FMUSDK2_PATH)/parser/XmlParser.cpp		\
+	$(FMUSDK2_PATH)/parser/XmlParserCApi.cpp
 
-CPP_SRCS = $(FMUSDK2_DE_PATH)/parser/XmlElement.cpp	\
-	$(FMUSDK2_DE_PATH)/parser/XmlParser.cpp		\
-	$(FMUSDK2_DE_PATH)/parser/XmlParserCApi.cpp
+#CPP_SRCS = $(FMUSDK2_DE_PATH)/parser/XmlElement.cpp	\
+#	$(FMUSDK2_DE_PATH)/parser/XmlParser.cpp		\
+#	$(FMUSDK2_DE_PATH)/parser/XmlParserCApi.cpp
 
 ################################################################################
 
-#FMI_prototype: bin/
-#	$(CC) $(CFLAGS) -c $(FMUSDK2_DEFINE) $(FMUSDK2_INCLUDE) main.c	\
-#	$(SHARED_SRCS)
-
-#	$(CXX) $(CFLAGS) $(FMUSDK2_DEFINE) $(FMUSDK2_INCLUDE) \
-#		main.o fmu_wrapper.o sim_support.o $(CPP_SRCS) \
-#		-o $@ -lexpat -ldl -lxml2
-#	cp FMI_prototype ../bin/
-#	cp ../models/MoonLanding/MoonLanding.fmu ../bin/
-#	cp ../models/BouncingBall/bouncingBall.fmu ../bin/
-
 FMI_prototype: bin/
-	$(CC) $(CFLAGS) -c $(FMUSDK2_DEFINE) $(FMUSDK2_DE_INCLUDE) main.c	\
+	$(CC) $(CFLAGS) -c $(FMUSDK2_DEFINE) $(FMUSDK2_INCLUDE) main.c	\
 	$(SHARED_SRCS)
-
-	$(CXX) $(CFLAGS) $(FMUSDK2_DEFINE) $(FMUSDK2_DE_INCLUDE) \
+	
+	$(CXX) $(CFLAGS) $(FMUSDK2_DEFINE) $(FMUSDK2_INCLUDE) \
 		main.o fmu_wrapper.o sim_support.o $(CPP_SRCS) \
 		-o $@ -lexpat -ldl -lxml2
 	cp FMI_prototype ../bin/
 	cp ../models/MoonLanding/MoonLanding.fmu ../bin/
 	cp ../models/BouncingBall/bouncingBall.fmu ../bin/
+
+#FMI_prototype: bin/
+#	$(CC) $(CFLAGS) -c $(FMUSDK2_DEFINE) $(FMUSDK2_DE_INCLUDE) main.c	\
+#	$(SHARED_SRCS)
+#
+#	$(CXX) $(CFLAGS) $(FMUSDK2_DEFINE) $(FMUSDK2_DE_INCLUDE) \
+#		main.o fmu_wrapper.o sim_support.o $(CPP_SRCS) \
+#		-o $@ -lexpat -ldl -lxml2
+#	cp FMI_prototype ../bin/
+#	cp ../models/MoonLanding/MoonLanding.fmu ../bin/
+#	cp ../models/MoonLanding/Controller_MoonLanding.fmu ../bin/
 
 bin/:
 	if [ ! -d ../bin ]; then \

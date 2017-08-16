@@ -17,7 +17,7 @@ void freeContext (FMUContext ctx);
 
 int
 FMU_Activate_Entrypoint (int numberOfFMUs,
-						 const char *fmuFileName,
+						 const char* fmuFileName[],
                          double tEnd,
                          double h,
                          fmi2Boolean loggingOn,
