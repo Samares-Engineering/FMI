@@ -5,7 +5,7 @@
 #include "fmi2.h"
 
 typedef struct {
-  FMU            *fmu;
+  FMU            *fmus;
   fmi2Component   component;
   fmi2Real        currentCommunicationPoint;
   fmi2Real        communicationStepSize;
@@ -16,7 +16,8 @@ typedef struct {
 void freeContext (FMUContext ctx);
 
 int
-FMU_Activate_Entrypoint (const char *fmuFileName,
+FMU_Activate_Entrypoint (int numberOfFMUs,
+						 const char *fmuFileName,
                          double tEnd,
                          double h,
                          fmi2Boolean loggingOn,

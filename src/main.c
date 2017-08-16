@@ -5,8 +5,12 @@
 #include <stdarg.h>
 #include "fmi2.h"
 #include "sim_support.h"
-
 #include "fmu_wrapper.h"
+
+#define NUMBER_OF_FMUS 2
+#define NUMBER_OF_EDGES 1
+#define MODEL_NAME "demo"
+const char* NAMES_OF_FMUS[] = {"MoonLanding", "Controller_MoonLanding"};
 
 typedef struct {
   fmi2Real        output_altitute;
@@ -26,32 +30,34 @@ Compute_Entrypoint_MoonLanding (FMUContext * ctx,
   fmi2Status      fmi2Flag;
 
   /* Get the scalar variables */
-  ScalarVariable *input_thrust_sv = getVariable (ctx->fmu->modelDescription, "thrust");
-  ScalarVariable *output_altitute_sv = getVariable (ctx->fmu->modelDescription, "a");
-  ScalarVariable *output_velocity_sv = getVariable (ctx->fmu->modelDescription, "v");
+  ScalarVariable *input_thrust_sv = getVariable (ctx->fmus->modelDescription, "thrust");
+  ScalarVariable *output_altitute_sv = getVariable (ctx->fmus->modelDescription, "a");
+  ScalarVariable *output_velocity_sv = getVariable (ctx->fmus->modelDescription, "v");
 
   /* Set the input */
   vr = getValueReference (input_thrust_sv);
-  fmi2Flag = ctx->fmu->setReal (ctx->component, &vr, 1, &inputThrust);
+  fmi2Flag = ctx->fmus->setReal (ctx->component, &vr, 1, &inputThrust);
 
   /* Calculate the Step */
-  doStep (ctx->fmu, ctx->component,
+  doStep (ctx->fmus, ctx->component,
           ctx->currentCommunicationPoint,
           ctx->communicationStepSize,
           ctx->noSetFMUStatePriorToCurrentPoint);
 
   /* Dump values */
-  outputRow (ctx->fmu, ctx->component,
+  outputRow(ctx->fmus, NUMBER_OF_FMUS, NAMES_OF_FMUS, ctx->currentCommunicationPoint, ctx->resultFile, ',', fmi2False);
+
+  /*outputRow (ctx->fmus, ctx->component,
              ctx->currentCommunicationPoint,
-             ctx->resultFile, ',', fmi2False);
+             ctx->resultFile, ',', fmi2False);*/
 
   /* Get the outputs */
   vr = getValueReference (output_altitute_sv);
-  fmi2Flag = ctx->fmu->getReal (ctx->component, &vr, 1, &r);
+  fmi2Flag = ctx->fmus->getReal (ctx->component, &vr, 1, &r);
   moonLandingOuputs->output_altitute = r;
 
   vr = getValueReference (output_velocity_sv);
-  fmi2Flag = ctx->fmu->getReal (ctx->component, &vr, 1, &r);
+  fmi2Flag = ctx->fmus->getReal (ctx->component, &vr, 1, &r);
   moonLandingOuputs->output_velocity = r;
 
   return fmi2Flag;
@@ -63,41 +69,50 @@ Compute_Entrypoint_MoonLanding (FMUContext * ctx,
 int
 main (int argc, char *argv[])
 {
-  const char     *fmuFileName;
+  //const char     *fmuFileName;
+#ifdef _MSC_VER
+    const char* fmuFileNames[NUMBER_OF_FMUS];
+#else
+    char* fmuFileNames[NUMBER_OF_FMUS];
+#endif
+
   double          tEnd = 110.0;
   double          h = 0.1;
   int             loggingOn = 0;
   char            csv_separator = ',';
-  fmi2String     *categories = NULL;
+  //fmi2String     *categories = NULL;
+  char **categories = NULL;
   int             nCategories = 0;
-  FMUContext      ctx;
-  parseArguments (argc, argv, &fmuFileName, &tEnd, &h, &loggingOn,
-                  &csv_separator, &nCategories, &categories);
 
-  ctx.fmu = malloc (sizeof (FMU));
+  FMUContext      ctx;
+
+  //parseArguments(argc, argv, &fmuFileNames, &tEnd, &h, &loggingOn, &csv_separator, &nCategories, &categories);
+  parseArguments(argc, argv, &tEnd, &h, &loggingOn, &csv_separator, &nCategories, &categories);
+ //ctx.fmu = malloc (sizeof (FMU));
+  ctx.fmus = calloc(NUMBER_OF_FMUS, sizeof(FMU));
+  //portConnection* connections = calloc(NUMBER_OF_EDGES, sizeof(portConnection));
 
   /* 1/ FMU Activate Entrypoint */
 
-  FMU_Activate_Entrypoint
-    (fmuFileName, tEnd, h, loggingOn,
-     csv_separator, nCategories, categories, &ctx);
+    FMU_Activate_Entrypoint(NUMBER_OF_FMUS, fmuFileNames, tEnd, h, loggingOn, csv_separator, nCategories, categories, &ctx);
+
 
   /* MoonLanding specific part */
 
-  fmi2Real        inputThrust;
+  /*fmi2Real        inputThrust;
   MoonLandingOuputs *moonLandingOuputs;
   moonLandingOuputs = (MoonLandingOuputs *) malloc (sizeof (MoonLandingOuputs));
-  assert (moonLandingOuputs != NULL);
+  assert (moonLandingOuputs != NULL);*/
 
   /* 2/ Processing loop */
 
-  while (ctx.currentCommunicationPoint < tEnd) {
+  /*while (ctx.currentCommunicationPoint < tEnd) {
     /* a) stupid controller that "just works" */
 
     /* This controller brings the lander close to the ground, at
        around t = 59.4, after that the lander eventually flies back */
 
-    if (ctx.currentCommunicationPoint >= 0.0
+    /*if (ctx.currentCommunicationPoint >= 0.0
         && ctx.currentCommunicationPoint < 59.4)
       inputThrust = 2568500.0;
     else
@@ -107,23 +122,23 @@ main (int argc, char *argv[])
         inputThrust = 0.0;
 
     /* b) Compute_Entrypoint */
-    Compute_Entrypoint_MoonLanding (&ctx, inputThrust, moonLandingOuputs);
+    /*Compute_Entrypoint_MoonLanding (&ctx, inputThrust, moonLandingOuputs);
 
-    printf ("%f %f %f %f\n", ctx.currentCommunicationPoint,
+    printf ("%f %f %f %f\n", ctx.currentCommunicatiœonPoint,
             inputThrust,
             moonLandingOuputs->output_altitute,
             moonLandingOuputs->output_velocity);
 
     /* c) "time" management */
 
-    ctx.currentCommunicationPoint += ctx.communicationStepSize;
-  }
+    //ctx.currentCommunicationPoint += ctx.communicationStepSize;
+  //}
 
   /* End simulation */
-  printf ("\nEnd of the simulation.\n\n");
+  //printf ("\nEnd of the simulation.\n\n");
 
-  free (moonLandingOuputs);
-  freeContext (ctx);
+  //free (moonLandingOuputs);
+  //freeContext (ctx);
 
   return EXIT_SUCCESS;
 }
