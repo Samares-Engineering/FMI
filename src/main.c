@@ -12,7 +12,7 @@
 #define NUMBER_OF_FMUS 2
 #define NUMBER_OF_EDGES 0
 #define MODEL_NAME "demo"
-const char* NAMES_OF_FMUS[] = {"MoonLanding.fmu", "bouncingBall.fmu"};
+const char* NAMES_OF_FMUS[] = {"bouncingBall.fmu", "bouncingBall.fmu"};
 
 
 /*#define NUMBER_OF_FMUS 2
@@ -72,7 +72,7 @@ Compute_Entrypoint_MoonLanding (FMUContext * ctx,
 	return fmi2Flag;
 }
 
-int
+/*int
 Compute_Context(FMUContext * ctx){
 
 	for(int i = 0 ; i < NUMBER_OF_FMUS; i++){
@@ -84,10 +84,11 @@ Compute_Context(FMUContext * ctx){
 
 	ctx->currentCommunicationPoint += ctx->communicationStepSize;
 
-	outputRow_local (NUMBER_OF_FMUS, NAMES_OF_FMUS, ctx->fmus, ctx->component, ctx->currentCommunicationPoint, ctx->resultFile, ',', fmi2False);  /* output values */
+	outputRow_local (NUMBER_OF_FMUS, NAMES_OF_FMUS, ctx->fmus, ctx->component, ctx->currentCommunicationPoint, ctx->resultFile, ',', fmi2False);
 
 	return 1;
-}
+}*/
+
 /******************************************************************************
  */
 
@@ -434,16 +435,16 @@ main (int argc, char *argv[])
 {
 	//const char     *fmuFileName;
 
-	const char* fmuFileNames[NUMBER_OF_FMUS];
+	//const char* fmuFileNames[NUMBER_OF_FMUS];
 
 
 	double tStart = 0.0;
-	double          tEnd = 10.0;
+	double          tEnd = 2.0;
 	double          h = 0.1;
 	int             loggingOn = 0;
 	char            csv_separator = ',';
-	//fmi2String     *categories = NULL;
-	char **categories = NULL;
+	fmi2String     *categories = NULL;
+	//char **categories = NULL;
 	int             nCategories = 0;
 	fmi2Boolean visible = fmi2False;
 
@@ -461,29 +462,41 @@ main (int argc, char *argv[])
 	//portConnection* connections = calloc(NUMBER_OF_EDGES, sizeof(portConnection));
 
 	/* 1/ FMU Activate Entrypoint */
-	FMU_Activate_Entrypoint(NUMBER_OF_FMUS, NAMES_OF_FMUS, tEnd, h, loggingOn, csv_separator, nCategories, categories, &ctx);
+	FMU_Activate_Entrypoint(NUMBER_OF_FMUS, NAMES_OF_FMUS, tEnd, h,
+			loggingOn, csv_separator, nCategories, categories, &ctx);
 
 	//setupConnections(ctx.fmus, connections);
 
 
-	printf("FMU Simulator: run '%s' from t=0..%g with step size h=%g, loggingOn=%d, csv separator='%c' ", MODEL_NAME, tEnd, h, loggingOn, csv_separator);
+	/*printf("FMU Simulator: run '%s' from t=0..%g with step size h=%g, "
+			"loggingOn=%d, csv separator='%c' ", MODEL_NAME, tEnd, h, loggingOn, csv_separator);
 	printf("log categories={ ");
 	for (int i = 0; i < nCategories; i++) {
 		printf("%s ", categories[i]);
 	}
-	printf("}\n");
+	printf("}\n");*/
 
 
 	while (ctx.currentCommunicationPoint < tEnd) {
 
 		//Compute_Entrypoint_MoonLanding (&ctx, inputThrust, moonLandingOuputs);
 
-		Compute_Context(&ctx);
+		for(int i = 0 ; i < NUMBER_OF_FMUS; i++){
+			doStep (&(ctx.fmus[i]), ctx.component[i],
+				ctx.currentCommunicationPoint,
+				ctx.communicationStepSize,
+				ctx.noSetFMUStatePriorToCurrentPoint);
+		}
 
+		ctx.currentCommunicationPoint += ctx.communicationStepSize;
 
+		outputRow_local (NUMBER_OF_FMUS, NAMES_OF_FMUS, ctx.fmus, ctx.component, ctx.currentCommunicationPoint, ctx.resultFile, ',', fmi2False);
 	}
 
 	freeContext (ctx, NUMBER_OF_FMUS);
+
+	//fclose (ctx.resultFile);
+	printf ("CSV file written\n\n");
 
 	//simulate(&ctx, connections, h, loggingOn, csv_separator, tStart, tEnd);
 	//printf("CSV file '%s' written\n", RESULT_FILE);

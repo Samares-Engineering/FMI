@@ -526,12 +526,15 @@ FMU_Activate_Entrypoint (int numberOfFMUs, const char* fmuFileName[], double tEn
 
 		instanceName = getAttributeValue ((Element *) getCoSimulation (md), att_modelIdentifier);
 
+
+
 		c = ctx->fmus[i].instantiate(instanceName, fmi2CoSimulation, guid, fmuResourceLocation, &callbacks, visible, loggingOn);
 		free (fmuResourceLocation);
 		if (!c)
 			return error ("Could not instantiate model");
 
 		ctx->component[i] = c;
+
 
 		if (nCategories > 0) {
 			fmi2Flag = ctx->fmus[i].setDebugLogging (c, fmi2True, nCategories, categories);
@@ -577,7 +580,7 @@ void
 freeContext (FMUContext ctx, int numberOfFMUs)
 {
 	for(int i = 0; i < numberOfFMUs; i++){
-		FMU_WRAPPER_PRINT ("Release FMU\n\n");
+		FMU_WRAPPER_PRINT ("Release FMU %d\n\n", i+1);
 		ctx.fmus[i].terminate (ctx.component[i]);
 		//ctx.fmu->freeInstance (ctx.component);
 
