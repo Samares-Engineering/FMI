@@ -16,7 +16,7 @@ CXX=c++
 
 # Folder of the shared src from the FMUSDK2 submodule
 FMUSDK2_PATH = ../fmusdk2/fmu20/src/shared
-# FMUSDK2_DE_PATH = ../fmusdk2/fmude/src
+#FMUSDK2_DE_PATH = ../fmusdk2/fmude/src
 
 FMUSDK2_DEFINE = -DFMI_COSIMULATION -DSTANDALONE_XML_PARSER	\
 	-DLIBXML_STATIC

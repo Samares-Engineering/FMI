@@ -357,7 +357,7 @@ doStep (FMU * fmu, fmi2Component c, fmi2Real currentCommunicationPoint,
 	fmi2Flag = fmu->doStep (c, currentCommunicationPoint, communicationStepSize, noSetFMUStatePriorToCurrentPoint);
 	if (fmi2Flag == fmi2Discard) {
 		fmi2Boolean     b;
-		/* Check if model requests to end simulation */
+
 		if (fmi2OK != fmu->getBooleanStatus (c, fmi2Terminated, &b)) {
 			return error ("Could not complete simulation of the model. getBooleanStatus return other than fmi2OK.\n\n");
 		}
@@ -381,10 +381,10 @@ doStep (FMU * fmu, fmi2Component c, fmi2Real currentCommunicationPoint,
 
 //static fmi2Component initializeFMU(FMU *fmu, fmi2Boolean visible, fmi2Boolean loggingOn, int nCategories, const fmi2String categories[], double tStart, double tEnd) {
 
-	//fmi2Status fmi2Flag;                     // return code of the fmu functions
+//fmi2Status fmi2Flag;                     // return code of the fmu functions
 
-	// instantiate the fmu
-	/*fmu->callbacks.logger = fmuLogger;
+// instantiate the fmu
+/*fmu->callbacks.logger = fmuLogger;
 	fmu->callbacks.allocateMemory = calloc;
 	fmu->callbacks.freeMemory = free;
 	fmu->callbacks.stepFinished = NULL; // fmi2DoStep has to be carried out synchronously
@@ -507,6 +507,11 @@ FMU_Activate_Entrypoint (int numberOfFMUs, const char* fmuFileName[], double tEn
 	FILE           *file;
 
 
+	if (!(file = fopen (RESULT_FILE, "w"))) {
+		printf ("Could not write %s because:\n", RESULT_FILE);
+		printf ("    %s\n\n", strerror (errno));
+		return 0;
+	}
 
 	/* Import FMU */
 	for(int i = 0; i < numberOfFMUs; i++){
@@ -526,6 +531,8 @@ FMU_Activate_Entrypoint (int numberOfFMUs, const char* fmuFileName[], double tEn
 		if (!c)
 			return error ("Could not instantiate model");
 
+		ctx->component[i] = c;
+
 		if (nCategories > 0) {
 			fmi2Flag = ctx->fmus[i].setDebugLogging (c, fmi2True, nCategories, categories);
 			if (fmi2Flag > fmi2Warning)
@@ -542,92 +549,146 @@ FMU_Activate_Entrypoint (int numberOfFMUs, const char* fmuFileName[], double tEn
 			return error ("Could not finish instantiation; failed FMI setup experiment");
 
 		//initializeFMU(&(ctx->fmus[i]), visible, loggingOn, nCategories, categories, tStart, tEnd);
-		 initializeModel (&(ctx->fmus[i]), c, fmuFileName[i]);
+		initializeModel (&(ctx->fmus[i]), c, fmuFileName[i]);
 	}
 
+	outputRow_local (numberOfFMUs, fmuFileName, ctx->fmus, ctx->component, tStart, file, separator, fmi2True);   /* output column names */
+	outputRow_local (numberOfFMUs, fmuFileName, ctx->fmus, ctx->component, tStart, file, separator, fmi2False);  /* output values */
 
-	/*if (!(file = fopen (RESULT_FILE, "w"))) {
-		printf ("Could not write %s because:\n", RESULT_FILE);
-		printf ("    %s\n\n", strerror (errno));
-		return 0;
-	}*/
 
 	//outputRow(ctx->fmus, numberOfFMUs, fmuFileName, tStart, file, separator, fmi2True);
 	//outputRow(ctx->fmus, numberOfFMUs, fmuFileName, tStart, file, separator, fmi2False);
 
-	//outputRow (ctx->fmus, c, tStart, file, separator, fmi2True);   /* output column names */
-	//outputRow (ctx->fmus, c, tStart, file, separator, fmi2False);  /* output values */
 
 	time = tStart;
 
 	/* Setting up the FMU context */
-	/*ctx->component = c;
 	ctx->currentCommunicationPoint = time;
 	ctx->communicationStepSize = h;
 	ctx->noSetFMUStatePriorToCurrentPoint = fmi2True;
-	ctx->resultFile = file;*/
+	ctx->resultFile = file;
 
-	//md = ctx->fmus->modelDescription;
-	/*guid = getAttributeValue ((Element *) md, att_guid);
-  instanceName = getAttributeValue ((Element *) getCoSimulation (md), att_modelIdentifier);
-  c = ctx->fmus->instantiate (instanceName, fmi2CoSimulation, guid, fmuResourceLocation, &callbacks, visible, loggingOn);
-  free (fmuResourceLocation);
-  if (!c)
-    return error ("Could not instantiate model");
-
-  if (nCategories > 0) {
-    fmi2Flag = ctx->fmus->setDebugLogging (c, fmi2True, nCategories, categories);
-    if (fmi2Flag > fmi2Warning)
-      return error ("Could not finish instantiation; failed to set debug logging");
-  }
-  defaultExp = getDefaultExperiment (md);
-  if (defaultExp)
-    tolerance = getAttributeDouble (defaultExp, att_tolerance, &vs);
-  if (vs == valueDefined)
-    toleranceDefined = fmi2True;
-  fmi2Flag = ctx->fmus->setupExperiment (c, toleranceDefined, tolerance, tStart, fmi2True, tEnd);
-  if (fmi2Flag > fmi2Warning)
-    return error ("Could not finish instantiation; failed FMI setup experiment");
-
-  initializeModel (ctx->fmus, c, fmuFileName);*/
-
-	/* Open result file */
-	/*if (!(file = fopen (RESULT_FILE, "w"))) {
-    printf ("Could not write %s because:\n", RESULT_FILE);
-    printf ("    %s\n\n", strerror (errno));
-    return 0;
-  }*/
-	/* Output solution for time t0 */
-	/*outputRow(ctx->fmus, numberOfFMUs, fmuFileName, tStart, file, separator, fmi2True);
-  outputRow(ctx->fmus, numberOfFMUs, fmuFileName, tStart, file, separator, fmi2False);*/
-
-	//outputRow (ctx->fmus, c, tStart, file, separator, fmi2True);   /* output column names */
-	//outputRow (ctx->fmus, c, tStart, file, separator, fmi2False);  /* output values */
-
-	/* Enter the simulation loop */
-	//time = tStart;
-
-	/* Setting up the FMU context */
-	/*ctx->component = c;
-  ctx->currentCommunicationPoint = time;
-  ctx->communicationStepSize = h;
-  ctx->noSetFMUStatePriorToCurrentPoint = fmi2True;
-  ctx->resultFile = file;*/
 	return 1;
 }
 
 /******************************************************************************
  */
 void
-freeContext (FMUContext ctx)
+freeContext (FMUContext ctx, int numberOfFMUs)
 {
-	FMU_WRAPPER_PRINT ("Release FMU\n\n");
-	ctx.fmus->terminate (ctx.component);
-	//ctx.fmu->freeInstance (ctx.component);
+	for(int i = 0; i < numberOfFMUs; i++){
+		FMU_WRAPPER_PRINT ("Release FMU\n\n");
+		ctx.fmus[i].terminate (ctx.component[i]);
+		//ctx.fmu->freeInstance (ctx.component);
 
-	fclose (ctx.resultFile);
-	FMU_WRAPPER_PRINT ("CSV file '%s' written\n\n", RESULT_FILE);
+		//fclose (ctx.resultFile);
+		//FMU_WRAPPER_PRINT ("CSV file '%s' written\n\n", RESULT_FILE);
 
-	dlclose (ctx.fmus->dllHandle);
-	freeModelDescription (ctx.fmus->modelDescription);
+		dlclose (ctx.fmus[i].dllHandle);
+		freeModelDescription (ctx.fmus[i].modelDescription);
+	}
 }
+
+
+// output time and all variables in CSV format
+// if separator is ',', columns are separated by ',' and '.' is used for floating-point numbers.
+// otherwise, the given separator (e.g. ';' or '\t') is to separate columns, and ',' is used
+// as decimal dot in floating-point numbers.
+void outputRow_local(int numberOfFMUs, const char* NAMES_OF_FMUS[], FMU *fmus, fmi2Component * component, double time, FILE* file, char separator, fmi2Boolean header) {
+	char buffer[32];
+
+	// print first column
+	if (header) {
+		fprintf(file, "time");
+	}
+	else {
+		if (separator==',') {
+			fprintf(file, "%.17f", time);
+		}
+		else {
+			// separator is e.g. ';' or '\t'
+			doubleToCommaString_local(buffer, time);
+			fprintf(file, "%s", buffer);
+		}
+	}
+
+	// print all other columns
+	int j = 0;
+	for (j = 0; j < numberOfFMUs; j++)
+	{
+		int k;
+		fmi2Real r;
+		fmi2Integer i;
+		fmi2Boolean b;
+		fmi2String s;
+		fmi2ValueReference vr;
+		fmi2Integer hv;
+
+		FMU *fmu = &fmus[j];
+		int n = getScalarVariableSize(fmu->modelDescription);
+		fmi2Component c = component[j];
+
+		for (k = 0; k < n; k++) {
+			ScalarVariable* sv = getScalarVariable(fmu->modelDescription, k);
+			if (header) {
+				// output names only
+				if (separator == ',') {
+					// treat array element, e.g. print a[1, 2] as a[1.2]
+					const char* s = getAttributeValue((Element *)sv, att_name);
+					fprintf(file, "%c", separator);
+					fprintf(file, "%s_", NAMES_OF_FMUS[j]);
+					while (*s) {
+						if (*s != ' ') {
+							fprintf(file, "%c", *s == ',' ? '.' : *s);
+						}
+						s++;
+					}
+				}
+				else {
+					fprintf(file, "%c%s", separator, getAttributeValue((Element *)sv, att_name));
+				}
+			}
+			else {
+				vr = getValueReference(sv);
+				switch (getElementType(getTypeSpec(sv))) {
+				case elm_Real:
+					fmu->getReal(c, &vr, 1, &r);
+					if (separator == ',') {
+						fprintf(file, ",%.16g", r);
+					} else {
+						// separator is e.g. ';' or '\t'
+						doubleToCommaString_local(buffer, r);
+						fprintf(file, "%c%s", separator, buffer);
+					}
+					break;
+				case elm_Integer:
+				case elm_Enumeration:
+					fmu->getInteger(c, &vr, 1, &i);
+					fprintf(file, "%c%d", separator, i);
+					break;
+				case elm_Boolean:
+					fmu->getBoolean(c, &vr, 1, &b);
+					fprintf(file, "%c%d", separator, b);
+					break;
+				case elm_String:
+					fmu->getString(c, &vr, 1, &s);
+					fprintf(file, "%c%s", separator, s);
+					break;
+				default:
+					fprintf(file, "%cNoValueForType=%d", separator, getElementType(getTypeSpec(sv)));
+				}
+			}
+		} // for fmus variables
+	} // for fmus
+
+	// terminate this row
+	fprintf(file, "\n");
+}
+
+void doubleToCommaString_local(char* buffer, double r){
+	char* comma;
+	sprintf(buffer, "%.16g", r);
+	comma = strchr(buffer, '.');
+	if (comma) *comma = ',';
+}
+
