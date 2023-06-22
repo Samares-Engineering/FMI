@@ -14,6 +14,6 @@ void user_thread_fmi();
 void user_thread_fmi_2();
 void user_thread_fmi_3();
 void initClock();
-abs_time shift(int second, long nanosecond);
+abs_time shift(unsigned long ms);
 
 #endif /* SIMULATOR_USER_CODE_FMI_H_ */

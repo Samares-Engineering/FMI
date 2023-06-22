@@ -1,0 +1,1465 @@
+<?xml version="1.0" encoding="ASCII"?>
+<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="AADL Diagram" name="Rosace::Rosace_with_Controller.with_devices" snapToGrid="true" version="0.12.0">
+  <properties key="independentObject" value="classifier Rosace::Rosace_with_Controller.with_devices"/>
+  <graphicsAlgorithm xsi:type="al:Rectangle" background="//@colors.1" foreground="//@colors.0" lineWidth="1" transparency="0.0" width="1000" height="1000"/>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="independentObject" value="classifier Rosace::Rosace_with_Controller.with_devices"/>
+    <properties key="is_ghost" value="false"/>
+    <properties key="is_layed_out" value="true"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineStyle="UNSPECIFIED" filled="false" width="1980" height="531" x="70" y="20" style="//@styles.4/@styles.2/@styles.0" cornerHeight="25" cornerWidth="25"/>
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+      <properties key="name" value="connection Rosace::Rosace_with_Controller.with_devices.throttle_com_conn_midpoint"/>
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+      <location x="210" y="348"/>
+    </anchors>
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+      <properties key="name" value="connection Rosace::Rosace_with_Controller.with_devices.elevator_com_conn_midpoint"/>
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+      <location x="81" y="443"/>
+    </anchors>
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+      <properties key="name" value="connection Rosace::Rosace_with_Controller.with_devices.engine_thrust_conn_midpoint"/>
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+      <location x="909" y="214"/>
+    </anchors>
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+      <properties key="name" value="connection Rosace::Rosace_with_Controller.with_devices.elevator_def_conn_midpoint"/>
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+      <location x="973" y="95"/>
+    </anchors>
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+      <properties key="name" value="connection Rosace::Rosace_with_Controller.with_devices.altitude_out_midpoint"/>
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+      <location x="1625" y="324"/>
+    </anchors>
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+      <properties key="name" value="connection Rosace::Rosace_with_Controller.with_devices.vertical_acc_conn_midpoint"/>
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+      <location x="1879" y="444"/>
+    </anchors>
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+      <properties key="name" value="connection Rosace::Rosace_with_Controller.with_devices.vertical_speed_conn_midpoint"/>
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+      <location x="1784" y="404"/>
+    </anchors>
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+      <properties key="name" value="connection Rosace::Rosace_with_Controller.with_devices.pitch_rate_conn_midpoint"/>
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+      <location x="1702" y="364"/>
+    </anchors>
+    <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+      <properties key="name" value="connection Rosace::Rosace_with_Controller.with_devices.true_airspeed_conn_midpoint"/>
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+      <location x="1968" y="480"/>
+    </anchors>
+    <anchors xsi:type="pi:ChopboxAnchor">
+      <properties key="name" value="chopbox"/>
+    </anchors>
+    <children xsi:type="pi:ContainerShape" visible="true" active="true">
+      <properties key="independentObject" value="subcomponent Rosace::Rosace_with_Controller.with_devices.this_Aircraft_Dynamics_FMU"/>
+      <properties key="is_ghost" value="false"/>
+      <properties key="is_layed_out" value="true"/>
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" filled="false" width="707" height="216" x="1060" y="38" style="//@styles.4/@styles.0/@styles.0">
+        <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" lineVisible="false" style="//@styles.5">
+          <points x="707"/>
+          <points x="707" y="216"/>
+          <points x="703" y="212"/>
+          <points x="703" y="4"/>
+        </graphicsAlgorithmChildren>
+        <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" lineVisible="false" style="//@styles.5">
+          <points x="707" y="216"/>
+          <points y="216"/>
+          <points x="4" y="212"/>
+          <points x="703" y="212"/>
+        </graphicsAlgorithmChildren>
+        <graphicsAlgorithmChildren xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" filled="false" width="699" height="208" x="4" y="4" style="//@styles.4/@styles.0/@styles.0"/>
+        <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.4/@styles.0/@styles.0">
+          <points/>
+          <points x="5" y="5"/>
+        </graphicsAlgorithmChildren>
+        <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.4/@styles.0/@styles.0">
+          <points x="707"/>
+          <points x="702" y="5"/>
+        </graphicsAlgorithmChildren>
+        <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.4/@styles.0/@styles.0">
+          <points x="702" y="211"/>
+          <points x="707" y="216"/>
+        </graphicsAlgorithmChildren>
+        <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.4/@styles.0/@styles.0">
+          <points y="216"/>
+          <points x="5" y="211"/>
+        </graphicsAlgorithmChildren>
+      </graphicsAlgorithm>
+      <anchors xsi:type="pi:ChopboxAnchor">
+        <properties key="name" value="chopbox"/>
+      </anchors>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <properties key="independentObject" value="feature Rosace::Aircraft_Dynamics_FMU.engine_thrust_in"/>
+        <properties key="is_ghost" value="false"/>
+        <properties key="is_coloring_container" value="true"/>
+        <properties key="is_layed_out" value="true"/>
+        <properties key="side" value="left"/>
+        <properties key="layout_side" value="left"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="144" height="29" y="152"/>
+        <anchors xsi:type="pi:ChopboxAnchor">
+          <properties key="name" value="chopbox"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="innerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="15" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.2" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="outerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="flowSpecification"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="65" y="24"/>
+        </anchors>
+        <children xsi:type="pi:ContainerShape" visible="true" active="true">
+          <properties key="name" value="feature"/>
+          <properties key="is_inner_shape" value="true"/>
+          <properties key="is_coloring_child" value="true"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="15" height="10" y="19" style="//@styles.2">
+            <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="15" height="10" style="//@styles.2">
+              <points/>
+              <points x="15" y="5"/>
+              <points y="10"/>
+            </graphicsAlgorithmChildren>
+          </graphicsAlgorithm>
+          <anchors xsi:type="pi:ChopboxAnchor">
+            <properties key="name" value="chopbox"/>
+          </anchors>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Aircraft_Dynamics_FMU.engine_thrust_in"/>
+          <properties key="name" value="label"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="139" height="19" x="5" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="139" height="19" style="//@styles.1" verticalAlignment="UNSPECIFIED" value="engine_thrust_in"/>
+          </graphicsAlgorithm>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Aircraft_Dynamics_FMU.engine_thrust_in"/>
+          <properties key="name" value="annotation"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" x="5" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" style="//@styles.3" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value=""/>
+          </graphicsAlgorithm>
+        </children>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <properties key="independentObject" value="feature Rosace::Aircraft_Dynamics_FMU.elevator_deflection_in"/>
+        <properties key="is_ghost" value="false"/>
+        <properties key="is_coloring_container" value="true"/>
+        <properties key="is_layed_out" value="true"/>
+        <properties key="side" value="left"/>
+        <properties key="layout_side" value="left"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="186" height="29" y="32"/>
+        <anchors xsi:type="pi:ChopboxAnchor">
+          <properties key="name" value="chopbox"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="innerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="15" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.3" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="outerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="flowSpecification"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="65" y="24"/>
+        </anchors>
+        <children xsi:type="pi:ContainerShape" visible="true" active="true">
+          <properties key="name" value="feature"/>
+          <properties key="is_inner_shape" value="true"/>
+          <properties key="is_coloring_child" value="true"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="15" height="10" y="19" style="//@styles.2">
+            <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="15" height="10" style="//@styles.2">
+              <points/>
+              <points x="15" y="5"/>
+              <points y="10"/>
+            </graphicsAlgorithmChildren>
+          </graphicsAlgorithm>
+          <anchors xsi:type="pi:ChopboxAnchor">
+            <properties key="name" value="chopbox"/>
+          </anchors>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Aircraft_Dynamics_FMU.elevator_deflection_in"/>
+          <properties key="name" value="label"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="181" height="19" x="5" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="181" height="19" style="//@styles.1" verticalAlignment="UNSPECIFIED" value="elevator_deflection_in"/>
+          </graphicsAlgorithm>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Aircraft_Dynamics_FMU.elevator_deflection_in"/>
+          <properties key="name" value="annotation"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" x="5" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" style="//@styles.3" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value=""/>
+          </graphicsAlgorithm>
+        </children>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <properties key="independentObject" value="feature Rosace::Aircraft_Dynamics_FMU.altitude_out"/>
+        <properties key="is_ghost" value="false"/>
+        <properties key="is_coloring_container" value="true"/>
+        <properties key="is_layed_out" value="true"/>
+        <properties key="side" value="right"/>
+        <properties key="layout_side" value="right"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="103" height="29" x="604" y="162"/>
+        <anchors xsi:type="pi:ChopboxAnchor">
+          <properties key="name" value="chopbox"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="innerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="88" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.4" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="outerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="103" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="flowSpecification"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="38" y="24"/>
+        </anchors>
+        <children xsi:type="pi:ContainerShape" visible="true" active="true">
+          <properties key="name" value="feature"/>
+          <properties key="is_inner_shape" value="true"/>
+          <properties key="is_coloring_child" value="true"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="15" height="10" x="88" y="19" style="//@styles.2">
+            <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="15" height="10" style="//@styles.2">
+              <points/>
+              <points x="15" y="5"/>
+              <points y="10"/>
+            </graphicsAlgorithmChildren>
+          </graphicsAlgorithm>
+          <anchors xsi:type="pi:ChopboxAnchor">
+            <properties key="name" value="chopbox"/>
+          </anchors>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Aircraft_Dynamics_FMU.altitude_out"/>
+          <properties key="name" value="label"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="98" height="19" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="98" height="19" style="//@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="altitude_out"/>
+          </graphicsAlgorithm>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Aircraft_Dynamics_FMU.altitude_out"/>
+          <properties key="name" value="annotation"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" x="98" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" style="//@styles.3" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value=""/>
+          </graphicsAlgorithm>
+        </children>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <properties key="independentObject" value="feature Rosace::Aircraft_Dynamics_FMU.vertical_speed_out"/>
+        <properties key="is_ghost" value="false"/>
+        <properties key="is_coloring_container" value="true"/>
+        <properties key="is_layed_out" value="true"/>
+        <properties key="side" value="right"/>
+        <properties key="layout_side" value="right"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="161" height="29" x="546" y="97"/>
+        <anchors xsi:type="pi:ChopboxAnchor">
+          <properties key="name" value="chopbox"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="innerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="146" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.6" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="outerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="161" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="flowSpecification"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="96" y="24"/>
+        </anchors>
+        <children xsi:type="pi:ContainerShape" visible="true" active="true">
+          <properties key="name" value="feature"/>
+          <properties key="is_inner_shape" value="true"/>
+          <properties key="is_coloring_child" value="true"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="15" height="10" x="146" y="19" style="//@styles.2">
+            <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="15" height="10" style="//@styles.2">
+              <points/>
+              <points x="15" y="5"/>
+              <points y="10"/>
+            </graphicsAlgorithmChildren>
+          </graphicsAlgorithm>
+          <anchors xsi:type="pi:ChopboxAnchor">
+            <properties key="name" value="chopbox"/>
+          </anchors>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Aircraft_Dynamics_FMU.vertical_speed_out"/>
+          <properties key="name" value="label"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="156" height="19" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="156" height="19" style="//@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="vertical_speed_out"/>
+          </graphicsAlgorithm>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Aircraft_Dynamics_FMU.vertical_speed_out"/>
+          <properties key="name" value="annotation"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" x="156" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" style="//@styles.3" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value=""/>
+          </graphicsAlgorithm>
+        </children>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <properties key="independentObject" value="feature Rosace::Aircraft_Dynamics_FMU.vertical_acceleration_out"/>
+        <properties key="is_ghost" value="false"/>
+        <properties key="is_coloring_container" value="true"/>
+        <properties key="is_layed_out" value="true"/>
+        <properties key="side" value="right"/>
+        <properties key="layout_side" value="right"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="212" height="29" x="495" y="60"/>
+        <anchors xsi:type="pi:ChopboxAnchor">
+          <properties key="name" value="chopbox"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="innerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="197" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.5" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="outerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="212" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="flowSpecification"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="147" y="24"/>
+        </anchors>
+        <children xsi:type="pi:ContainerShape" visible="true" active="true">
+          <properties key="name" value="feature"/>
+          <properties key="is_inner_shape" value="true"/>
+          <properties key="is_coloring_child" value="true"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="15" height="10" x="197" y="19" style="//@styles.2">
+            <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="15" height="10" style="//@styles.2">
+              <points/>
+              <points x="15" y="5"/>
+              <points y="10"/>
+            </graphicsAlgorithmChildren>
+          </graphicsAlgorithm>
+          <anchors xsi:type="pi:ChopboxAnchor">
+            <properties key="name" value="chopbox"/>
+          </anchors>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Aircraft_Dynamics_FMU.vertical_acceleration_out"/>
+          <properties key="name" value="label"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="207" height="19" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="207" height="19" style="//@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="vertical_acceleration_out"/>
+          </graphicsAlgorithm>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Aircraft_Dynamics_FMU.vertical_acceleration_out"/>
+          <properties key="name" value="annotation"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" x="207" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" style="//@styles.3" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value=""/>
+          </graphicsAlgorithm>
+        </children>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <properties key="independentObject" value="feature Rosace::Aircraft_Dynamics_FMU.true_air_speed_out"/>
+        <properties key="is_ghost" value="false"/>
+        <properties key="is_coloring_container" value="true"/>
+        <properties key="is_layed_out" value="true"/>
+        <properties key="side" value="right"/>
+        <properties key="layout_side" value="right"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="166" height="29" x="541" y="20"/>
+        <anchors xsi:type="pi:ChopboxAnchor">
+          <properties key="name" value="chopbox"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="innerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="151" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.8" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="outerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="166" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="flowSpecification"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="101" y="24"/>
+        </anchors>
+        <children xsi:type="pi:ContainerShape" visible="true" active="true">
+          <properties key="name" value="feature"/>
+          <properties key="is_inner_shape" value="true"/>
+          <properties key="is_coloring_child" value="true"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="15" height="10" x="151" y="19" style="//@styles.2">
+            <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="15" height="10" style="//@styles.2">
+              <points/>
+              <points x="15" y="5"/>
+              <points y="10"/>
+            </graphicsAlgorithmChildren>
+          </graphicsAlgorithm>
+          <anchors xsi:type="pi:ChopboxAnchor">
+            <properties key="name" value="chopbox"/>
+          </anchors>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Aircraft_Dynamics_FMU.true_air_speed_out"/>
+          <properties key="name" value="label"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="161" height="19" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="161" height="19" style="//@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="true_air_speed_out"/>
+          </graphicsAlgorithm>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Aircraft_Dynamics_FMU.true_air_speed_out"/>
+          <properties key="name" value="annotation"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" x="161" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" style="//@styles.3" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value=""/>
+          </graphicsAlgorithm>
+        </children>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <properties key="independentObject" value="feature Rosace::Aircraft_Dynamics_FMU.pitch_rate_out"/>
+        <properties key="is_ghost" value="false"/>
+        <properties key="is_coloring_container" value="true"/>
+        <properties key="is_layed_out" value="true"/>
+        <properties key="side" value="right"/>
+        <properties key="layout_side" value="right"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="125" height="29" x="582" y="134"/>
+        <anchors xsi:type="pi:ChopboxAnchor">
+          <properties key="name" value="chopbox"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="innerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="110" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.7" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="outerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="125" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="flowSpecification"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="60" y="24"/>
+        </anchors>
+        <children xsi:type="pi:ContainerShape" visible="true" active="true">
+          <properties key="name" value="feature"/>
+          <properties key="is_inner_shape" value="true"/>
+          <properties key="is_coloring_child" value="true"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="15" height="10" x="110" y="19" style="//@styles.2">
+            <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="15" height="10" style="//@styles.2">
+              <points/>
+              <points x="15" y="5"/>
+              <points y="10"/>
+            </graphicsAlgorithmChildren>
+          </graphicsAlgorithm>
+          <anchors xsi:type="pi:ChopboxAnchor">
+            <properties key="name" value="chopbox"/>
+          </anchors>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Aircraft_Dynamics_FMU.pitch_rate_out"/>
+          <properties key="name" value="label"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="120" height="19" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="120" height="19" style="//@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="pitch_rate_out"/>
+          </graphicsAlgorithm>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Aircraft_Dynamics_FMU.pitch_rate_out"/>
+          <properties key="name" value="annotation"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" x="120" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" style="//@styles.3" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value=""/>
+          </graphicsAlgorithm>
+        </children>
+      </children>
+      <children visible="true">
+        <properties key="name" value="label"/>
+        <properties key="is_manually_positioned" value="true"/>
+        <properties key="is_transient" value="true"/>
+        <properties key="independentObject" value="subcomponent Rosace::Rosace_with_Controller.with_devices.this_Aircraft_Dynamics_FMU"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="240" height="24" x="233" y="2" style="//@styles.0">
+          <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="240" height="24" style="//@styles.1" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="this_Aircraft_Dynamics_FMU"/>
+        </graphicsAlgorithm>
+      </children>
+      <children visible="true">
+        <properties key="name" value="subcomponent_type_label"/>
+        <properties key="is_manually_positioned" value="true"/>
+        <properties key="is_transient" value="true"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="309" height="24" x="199" y="24" style="//@styles.0">
+          <graphicsAlgorithmChildren xsi:type="al:MultiText" lineStyle="UNSPECIFIED" width="309" height="24" style="//@styles.1" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="Rosace::Aircraft_Dynamics_FMU.impl"/>
+        </graphicsAlgorithm>
+      </children>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true" active="true">
+      <properties key="independentObject" value="subcomponent Rosace::Rosace_with_Controller.with_devices.this_Engine_FMU"/>
+      <properties key="is_ghost" value="false"/>
+      <properties key="is_layed_out" value="true"/>
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" filled="false" width="557" height="79" x="200" y="170" style="//@styles.4/@styles.0/@styles.0">
+        <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" lineVisible="false" style="//@styles.5">
+          <points x="557"/>
+          <points x="557" y="79"/>
+          <points x="553" y="75"/>
+          <points x="553" y="4"/>
+        </graphicsAlgorithmChildren>
+        <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" lineVisible="false" style="//@styles.5">
+          <points x="557" y="79"/>
+          <points y="79"/>
+          <points x="4" y="75"/>
+          <points x="553" y="75"/>
+        </graphicsAlgorithmChildren>
+        <graphicsAlgorithmChildren xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" filled="false" width="549" height="71" x="4" y="4" style="//@styles.4/@styles.0/@styles.0"/>
+        <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.4/@styles.0/@styles.0">
+          <points/>
+          <points x="5" y="5"/>
+        </graphicsAlgorithmChildren>
+        <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.4/@styles.0/@styles.0">
+          <points x="557"/>
+          <points x="552" y="5"/>
+        </graphicsAlgorithmChildren>
+        <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.4/@styles.0/@styles.0">
+          <points x="552" y="74"/>
+          <points x="557" y="79"/>
+        </graphicsAlgorithmChildren>
+        <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.4/@styles.0/@styles.0">
+          <points y="79"/>
+          <points x="5" y="74"/>
+        </graphicsAlgorithmChildren>
+      </graphicsAlgorithm>
+      <anchors xsi:type="pi:ChopboxAnchor">
+        <properties key="name" value="chopbox"/>
+      </anchors>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <properties key="independentObject" value="feature Rosace::Engine_FMU.engine_thrust_out"/>
+        <properties key="is_ghost" value="false"/>
+        <properties key="is_coloring_container" value="true"/>
+        <properties key="is_layed_out" value="true"/>
+        <properties key="side" value="right"/>
+        <properties key="layout_side" value="right"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="157" height="29" x="400" y="20"/>
+        <anchors xsi:type="pi:ChopboxAnchor">
+          <properties key="name" value="chopbox"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="innerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="142" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.2" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="outerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="157" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="flowSpecification"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="92" y="24"/>
+        </anchors>
+        <children xsi:type="pi:ContainerShape" visible="true" active="true">
+          <properties key="name" value="feature"/>
+          <properties key="is_inner_shape" value="true"/>
+          <properties key="is_coloring_child" value="true"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="15" height="10" x="142" y="19" style="//@styles.2">
+            <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="15" height="10" style="//@styles.2">
+              <points/>
+              <points x="15" y="5"/>
+              <points y="10"/>
+            </graphicsAlgorithmChildren>
+          </graphicsAlgorithm>
+          <anchors xsi:type="pi:ChopboxAnchor">
+            <properties key="name" value="chopbox"/>
+          </anchors>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Engine_FMU.engine_thrust_out"/>
+          <properties key="name" value="label"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="152" height="19" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="152" height="19" style="//@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="engine_thrust_out"/>
+          </graphicsAlgorithm>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Engine_FMU.engine_thrust_out"/>
+          <properties key="name" value="annotation"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" x="152" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" style="//@styles.3" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value=""/>
+          </graphicsAlgorithm>
+        </children>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <properties key="independentObject" value="feature Rosace::Engine_FMU.throttle_command_in"/>
+        <properties key="is_ghost" value="false"/>
+        <properties key="is_coloring_container" value="true"/>
+        <properties key="is_layed_out" value="true"/>
+        <properties key="side" value="left"/>
+        <properties key="layout_side" value="left"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="180" height="39" y="20"/>
+        <anchors xsi:type="pi:ChopboxAnchor">
+          <properties key="name" value="chopbox"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="innerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="25" y="29"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.0" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="outerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="25" y="29"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="flowSpecification"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="75" y="29"/>
+        </anchors>
+        <children xsi:type="pi:ContainerShape" visible="true" active="true">
+          <properties key="name" value="feature"/>
+          <properties key="is_inner_shape" value="true"/>
+          <properties key="is_coloring_child" value="true"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="25" height="20" y="19" style="//@styles.2">
+            <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" width="25" height="20" style="//@styles.2">
+              <points/>
+              <points x="25" y="10"/>
+              <points y="20"/>
+            </graphicsAlgorithmChildren>
+          </graphicsAlgorithm>
+          <anchors xsi:type="pi:ChopboxAnchor">
+            <properties key="name" value="chopbox"/>
+          </anchors>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Engine_FMU.throttle_command_in"/>
+          <properties key="name" value="label"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="175" height="19" x="5" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="175" height="19" style="//@styles.1" verticalAlignment="UNSPECIFIED" value="throttle_command_in"/>
+          </graphicsAlgorithm>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Engine_FMU.throttle_command_in"/>
+          <properties key="name" value="annotation"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" x="5" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" style="//@styles.3" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value=""/>
+          </graphicsAlgorithm>
+        </children>
+      </children>
+      <children visible="true">
+        <properties key="name" value="label"/>
+        <properties key="is_manually_positioned" value="true"/>
+        <properties key="is_transient" value="true"/>
+        <properties key="independentObject" value="subcomponent Rosace::Rosace_with_Controller.with_devices.this_Engine_FMU"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="151" height="24" x="203" y="2" style="//@styles.0">
+          <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="151" height="24" style="//@styles.1" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="this_Engine_FMU"/>
+        </graphicsAlgorithm>
+      </children>
+      <children visible="true">
+        <properties key="name" value="subcomponent_type_label"/>
+        <properties key="is_manually_positioned" value="true"/>
+        <properties key="is_transient" value="true"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="220" height="24" x="168" y="24" style="//@styles.0">
+          <graphicsAlgorithmChildren xsi:type="al:MultiText" lineStyle="UNSPECIFIED" width="220" height="24" style="//@styles.1" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="Rosace::Engine_FMU.impl"/>
+        </graphicsAlgorithm>
+      </children>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true" active="true">
+      <properties key="independentObject" value="subcomponent Rosace::Rosace_with_Controller.with_devices.this_Elevator_FMU"/>
+      <properties key="is_ghost" value="false"/>
+      <properties key="is_layed_out" value="true"/>
+      <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" filled="false" width="705" height="79" x="180" y="50" style="//@styles.4/@styles.0/@styles.0">
+        <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" lineVisible="false" style="//@styles.5">
+          <points x="705"/>
+          <points x="705" y="79"/>
+          <points x="701" y="75"/>
+          <points x="701" y="4"/>
+        </graphicsAlgorithmChildren>
+        <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" lineVisible="false" style="//@styles.5">
+          <points x="705" y="79"/>
+          <points y="79"/>
+          <points x="4" y="75"/>
+          <points x="701" y="75"/>
+        </graphicsAlgorithmChildren>
+        <graphicsAlgorithmChildren xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" filled="false" width="697" height="71" x="4" y="4" style="//@styles.4/@styles.0/@styles.0"/>
+        <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.4/@styles.0/@styles.0">
+          <points/>
+          <points x="5" y="5"/>
+        </graphicsAlgorithmChildren>
+        <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.4/@styles.0/@styles.0">
+          <points x="705"/>
+          <points x="700" y="5"/>
+        </graphicsAlgorithmChildren>
+        <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.4/@styles.0/@styles.0">
+          <points x="700" y="74"/>
+          <points x="705" y="79"/>
+        </graphicsAlgorithmChildren>
+        <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.4/@styles.0/@styles.0">
+          <points y="79"/>
+          <points x="5" y="74"/>
+        </graphicsAlgorithmChildren>
+      </graphicsAlgorithm>
+      <anchors xsi:type="pi:ChopboxAnchor">
+        <properties key="name" value="chopbox"/>
+      </anchors>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <properties key="independentObject" value="feature Rosace::Elevator_FMU.elevator_deflection_out"/>
+        <properties key="is_ghost" value="false"/>
+        <properties key="is_coloring_container" value="true"/>
+        <properties key="is_layed_out" value="true"/>
+        <properties key="side" value="right"/>
+        <properties key="layout_side" value="right"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="198" height="29" x="507" y="21"/>
+        <anchors xsi:type="pi:ChopboxAnchor">
+          <properties key="name" value="chopbox"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="innerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="183" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.3" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="outerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="198" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="flowSpecification"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="133" y="24"/>
+        </anchors>
+        <children xsi:type="pi:ContainerShape" visible="true" active="true">
+          <properties key="name" value="feature"/>
+          <properties key="is_inner_shape" value="true"/>
+          <properties key="is_coloring_child" value="true"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="15" height="10" x="183" y="19" style="//@styles.2">
+            <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="15" height="10" style="//@styles.2">
+              <points/>
+              <points x="15" y="5"/>
+              <points y="10"/>
+            </graphicsAlgorithmChildren>
+          </graphicsAlgorithm>
+          <anchors xsi:type="pi:ChopboxAnchor">
+            <properties key="name" value="chopbox"/>
+          </anchors>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Elevator_FMU.elevator_deflection_out"/>
+          <properties key="name" value="label"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="193" height="19" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="193" height="19" style="//@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="elevator_deflection_out"/>
+          </graphicsAlgorithm>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Elevator_FMU.elevator_deflection_out"/>
+          <properties key="name" value="annotation"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" x="193" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" style="//@styles.3" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value=""/>
+          </graphicsAlgorithm>
+        </children>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <properties key="independentObject" value="feature Rosace::Elevator_FMU.elevator_deflection_command_in"/>
+        <properties key="is_ghost" value="false"/>
+        <properties key="is_coloring_container" value="true"/>
+        <properties key="is_layed_out" value="true"/>
+        <properties key="side" value="left"/>
+        <properties key="layout_side" value="left"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="276" height="39" y="21"/>
+        <anchors xsi:type="pi:ChopboxAnchor">
+          <properties key="name" value="chopbox"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="innerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="25" y="29"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.1" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="outerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="25" y="29"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="flowSpecification"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="75" y="29"/>
+        </anchors>
+        <children xsi:type="pi:ContainerShape" visible="true" active="true">
+          <properties key="name" value="feature"/>
+          <properties key="is_inner_shape" value="true"/>
+          <properties key="is_coloring_child" value="true"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="25" height="20" y="19" style="//@styles.2">
+            <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" width="25" height="20" style="//@styles.2">
+              <points/>
+              <points x="25" y="10"/>
+              <points y="20"/>
+            </graphicsAlgorithmChildren>
+          </graphicsAlgorithm>
+          <anchors xsi:type="pi:ChopboxAnchor">
+            <properties key="name" value="chopbox"/>
+          </anchors>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Elevator_FMU.elevator_deflection_command_in"/>
+          <properties key="name" value="label"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="271" height="19" x="5" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="271" height="19" style="//@styles.1" verticalAlignment="UNSPECIFIED" value="elevator_deflection_command_in"/>
+          </graphicsAlgorithm>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Elevator_FMU.elevator_deflection_command_in"/>
+          <properties key="name" value="annotation"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" x="5" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" style="//@styles.3" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value=""/>
+          </graphicsAlgorithm>
+        </children>
+      </children>
+      <children visible="true">
+        <properties key="name" value="label"/>
+        <properties key="is_manually_positioned" value="true"/>
+        <properties key="is_transient" value="true"/>
+        <properties key="independentObject" value="subcomponent Rosace::Rosace_with_Controller.with_devices.this_Elevator_FMU"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="162" height="24" x="271" y="2" style="//@styles.0">
+          <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="162" height="24" style="//@styles.1" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="this_Elevator_FMU"/>
+        </graphicsAlgorithm>
+      </children>
+      <children visible="true">
+        <properties key="name" value="subcomponent_type_label"/>
+        <properties key="is_manually_positioned" value="true"/>
+        <properties key="is_transient" value="true"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="231" height="24" x="237" y="24" style="//@styles.0">
+          <graphicsAlgorithmChildren xsi:type="al:MultiText" lineStyle="UNSPECIFIED" width="231" height="24" style="//@styles.1" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="Rosace::Elevator_FMU.impl"/>
+        </graphicsAlgorithm>
+      </children>
+    </children>
+    <children xsi:type="pi:ContainerShape" visible="true" active="true">
+      <properties key="independentObject" value="subcomponent Rosace::Rosace_with_Controller.with_devices.this_controller"/>
+      <properties key="is_ghost" value="false"/>
+      <properties key="is_layed_out" value="true"/>
+      <graphicsAlgorithm xsi:type="al:Polygon" lineStyle="UNSPECIFIED" filled="false" width="759" height="216" x="526" y="290" style="//@styles.4/@styles.1/@styles.0">
+        <points x="20"/>
+        <points x="759"/>
+        <points x="739" y="216"/>
+        <points y="216"/>
+      </graphicsAlgorithm>
+      <anchors xsi:type="pi:ChopboxAnchor">
+        <properties key="name" value="chopbox"/>
+      </anchors>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <properties key="independentObject" value="feature Rosace::Controller.altitude_in"/>
+        <properties key="is_ghost" value="false"/>
+        <properties key="is_coloring_container" value="true"/>
+        <properties key="is_layed_out" value="true"/>
+        <properties key="side" value="right"/>
+        <properties key="layout_side" value="right"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="90" height="29" x="669" y="10"/>
+        <anchors xsi:type="pi:ChopboxAnchor">
+          <properties key="name" value="chopbox"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="innerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="75" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.4" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="outerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="90" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="flowSpecification"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="25" y="24"/>
+        </anchors>
+        <children xsi:type="pi:ContainerShape" visible="true" active="true">
+          <properties key="name" value="feature"/>
+          <properties key="is_inner_shape" value="true"/>
+          <properties key="is_coloring_child" value="true"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="15" height="10" x="75" y="19" style="//@styles.2">
+            <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="15" height="10" style="//@styles.2">
+              <points x="15"/>
+              <points y="5"/>
+              <points x="15" y="10"/>
+            </graphicsAlgorithmChildren>
+          </graphicsAlgorithm>
+          <anchors xsi:type="pi:ChopboxAnchor">
+            <properties key="name" value="chopbox"/>
+          </anchors>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Controller.altitude_in"/>
+          <properties key="name" value="label"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="85" height="19" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="85" height="19" style="//@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="altitude_in"/>
+          </graphicsAlgorithm>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Controller.altitude_in"/>
+          <properties key="name" value="annotation"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" x="85" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" style="//@styles.3" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value=""/>
+          </graphicsAlgorithm>
+        </children>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <properties key="independentObject" value="feature Rosace::Controller.vertical_speed_in"/>
+        <properties key="is_ghost" value="false"/>
+        <properties key="is_coloring_container" value="true"/>
+        <properties key="is_layed_out" value="true"/>
+        <properties key="side" value="right"/>
+        <properties key="layout_side" value="right"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="149" height="29" x="610" y="90"/>
+        <anchors xsi:type="pi:ChopboxAnchor">
+          <properties key="name" value="chopbox"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="innerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="134" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.6" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="outerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="149" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="flowSpecification"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="84" y="24"/>
+        </anchors>
+        <children xsi:type="pi:ContainerShape" visible="true" active="true">
+          <properties key="name" value="feature"/>
+          <properties key="is_inner_shape" value="true"/>
+          <properties key="is_coloring_child" value="true"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="15" height="10" x="134" y="19" style="//@styles.2">
+            <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="15" height="10" style="//@styles.2">
+              <points x="15"/>
+              <points y="5"/>
+              <points x="15" y="10"/>
+            </graphicsAlgorithmChildren>
+          </graphicsAlgorithm>
+          <anchors xsi:type="pi:ChopboxAnchor">
+            <properties key="name" value="chopbox"/>
+          </anchors>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Controller.vertical_speed_in"/>
+          <properties key="name" value="label"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="144" height="19" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="144" height="19" style="//@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="vertical_speed_in"/>
+          </graphicsAlgorithm>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Controller.vertical_speed_in"/>
+          <properties key="name" value="annotation"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" x="144" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" style="//@styles.3" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value=""/>
+          </graphicsAlgorithm>
+        </children>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <properties key="independentObject" value="feature Rosace::Controller.vertical_acceleration_in"/>
+        <properties key="is_ghost" value="false"/>
+        <properties key="is_coloring_container" value="true"/>
+        <properties key="is_layed_out" value="true"/>
+        <properties key="side" value="right"/>
+        <properties key="layout_side" value="right"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="200" height="29" x="559" y="130"/>
+        <anchors xsi:type="pi:ChopboxAnchor">
+          <properties key="name" value="chopbox"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="innerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="185" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.5" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="outerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="200" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="flowSpecification"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="135" y="24"/>
+        </anchors>
+        <children xsi:type="pi:ContainerShape" visible="true" active="true">
+          <properties key="name" value="feature"/>
+          <properties key="is_inner_shape" value="true"/>
+          <properties key="is_coloring_child" value="true"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="15" height="10" x="185" y="19" style="//@styles.2">
+            <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="15" height="10" style="//@styles.2">
+              <points x="15"/>
+              <points y="5"/>
+              <points x="15" y="10"/>
+            </graphicsAlgorithmChildren>
+          </graphicsAlgorithm>
+          <anchors xsi:type="pi:ChopboxAnchor">
+            <properties key="name" value="chopbox"/>
+          </anchors>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Controller.vertical_acceleration_in"/>
+          <properties key="name" value="label"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="195" height="19" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="195" height="19" style="//@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="vertical_acceleration_in"/>
+          </graphicsAlgorithm>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Controller.vertical_acceleration_in"/>
+          <properties key="name" value="annotation"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" x="195" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" style="//@styles.3" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value=""/>
+          </graphicsAlgorithm>
+        </children>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <properties key="independentObject" value="feature Rosace::Controller.true_air_speed_in"/>
+        <properties key="is_ghost" value="false"/>
+        <properties key="is_coloring_container" value="true"/>
+        <properties key="is_layed_out" value="true"/>
+        <properties key="side" value="right"/>
+        <properties key="layout_side" value="right"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="153" height="29" x="606" y="170"/>
+        <anchors xsi:type="pi:ChopboxAnchor">
+          <properties key="name" value="chopbox"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="innerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="138" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.8" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="outerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="153" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="flowSpecification"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="88" y="24"/>
+        </anchors>
+        <children xsi:type="pi:ContainerShape" visible="true" active="true">
+          <properties key="name" value="feature"/>
+          <properties key="is_inner_shape" value="true"/>
+          <properties key="is_coloring_child" value="true"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="15" height="10" x="138" y="19" style="//@styles.2">
+            <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="15" height="10" style="//@styles.2">
+              <points x="15"/>
+              <points y="5"/>
+              <points x="15" y="10"/>
+            </graphicsAlgorithmChildren>
+          </graphicsAlgorithm>
+          <anchors xsi:type="pi:ChopboxAnchor">
+            <properties key="name" value="chopbox"/>
+          </anchors>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Controller.true_air_speed_in"/>
+          <properties key="name" value="label"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="148" height="19" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="148" height="19" style="//@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="true_air_speed_in"/>
+          </graphicsAlgorithm>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Controller.true_air_speed_in"/>
+          <properties key="name" value="annotation"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" x="148" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" style="//@styles.3" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value=""/>
+          </graphicsAlgorithm>
+        </children>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <properties key="independentObject" value="feature Rosace::Controller.pitch_rate_in"/>
+        <properties key="is_ghost" value="false"/>
+        <properties key="is_coloring_container" value="true"/>
+        <properties key="is_layed_out" value="true"/>
+        <properties key="side" value="right"/>
+        <properties key="layout_side" value="right"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="113" height="29" x="646" y="50"/>
+        <anchors xsi:type="pi:ChopboxAnchor">
+          <properties key="name" value="chopbox"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="innerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="98" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" incomingConnections="//@connections.7" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="outerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="113" y="24"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="flowSpecification"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="48" y="24"/>
+        </anchors>
+        <children xsi:type="pi:ContainerShape" visible="true" active="true">
+          <properties key="name" value="feature"/>
+          <properties key="is_inner_shape" value="true"/>
+          <properties key="is_coloring_child" value="true"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="15" height="10" x="98" y="19" style="//@styles.2">
+            <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="15" height="10" style="//@styles.2">
+              <points x="15"/>
+              <points y="5"/>
+              <points x="15" y="10"/>
+            </graphicsAlgorithmChildren>
+          </graphicsAlgorithm>
+          <anchors xsi:type="pi:ChopboxAnchor">
+            <properties key="name" value="chopbox"/>
+          </anchors>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Controller.pitch_rate_in"/>
+          <properties key="name" value="label"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="108" height="19" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="108" height="19" style="//@styles.1" horizontalAlignment="ALIGNMENT_RIGHT" verticalAlignment="UNSPECIFIED" value="pitch_rate_in"/>
+          </graphicsAlgorithm>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Controller.pitch_rate_in"/>
+          <properties key="name" value="annotation"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" x="108" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" style="//@styles.3" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value=""/>
+          </graphicsAlgorithm>
+        </children>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <properties key="independentObject" value="feature Rosace::Controller.throttle_command_out"/>
+        <properties key="is_ghost" value="false"/>
+        <properties key="is_coloring_container" value="true"/>
+        <properties key="is_layed_out" value="true"/>
+        <properties key="side" value="left"/>
+        <properties key="layout_side" value="left"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="193" height="39" y="30"/>
+        <anchors xsi:type="pi:ChopboxAnchor">
+          <properties key="name" value="chopbox"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="innerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location y="29"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.0" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="outerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location y="29"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="flowSpecification"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="75" y="29"/>
+        </anchors>
+        <children xsi:type="pi:ContainerShape" visible="true" active="true">
+          <properties key="name" value="feature"/>
+          <properties key="is_inner_shape" value="true"/>
+          <properties key="is_coloring_child" value="true"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="25" height="20" y="19" style="//@styles.2">
+            <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" width="25" height="20" style="//@styles.2">
+              <points x="25"/>
+              <points y="10"/>
+              <points x="25" y="20"/>
+            </graphicsAlgorithmChildren>
+          </graphicsAlgorithm>
+          <anchors xsi:type="pi:ChopboxAnchor">
+            <properties key="name" value="chopbox"/>
+          </anchors>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Controller.throttle_command_out"/>
+          <properties key="name" value="label"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="188" height="19" x="5" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="188" height="19" style="//@styles.1" verticalAlignment="UNSPECIFIED" value="throttle_command_out"/>
+          </graphicsAlgorithm>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Controller.throttle_command_out"/>
+          <properties key="name" value="annotation"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" x="5" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" style="//@styles.3" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value=""/>
+          </graphicsAlgorithm>
+        </children>
+      </children>
+      <children xsi:type="pi:ContainerShape" visible="true" active="true">
+        <properties key="independentObject" value="feature Rosace::Controller.elevator_deflection_command_out"/>
+        <properties key="is_ghost" value="false"/>
+        <properties key="is_coloring_container" value="true"/>
+        <properties key="is_layed_out" value="true"/>
+        <properties key="side" value="left"/>
+        <properties key="layout_side" value="left"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="289" height="39" y="146"/>
+        <anchors xsi:type="pi:ChopboxAnchor">
+          <properties key="name" value="chopbox"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="innerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location y="29"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" outgoingConnections="//@connections.1" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="outerConnector"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location y="29"/>
+        </anchors>
+        <anchors xsi:type="pi:FixPointAnchor" visible="true" active="true" useAnchorLocationAsConnectionEndpoint="true">
+          <properties key="name" value="flowSpecification"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0"/>
+          <location x="75" y="29"/>
+        </anchors>
+        <children xsi:type="pi:ContainerShape" visible="true" active="true">
+          <properties key="name" value="feature"/>
+          <properties key="is_inner_shape" value="true"/>
+          <properties key="is_coloring_child" value="true"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineWidth="1" filled="false" lineVisible="false" transparency="0.0" width="25" height="20" y="19" style="//@styles.2">
+            <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" width="25" height="20" style="//@styles.2">
+              <points x="25"/>
+              <points y="10"/>
+              <points x="25" y="20"/>
+            </graphicsAlgorithmChildren>
+          </graphicsAlgorithm>
+          <anchors xsi:type="pi:ChopboxAnchor">
+            <properties key="name" value="chopbox"/>
+          </anchors>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Controller.elevator_deflection_command_out"/>
+          <properties key="name" value="label"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="284" height="19" x="5" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="284" height="19" style="//@styles.1" verticalAlignment="UNSPECIFIED" value="elevator_deflection_command_out"/>
+          </graphicsAlgorithm>
+        </children>
+        <children visible="true">
+          <properties key="is_manually_positioned" value="true"/>
+          <properties key="independentObject" value="feature Rosace::Controller.elevator_deflection_command_out"/>
+          <properties key="name" value="annotation"/>
+          <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" x="5" style="//@styles.0">
+            <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" style="//@styles.3" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value=""/>
+          </graphicsAlgorithm>
+        </children>
+      </children>
+      <children visible="true">
+        <properties key="name" value="label"/>
+        <properties key="is_manually_positioned" value="true"/>
+        <properties key="is_transient" value="true"/>
+        <properties key="independentObject" value="subcomponent Rosace::Rosace_with_Controller.with_devices.this_controller"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="129" height="24" x="315" y="2" style="//@styles.0">
+          <graphicsAlgorithmChildren xsi:type="al:Text" lineStyle="UNSPECIFIED" width="129" height="24" style="//@styles.1" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="this_controller"/>
+        </graphicsAlgorithm>
+      </children>
+      <children visible="true">
+        <properties key="name" value="subcomponent_type_label"/>
+        <properties key="is_manually_positioned" value="true"/>
+        <properties key="is_transient" value="true"/>
+        <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="270" height="24" x="244" y="24" style="//@styles.0">
+          <graphicsAlgorithmChildren xsi:type="al:MultiText" lineStyle="UNSPECIFIED" width="270" height="24" style="//@styles.1" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="Rosace::Controller.with_threads"/>
+        </graphicsAlgorithm>
+      </children>
+    </children>
+  </children>
+  <styles background="//@colors.1" lineStyle="UNSPECIFIED" filled="true" lineVisible="false" transparency="0.2" id="text-background" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED"/>
+  <styles foreground="//@colors.2" lineStyle="UNSPECIFIED" filled="false" id="label" font="//@fonts.0"/>
+  <styles background="//@colors.2" foreground="//@colors.2" lineWidth="2" lineVisible="true" id="feature" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED"/>
+  <styles foreground="//@colors.2" lineStyle="UNSPECIFIED" filled="false" id="annotation" font="//@fonts.0"/>
+  <styles background="//@colors.1" foreground="//@colors.2" lineWidth="1" lineVisible="true" transparency="0.0" id="classifier" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED">
+    <styles lineWidth="2" lineStyle="UNSPECIFIED" id="device" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED">
+      <styles lineWidth="3" lineStyle="UNSPECIFIED" id="device-implementation" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED"/>
+    </styles>
+    <styles lineWidth="2" lineStyle="UNSPECIFIED" id="process" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED">
+      <styles lineWidth="3" lineStyle="UNSPECIFIED" id="process-implementation" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED"/>
+    </styles>
+    <styles lineWidth="2" lineStyle="UNSPECIFIED" id="system" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED">
+      <styles lineWidth="3" lineStyle="UNSPECIFIED" id="system-implementation" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED"/>
+    </styles>
+  </styles>
+  <styles background="//@colors.3" lineStyle="UNSPECIFIED" transparency="0.5" id="shaded" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED"/>
+  <styles background="//@colors.2" foreground="//@colors.2" lineWidth="2" lineVisible="true" id="decorator" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED"/>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@children.3/@children.5/@anchors.2" end="//@children.0/@children.1/@children.1/@anchors.2">
+    <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.throttle_com_conn"/>
+    <graphicsAlgorithm xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.6"/>
+    <connectionDecorators visible="true" active="true" locationRelative="true" location="0.5">
+      <properties key="name" value="label"/>
+      <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.throttle_com_conn"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" x="-76" y="-28" style="//@styles.1" font="//@fonts.1" value="throttle_com_conn"/>
+    </connectionDecorators>
+    <connectionDecorators visible="true" active="true" locationRelative="true" location="0.5">
+      <properties key="name" value="connection_pattern"/>
+      <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.throttle_com_conn"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" y="10" style="//@styles.1" font="//@fonts.1" value=""/>
+    </connectionDecorators>
+    <bendpoints x="144" y="368"/>
+    <bendpoints x="144" y="239"/>
+  </connections>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@children.3/@children.6/@anchors.2" end="//@children.0/@children.2/@children.1/@anchors.2">
+    <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.elevator_com_conn"/>
+    <graphicsAlgorithm xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.6"/>
+    <connectionDecorators visible="true" active="true" locationRelative="true" location="0.5">
+      <properties key="name" value="label"/>
+      <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.elevator_com_conn"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" x="146" style="//@styles.1" font="//@fonts.1" value="elevator_com_conn"/>
+    </connectionDecorators>
+    <connectionDecorators visible="true" active="true" locationRelative="true" location="0.5">
+      <properties key="name" value="connection_pattern"/>
+      <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.elevator_com_conn"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" y="10" style="//@styles.1" font="//@fonts.1" value=""/>
+    </connectionDecorators>
+    <bendpoints x="101" y="485"/>
+    <bendpoints x="101" y="120"/>
+  </connections>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@children.1/@children.0/@anchors.2" end="//@children.0/@children.0/@children.0/@anchors.2">
+    <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.engine_thrust_conn"/>
+    <graphicsAlgorithm xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.6"/>
+    <connectionDecorators visible="true" active="true" locationRelative="true" location="0.5">
+      <properties key="name" value="label"/>
+      <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.engine_thrust_conn"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" x="-56" y="-20" style="//@styles.1" font="//@fonts.1" value="engine_thrust_conn"/>
+    </connectionDecorators>
+    <connectionDecorators visible="true" active="true" locationRelative="true" location="0.5">
+      <properties key="name" value="connection_pattern"/>
+      <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.engine_thrust_conn"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" y="10" style="//@styles.1" font="//@fonts.1" value=""/>
+    </connectionDecorators>
+  </connections>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@children.2/@children.0/@anchors.2" end="//@children.0/@children.0/@children.1/@anchors.2">
+    <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.elevator_def_conn"/>
+    <graphicsAlgorithm xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.6"/>
+    <connectionDecorators visible="true" active="true" locationRelative="true" location="0.5">
+      <properties key="name" value="label"/>
+      <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.elevator_def_conn"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" x="-59" y="-28" style="//@styles.1" font="//@fonts.1" value="elevator_def_conn"/>
+    </connectionDecorators>
+    <connectionDecorators visible="true" active="true" locationRelative="true" location="0.5">
+      <properties key="name" value="connection_pattern"/>
+      <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.elevator_def_conn"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" y="10" style="//@styles.1" font="//@fonts.1" value=""/>
+    </connectionDecorators>
+  </connections>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@children.0/@children.2/@anchors.2" end="//@children.0/@children.3/@children.0/@anchors.2">
+    <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.altitude_out"/>
+    <graphicsAlgorithm xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.6"/>
+    <connectionDecorators visible="true" active="true" locationRelative="true" location="0.5">
+      <properties key="name" value="label"/>
+      <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.altitude_out"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" x="-33" y="-20" style="//@styles.1" font="//@fonts.1" value="altitude_out"/>
+    </connectionDecorators>
+    <connectionDecorators visible="true" active="true" locationRelative="true" location="0.5">
+      <properties key="name" value="connection_pattern"/>
+      <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.altitude_out"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" y="10" style="//@styles.1" font="//@fonts.1" value=""/>
+    </connectionDecorators>
+    <bendpoints x="1836" y="244"/>
+    <bendpoints x="1836" y="344"/>
+  </connections>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@children.0/@children.4/@anchors.2" end="//@children.0/@children.3/@children.2/@anchors.2">
+    <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.vertical_acc_conn"/>
+    <graphicsAlgorithm xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.6"/>
+    <connectionDecorators visible="true" active="true" locationRelative="true" location="0.5">
+      <properties key="name" value="label"/>
+      <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.vertical_acc_conn"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" x="-51" y="-20" style="//@styles.1" font="//@fonts.1" value="vertical_acc_conn"/>
+    </connectionDecorators>
+    <connectionDecorators visible="true" active="true" locationRelative="true" location="0.5">
+      <properties key="name" value="connection_pattern"/>
+      <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.vertical_acc_conn"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" y="10" style="//@styles.1" font="//@fonts.1" value=""/>
+    </connectionDecorators>
+    <bendpoints x="1979" y="142"/>
+    <bendpoints x="1979" y="464"/>
+  </connections>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@children.0/@children.3/@anchors.2" end="//@children.0/@children.3/@children.1/@anchors.2">
+    <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.vertical_speed_conn"/>
+    <graphicsAlgorithm xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.6"/>
+    <connectionDecorators visible="true" active="true" locationRelative="true" location="0.5">
+      <properties key="name" value="label"/>
+      <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.vertical_speed_conn"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" x="-58" y="-20" style="//@styles.1" font="//@fonts.1" value="vertical_speed_conn"/>
+    </connectionDecorators>
+    <connectionDecorators visible="true" active="true" locationRelative="true" location="0.5">
+      <properties key="name" value="connection_pattern"/>
+      <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.vertical_speed_conn"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" y="10" style="//@styles.1" font="//@fonts.1" value=""/>
+    </connectionDecorators>
+    <bendpoints x="1922" y="179"/>
+    <bendpoints x="1922" y="424"/>
+  </connections>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@children.0/@children.6/@anchors.2" end="//@children.0/@children.3/@children.4/@anchors.2">
+    <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.pitch_rate_conn"/>
+    <graphicsAlgorithm xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.6"/>
+    <connectionDecorators visible="true" active="true" locationRelative="true" location="0.5">
+      <properties key="name" value="label"/>
+      <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.pitch_rate_conn"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" x="-46" y="-20" style="//@styles.1" font="//@fonts.1" value="pitch_rate_conn"/>
+    </connectionDecorators>
+    <connectionDecorators visible="true" active="true" locationRelative="true" location="0.5">
+      <properties key="name" value="connection_pattern"/>
+      <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.pitch_rate_conn"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" y="10" style="//@styles.1" font="//@fonts.1" value=""/>
+    </connectionDecorators>
+    <bendpoints x="1879" y="216"/>
+    <bendpoints x="1879" y="384"/>
+  </connections>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.0/@children.0/@children.5/@anchors.2" end="//@children.0/@children.3/@children.3/@anchors.2">
+    <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.true_airspeed_conn"/>
+    <graphicsAlgorithm xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.6"/>
+    <connectionDecorators visible="true" active="true" locationRelative="true" location="0.5">
+      <properties key="name" value="label"/>
+      <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.true_airspeed_conn"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" x="-108" y="-16" style="//@styles.1" font="//@fonts.1" value="true_airspeed_conn"/>
+    </connectionDecorators>
+    <connectionDecorators visible="true" active="true" locationRelative="true" location="0.5">
+      <properties key="name" value="connection_pattern"/>
+      <properties key="independentObject" value="connection Rosace::Rosace_with_Controller.with_devices.true_airspeed_conn"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineWidth="1" filled="false" transparency="0.0" y="10" style="//@styles.1" font="//@fonts.1" value=""/>
+    </connectionDecorators>
+    <bendpoints x="2030" y="102"/>
+    <bendpoints x="2030" y="500"/>
+  </connections>
+  <colors red="227" green="238" blue="249"/>
+  <colors red="255" green="255" blue="255"/>
+  <colors/>
+  <colors red="192" green="192" blue="192"/>
+  <fonts name="Arial" size="10" bold="true"/>
+  <fonts name="Arial" size="8"/>
+</pi:Diagram>

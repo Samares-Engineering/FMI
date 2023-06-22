@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="ASCII"?>
+<pi:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:al="http://eclipse.org/graphiti/mm/algorithms" xmlns:pi="http://eclipse.org/graphiti/mm/pictograms" visible="true" gridUnit="10" diagramTypeId="AADL Diagram" name="Rosace" snapToGrid="true" version="0.12.0">
+  <properties key="independentObject" value="package Rosace"/>
+  <graphicsAlgorithm xsi:type="al:Rectangle" background="//@colors.1" foreground="//@colors.0" lineWidth="1" transparency="0.0" width="1000" height="1000"/>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="independentObject" value="classifier Rosace::Aircraft_Dynamics_FMU"/>
+    <properties key="is_layed_out" value="true"/>
+    <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="217" height="50" x="20" y="20" style="//@styles.1/@styles.0">
+      <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" lineVisible="false" style="//@styles.2">
+        <points x="217"/>
+        <points x="217" y="50"/>
+        <points x="213" y="46"/>
+        <points x="213" y="4"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" lineVisible="false" style="//@styles.2">
+        <points x="217" y="50"/>
+        <points y="50"/>
+        <points x="4" y="46"/>
+        <points x="213" y="46"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" filled="false" width="209" height="42" x="4" y="4" style="//@styles.1/@styles.0"/>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0">
+        <points/>
+        <points x="5" y="5"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0">
+        <points x="217"/>
+        <points x="212" y="5"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0">
+        <points x="212" y="45"/>
+        <points x="217" y="50"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0">
+        <points y="50"/>
+        <points x="5" y="45"/>
+      </graphicsAlgorithmChildren>
+    </graphicsAlgorithm>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.1">
+      <properties key="name" value="chopbox"/>
+    </anchors>
+    <children visible="true">
+      <properties key="is_manually_positioned" value="true"/>
+      <properties key="independentObject" value="classifier Rosace::Aircraft_Dynamics_FMU"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineStyle="UNSPECIFIED" width="217" height="50" style="//@styles.0" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="Aircraft_Dynamics_FMU"/>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="independentObject" value="classifier Rosace::Rosace_with_Controller.with_devices"/>
+    <properties key="is_layed_out" value="true"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineStyle="UNSPECIFIED" width="324" height="50" x="20" y="90" style="//@styles.1/@styles.1/@styles.0" cornerHeight="25" cornerWidth="25"/>
+    <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.0">
+      <properties key="name" value="chopbox"/>
+    </anchors>
+    <children visible="true">
+      <properties key="is_manually_positioned" value="true"/>
+      <properties key="independentObject" value="classifier Rosace::Rosace_with_Controller.with_devices"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineStyle="UNSPECIFIED" width="324" height="50" style="//@styles.0" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="Rosace_with_Controller.with_devices"/>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="independentObject" value="classifier Rosace::Engine_FMU"/>
+    <properties key="is_layed_out" value="true"/>
+    <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="128" height="50" x="20" y="160" style="//@styles.1/@styles.0">
+      <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" lineVisible="false" style="//@styles.2">
+        <points x="128"/>
+        <points x="128" y="50"/>
+        <points x="124" y="46"/>
+        <points x="124" y="4"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" lineVisible="false" style="//@styles.2">
+        <points x="128" y="50"/>
+        <points y="50"/>
+        <points x="4" y="46"/>
+        <points x="124" y="46"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" filled="false" width="120" height="42" x="4" y="4" style="//@styles.1/@styles.0"/>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0">
+        <points/>
+        <points x="5" y="5"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0">
+        <points x="128"/>
+        <points x="123" y="5"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0">
+        <points x="123" y="45"/>
+        <points x="128" y="50"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0">
+        <points y="50"/>
+        <points x="5" y="45"/>
+      </graphicsAlgorithmChildren>
+    </graphicsAlgorithm>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.3">
+      <properties key="name" value="chopbox"/>
+    </anchors>
+    <children visible="true">
+      <properties key="is_manually_positioned" value="true"/>
+      <properties key="independentObject" value="classifier Rosace::Engine_FMU"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineStyle="UNSPECIFIED" width="128" height="50" style="//@styles.0" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="Engine_FMU"/>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="independentObject" value="classifier Rosace::Aircraft_Dynamics_FMU.impl"/>
+    <properties key="is_layed_out" value="true"/>
+    <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="254" height="50" x="20" y="230" style="//@styles.1/@styles.0/@styles.0">
+      <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" lineVisible="false" style="//@styles.2">
+        <points x="254"/>
+        <points x="254" y="50"/>
+        <points x="250" y="46"/>
+        <points x="250" y="4"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" lineVisible="false" style="//@styles.2">
+        <points x="254" y="50"/>
+        <points y="50"/>
+        <points x="4" y="46"/>
+        <points x="250" y="46"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" filled="false" width="246" height="42" x="4" y="4" style="//@styles.1/@styles.0/@styles.0"/>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0/@styles.0">
+        <points/>
+        <points x="5" y="5"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0/@styles.0">
+        <points x="254"/>
+        <points x="249" y="5"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0/@styles.0">
+        <points x="249" y="45"/>
+        <points x="254" y="50"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0/@styles.0">
+        <points y="50"/>
+        <points x="5" y="45"/>
+      </graphicsAlgorithmChildren>
+    </graphicsAlgorithm>
+    <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.1">
+      <properties key="name" value="chopbox"/>
+    </anchors>
+    <children visible="true">
+      <properties key="is_manually_positioned" value="true"/>
+      <properties key="independentObject" value="classifier Rosace::Aircraft_Dynamics_FMU.impl"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineStyle="UNSPECIFIED" width="254" height="50" style="//@styles.0" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="Aircraft_Dynamics_FMU.impl"/>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="independentObject" value="classifier Rosace::Controller.with_threads"/>
+    <properties key="is_layed_out" value="true"/>
+    <graphicsAlgorithm xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="216" height="50" x="364" y="20" style="//@styles.1/@styles.2/@styles.0">
+      <points x="20"/>
+      <points x="216"/>
+      <points x="196" y="50"/>
+      <points y="50"/>
+    </graphicsAlgorithm>
+    <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.2">
+      <properties key="name" value="chopbox"/>
+    </anchors>
+    <children visible="true">
+      <properties key="is_manually_positioned" value="true"/>
+      <properties key="independentObject" value="classifier Rosace::Controller.with_threads"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineStyle="UNSPECIFIED" width="216" height="50" style="//@styles.0" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="Controller.with_threads"/>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="independentObject" value="classifier Rosace::Rosace_with_Controller"/>
+    <properties key="is_layed_out" value="true"/>
+    <graphicsAlgorithm xsi:type="al:RoundedRectangle" lineStyle="UNSPECIFIED" width="218" height="50" x="364" y="90" style="//@styles.1/@styles.1" cornerHeight="25" cornerWidth="25"/>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.0">
+      <properties key="name" value="chopbox"/>
+    </anchors>
+    <children visible="true">
+      <properties key="is_manually_positioned" value="true"/>
+      <properties key="independentObject" value="classifier Rosace::Rosace_with_Controller"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineStyle="UNSPECIFIED" width="218" height="50" style="//@styles.0" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="Rosace_with_Controller"/>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="independentObject" value="classifier Rosace::Elevator_FMU"/>
+    <properties key="is_layed_out" value="true"/>
+    <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="139" height="50" x="364" y="160" style="//@styles.1/@styles.0">
+      <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" lineVisible="false" style="//@styles.2">
+        <points x="139"/>
+        <points x="139" y="50"/>
+        <points x="135" y="46"/>
+        <points x="135" y="4"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" lineVisible="false" style="//@styles.2">
+        <points x="139" y="50"/>
+        <points y="50"/>
+        <points x="4" y="46"/>
+        <points x="135" y="46"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" filled="false" width="131" height="42" x="4" y="4" style="//@styles.1/@styles.0"/>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0">
+        <points/>
+        <points x="5" y="5"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0">
+        <points x="139"/>
+        <points x="134" y="5"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0">
+        <points x="134" y="45"/>
+        <points x="139" y="50"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0">
+        <points y="50"/>
+        <points x="5" y="45"/>
+      </graphicsAlgorithmChildren>
+    </graphicsAlgorithm>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.4">
+      <properties key="name" value="chopbox"/>
+    </anchors>
+    <children visible="true">
+      <properties key="is_manually_positioned" value="true"/>
+      <properties key="independentObject" value="classifier Rosace::Elevator_FMU"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineStyle="UNSPECIFIED" width="139" height="50" style="//@styles.0" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="Elevator_FMU"/>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="independentObject" value="classifier Rosace::Controller"/>
+    <properties key="is_layed_out" value="true"/>
+    <graphicsAlgorithm xsi:type="al:Polygon" lineStyle="UNSPECIFIED" width="109" height="50" x="364" y="230" style="//@styles.1/@styles.2">
+      <points x="20"/>
+      <points x="109"/>
+      <points x="89" y="50"/>
+      <points y="50"/>
+    </graphicsAlgorithm>
+    <anchors xsi:type="pi:ChopboxAnchor" incomingConnections="//@connections.2">
+      <properties key="name" value="chopbox"/>
+    </anchors>
+    <children visible="true">
+      <properties key="is_manually_positioned" value="true"/>
+      <properties key="independentObject" value="classifier Rosace::Controller"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineStyle="UNSPECIFIED" width="109" height="50" style="//@styles.0" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="Controller"/>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="independentObject" value="classifier Rosace::Engine_FMU.impl"/>
+    <properties key="is_layed_out" value="true"/>
+    <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="165" height="50" x="708" y="20" style="//@styles.1/@styles.0/@styles.0">
+      <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" lineVisible="false" style="//@styles.2">
+        <points x="165"/>
+        <points x="165" y="50"/>
+        <points x="161" y="46"/>
+        <points x="161" y="4"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" lineVisible="false" style="//@styles.2">
+        <points x="165" y="50"/>
+        <points y="50"/>
+        <points x="4" y="46"/>
+        <points x="161" y="46"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" filled="false" width="157" height="42" x="4" y="4" style="//@styles.1/@styles.0/@styles.0"/>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0/@styles.0">
+        <points/>
+        <points x="5" y="5"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0/@styles.0">
+        <points x="165"/>
+        <points x="160" y="5"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0/@styles.0">
+        <points x="160" y="45"/>
+        <points x="165" y="50"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0/@styles.0">
+        <points y="50"/>
+        <points x="5" y="45"/>
+      </graphicsAlgorithmChildren>
+    </graphicsAlgorithm>
+    <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.3">
+      <properties key="name" value="chopbox"/>
+    </anchors>
+    <children visible="true">
+      <properties key="is_manually_positioned" value="true"/>
+      <properties key="independentObject" value="classifier Rosace::Engine_FMU.impl"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineStyle="UNSPECIFIED" width="165" height="50" style="//@styles.0" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="Engine_FMU.impl"/>
+    </children>
+  </children>
+  <children xsi:type="pi:ContainerShape" visible="true" active="true">
+    <properties key="independentObject" value="classifier Rosace::Elevator_FMU.impl"/>
+    <properties key="is_layed_out" value="true"/>
+    <graphicsAlgorithm xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" width="176" height="50" x="708" y="90" style="//@styles.1/@styles.0/@styles.0">
+      <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" lineVisible="false" style="//@styles.2">
+        <points x="176"/>
+        <points x="176" y="50"/>
+        <points x="172" y="46"/>
+        <points x="172" y="4"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polygon" lineStyle="UNSPECIFIED" lineVisible="false" style="//@styles.2">
+        <points x="176" y="50"/>
+        <points y="50"/>
+        <points x="4" y="46"/>
+        <points x="172" y="46"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Rectangle" lineStyle="UNSPECIFIED" filled="false" width="168" height="42" x="4" y="4" style="//@styles.1/@styles.0/@styles.0"/>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0/@styles.0">
+        <points/>
+        <points x="5" y="5"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0/@styles.0">
+        <points x="176"/>
+        <points x="171" y="5"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0/@styles.0">
+        <points x="171" y="45"/>
+        <points x="176" y="50"/>
+      </graphicsAlgorithmChildren>
+      <graphicsAlgorithmChildren xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.1/@styles.0/@styles.0">
+        <points y="50"/>
+        <points x="5" y="45"/>
+      </graphicsAlgorithmChildren>
+    </graphicsAlgorithm>
+    <anchors xsi:type="pi:ChopboxAnchor" outgoingConnections="//@connections.4">
+      <properties key="name" value="chopbox"/>
+    </anchors>
+    <children visible="true">
+      <properties key="is_manually_positioned" value="true"/>
+      <properties key="independentObject" value="classifier Rosace::Elevator_FMU.impl"/>
+      <graphicsAlgorithm xsi:type="al:Text" lineStyle="UNSPECIFIED" width="176" height="50" style="//@styles.0" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED" value="Elevator_FMU.impl"/>
+    </children>
+  </children>
+  <styles foreground="//@colors.2" lineStyle="UNSPECIFIED" filled="false" id="label" font="//@fonts.0"/>
+  <styles background="//@colors.1" foreground="//@colors.2" lineWidth="1" lineVisible="true" transparency="0.0" id="classifier" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED">
+    <styles lineWidth="2" lineStyle="UNSPECIFIED" id="device" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED">
+      <styles lineWidth="3" lineStyle="UNSPECIFIED" id="device-implementation" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED"/>
+    </styles>
+    <styles lineWidth="2" lineStyle="UNSPECIFIED" id="system" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED">
+      <styles lineWidth="3" lineStyle="UNSPECIFIED" id="system-implementation" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED"/>
+    </styles>
+    <styles lineWidth="2" lineStyle="UNSPECIFIED" id="process" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED">
+      <styles lineWidth="3" lineStyle="UNSPECIFIED" id="process-implementation" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED"/>
+    </styles>
+  </styles>
+  <styles background="//@colors.3" lineStyle="UNSPECIFIED" transparency="0.5" id="shaded" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED"/>
+  <styles background="//@colors.1" foreground="//@colors.2" lineWidth="2" lineStyle="DASH" lineVisible="true" id="implements" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED"/>
+  <styles background="//@colors.1" foreground="//@colors.2" lineWidth="2" lineVisible="true" id="generalization-arrowhead" horizontalAlignment="UNSPECIFIED" verticalAlignment="UNSPECIFIED"/>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.1/@anchors.0" end="//@children.5/@anchors.0">
+    <properties key="independentObject" value="realization Rosace::Rosace_with_Controller.with_devices"/>
+    <graphicsAlgorithm xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.3"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polygon" lineStyle="UNSPECIFIED" style="//@styles.4">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+  </connections>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.3/@anchors.0" end="//@children.0/@anchors.0">
+    <properties key="independentObject" value="realization Rosace::Aircraft_Dynamics_FMU.impl"/>
+    <graphicsAlgorithm xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.3"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polygon" lineStyle="UNSPECIFIED" style="//@styles.4">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+  </connections>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.4/@anchors.0" end="//@children.7/@anchors.0">
+    <properties key="independentObject" value="realization Rosace::Controller.with_threads"/>
+    <graphicsAlgorithm xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.3"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polygon" lineStyle="UNSPECIFIED" style="//@styles.4">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+  </connections>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.8/@anchors.0" end="//@children.2/@anchors.0">
+    <properties key="independentObject" value="realization Rosace::Engine_FMU.impl"/>
+    <graphicsAlgorithm xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.3"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polygon" lineStyle="UNSPECIFIED" style="//@styles.4">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+  </connections>
+  <connections xsi:type="pi:FreeFormConnection" visible="true" active="true" start="//@children.9/@anchors.0" end="//@children.6/@anchors.0">
+    <properties key="independentObject" value="realization Rosace::Elevator_FMU.impl"/>
+    <graphicsAlgorithm xsi:type="al:Polyline" lineStyle="UNSPECIFIED" style="//@styles.3"/>
+    <connectionDecorators visible="true" locationRelative="true" location="1.0">
+      <graphicsAlgorithm xsi:type="al:Polygon" lineStyle="UNSPECIFIED" style="//@styles.4">
+        <points x="-15" y="10"/>
+        <points/>
+        <points x="-15" y="-10"/>
+      </graphicsAlgorithm>
+    </connectionDecorators>
+  </connections>
+  <colors red="227" green="238" blue="249"/>
+  <colors red="255" green="255" blue="255"/>
+  <colors/>
+  <colors red="192" green="192" blue="192"/>
+  <fonts name="Arial" size="10" bold="true"/>
+</pi:Diagram>

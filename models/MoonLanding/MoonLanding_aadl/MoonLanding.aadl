@@ -1,0 +1,38 @@
+package MoonLanding
+public
+
+system MoonLander_with_Controller
+end MoonLander_with_Controller;
+
+system implementation MoonLander_with_Controller.with_devices
+	subcomponents
+		this_controller: process Controller.with_threads;
+		this_moon_lander_FMU: device MoonLander_FMU.impl;
+	connections
+		altitude_conn: port this_moon_lander_FMU.altitude_out -> this_controller.altitude_in;
+		velocity_conn: port this_moon_lander_FMU.velocity_out -> this_controller.velocity_in;
+		thrust_conn: port this_controller.needed_thrust_out -> this_moon_lander_FMU.thrust_in;
+end MoonLander_with_Controller.with_devices;
+
+
+process Controller
+	features
+		altitude_in: in data port;
+		velocity_in: in data port;
+		needed_thrust_out: out data port;
+end Controller;
+
+process implementation Controller.with_threads
+end Controller.with_threads;
+
+device MoonLander_FMU
+	features
+		thrust_in: in data port;
+		altitude_out: out data port;
+		velocity_out: out data port;
+end MoonLander_FMU;
+
+device implementation MoonLander_FMU.impl
+end MoonLander_FMU.impl;
+
+end MoonLanding;

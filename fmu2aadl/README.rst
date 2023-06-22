@@ -15,8 +15,6 @@ Installation
 The script is provided as a standard Python module.
 
 The script can be installed, as user, using default Python install
-procedure:
+procedure::
 
-```
-python setup.py install --user
-```
+  python setup.py install --user

@@ -146,6 +146,121 @@ def FMU2AADL_Subprogram(root,tree,file):
     file.write('\n')
 
 ################################################################################
+def FMU2C_Wrapper(root,tree,file):
+
+    file.write ('#include <stdbool.h>\n')
+    file.write ('#include <stdio.h>\n')
+    file.write ('#include <stdlib.h>\n')
+    file.write ('#include "fmi2.h"\n')
+    file.write ('#include "sim_support.h"\n')
+    file.write ('#include "fmu_wrapper.h"\n')
+    file.write ('\n')
+
+    is_first_arg = True
+    file.write('void ' + root.get('modelName').lower() + '_fmu_entrypoint \n')
+
+    for svar in tree.xpath("/fmiModelDescription/ModelVariables/ScalarVariable"):
+        if svar.get('causality') == 'input':
+            if is_first_arg:
+                file.write(6 * ' ' + '(')
+                is_first_arg = False
+            else:
+                file.write (',\n')
+                file.write(7 * ' ')
+
+            file.write ('fmi2Real ' + svar.get('name') + '_in')
+
+        if svar.get('causality') == 'output':
+            if is_first_arg:
+                file.write(6 * ' ' + '(')
+                is_first_arg = False
+            else:
+                file.write (',\n')
+                file.write(7 * ' ')
+
+            file.write('fmi2Real *' + svar.get('name') + '_out')
+
+    file.write (') \n{\n');
+
+    file.write(2 * ' ' + 'const char     *fmuFileName ="MoonLanding.fmu";\n')
+    file.write(2 * ' ' + 'double          tEnd = 110.0;\n')
+    file.write(2 * ' ' + 'double          h = 0.1;\n')
+    file.write(2 * ' ' + 'static bool    initialized = false;\n')
+    file.write(2 * ' ' + 'static FMUContext      ctx;\n')
+    file.write('\n');
+    file.write(2 * ' ' + '/* 1/ FMU activation */')
+    file.write('\n');
+
+    file.write(2 * ' ' + 'if (!initialized) {\n');
+    file.write(4 * ' ' + 'ctx.fmu = malloc (sizeof (FMU));\n');
+    file.write(4 * ' '
+               + 'FMU_Activate_Entrypoint (fmuFileName, tEnd, h, &ctx);\n');
+    file.write(4 * ' ' + 'initialized = true;\n');
+    file.write(2 * ' ' + '}\n');
+    file.write('\n');
+
+    file.write(2 * ' ' + '/* 2/ Regular compute entrypoint */\n');
+    file.write('\n');
+    file.write(2 * ' ' + 'fmi2ValueReference vr;\n');
+    file.write(2 * ' ' + 'fmi2Real        r;\n');
+    file.write(2 * ' ' + 'fmi2Status      fmi2Flag;\n');
+    file.write('\n');
+
+    file.write(2 * ' ' + '/* Get the scalar variables */\n');
+    for svar in tree.xpath("/fmiModelDescription/ModelVariables/ScalarVariable"):
+        if svar.get('causality') == 'input' or svar.get('causality') == 'output':
+            file.write(2 * ' ' + 'ScalarVariable *' + svar.get('name') + '_sv'
+                       + ' = getVariable (ctx.fmu->modelDescription, "'
+                       + svar.get('name') + '");\n')
+    file.write('\n');
+
+    file.write (2 * ' ' + '/* Set the input */\n')
+    for svar in tree.xpath("/fmiModelDescription/ModelVariables/ScalarVariable"):
+        if svar.get('causality') == 'input':
+            file.write(2 * ' ' + 'vr = getValueReference (' + svar.get('name')
+                       + '_sv);\n')
+            file.write (2 * ' '
+                        + 'fmi2Flag = ctx.fmu->setReal (ctx.component, &vr, 1, &'
+                        + svar.get('name') + '_in);\n')
+    file.write('\n')
+
+    file.write (2 * ' ' +  '/* Calculate the Step */\n')
+    file.write (2 * ' ' +  'doStep (ctx.fmu, ctx.component,\n')
+    file.write (10 * ' ' +  'ctx.currentCommunicationPoint,\n')
+    file.write (10 * ' ' +  'ctx.communicationStepSize,\n')
+    file.write (10 * ' ' +  'ctx.noSetFMUStatePriorToCurrentPoint);\n')
+    file.write('\n');
+
+    file.write (2 * ' ' +  '/* Dump values */\n')
+    file.write (2 * ' ' +  'outputRow (ctx.fmu, ctx.component,\n')
+    file.write (13 * ' ' +  'ctx.currentCommunicationPoint,\n')
+    file.write (13 * ' ' +  "ctx.resultFile, ',', fmi2False);\n")
+    file.write('\n');
+
+    file.write (2 * ' ' +  '/* Get the outputs */\n')
+    for svar in tree.xpath("/fmiModelDescription/ModelVariables/ScalarVariable"):
+        if svar.get('causality') == 'output':
+            file.write(2 * ' ' + 'vr = getValueReference (' + svar.get('name')
+                       + '_sv);\n')
+            file.write(2 * ' '
+                       + 'fmi2Flag = ctx.fmu->getReal (ctx.component, &vr, 1, &r);\n')
+            file.write (2 * ' ' + '*' + svar.get('name') + '_out = r;\n')
+            file.write('\n');
+
+    file.write(2 * ' '
+               + 'ctx.currentCommunicationPoint += ctx.communicationStepSize;\n');
+    file.write('\n');
+    file.write(2 * ' ' + '/* 3) terminate the simulation */\n');
+    file.write('\n');
+    file.write(2 * ' ' + 'if (ctx.currentCommunicationPoint > tEnd)  {\n');
+    file.write(4 * ' ' + 'freeContext (ctx);\n');
+    file.write(4 * ' ' + 'exit (0);\n');
+    file.write(2 * ' ' + '}\n');
+    file.write('}\n');
+
+    file.close()
+
+################################################################################
 def fmu2aadl(fmu_file):
     '''
     Map a FMU to an AADL package
@@ -154,8 +269,6 @@ def fmu2aadl(fmu_file):
     :type fmu_file: string
 
     '''
-
-    print os.path.dirname(__file__)
 
     # Unzip FMU
 
@@ -177,6 +290,14 @@ def fmu2aadl(fmu_file):
     FMU2AADL_Thread(root,tree,file)
     FMU2AADL_Thread_Impl(root,tree,file)
     FMU2AADL_Epilogue(root, file)
+
+    # Build C wrapper file
+
+    cFile = root.get('modelName').lower() + '_fmu_wrapper.c'
+    file = open(cFile,'w')
+    print "Generating C file: " + cFile
+
+    FMU2C_Wrapper (root, tree, file)
 
     # Copy required runtime files
 
